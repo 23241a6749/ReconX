@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Callable
 from dataclasses import asdict, dataclass
-from typing import Any, Callable
+from typing import Any
 
 from reconx.domain.models import (
+    SCHEMA_VERSION,
     BankEntry,
     FinanceBatch,
     LedgerEntry,
@@ -14,7 +16,6 @@ from reconx.domain.models import (
     PaymentStatus,
     Refund,
     RefundStatus,
-    SCHEMA_VERSION,
     Settlement,
     SettlementLine,
 )

@@ -5,7 +5,6 @@ from datetime import date, datetime
 from enum import StrEnum
 from typing import Any
 
-
 SCHEMA_VERSION = "1.0"
 
 
@@ -43,7 +42,7 @@ def _require_currency(value: str) -> None:
 
 def _require_datetime(name: str, value: str) -> None:
     try:
-        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(value)
     except (AttributeError, ValueError) as exc:
         raise ValueError(f"{name} must be an ISO-8601 datetime") from exc
     if parsed.tzinfo is None:
@@ -179,7 +178,7 @@ class FinanceBatch:
     ledger_entries: list[LedgerEntry]
 
     @classmethod
-    def from_dict(cls, raw: dict[str, Any]) -> "FinanceBatch":
+    def from_dict(cls, raw: dict[str, Any]) -> FinanceBatch:
         if raw.get("schema_version") != SCHEMA_VERSION:
             raise ValueError(f"unsupported schema version: {raw.get('schema_version')}")
         return cls(

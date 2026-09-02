@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import unittest
 from dataclasses import asdict, replace
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from reconx.application.analyst import (
     CircuitBreaker,
@@ -143,7 +143,7 @@ class AnalystTests(unittest.TestCase):
 
 class ReviewWorkflowTests(unittest.TestCase):
     def setUp(self) -> None:
-        fixed_time = datetime(2026, 8, 31, 12, 0, tzinfo=timezone.utc)
+        fixed_time = datetime(2026, 8, 31, 12, 0, tzinfo=UTC)
         self.provider = ScriptedProvider(
             [valid_output(cited_evidence_ids=["bank_demo_01"])]
         )

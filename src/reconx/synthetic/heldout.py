@@ -4,13 +4,12 @@ import hashlib
 import json
 import random
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from reconx.application.reconcile import policy_contract_hash
 from reconx.domain.models import SCHEMA_VERSION
 from reconx.synthetic.development import SCENARIOS, _base_group
-
 
 HELDOUT_GENERATOR_VERSION = "heldout-generator/1.0"
 HELDOUT_SEED = 20_260_901
@@ -67,7 +66,7 @@ def build_heldout_dataset(
             source_index,
             scenario,
             namespace="hold",
-            time_origin=datetime(2026, 9, 1, 9, 30, tzinfo=timezone.utc),
+            time_origin=datetime(2026, 9, 1, 9, 30, tzinfo=UTC),
             amount_offset_paise=57_019,
         )
         for source in SOURCES:

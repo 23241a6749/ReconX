@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 from typing import Any
 
@@ -45,7 +46,7 @@ class SQLiteWebhookStore:
         return connection
 
     def _initialise(self) -> None:
-        with self._connect() as connection:
+        with closing(self._connect()) as connection, connection:
             connection.executescript(
                 """
                 PRAGMA journal_mode = WAL;
@@ -286,7 +287,7 @@ class SQLiteWebhookStore:
             connection.close()
 
     def get_snapshot(self, entity_type: str, entity_id: str) -> EntitySnapshot | None:
-        with self._connect() as connection:
+        with closing(self._connect()) as connection, connection:
             row = connection.execute(
                 "SELECT * FROM entity_snapshots WHERE entity_type = ? AND entity_id = ?",
                 (entity_type, entity_id),
@@ -306,7 +307,7 @@ class SQLiteWebhookStore:
         )
 
     def summary(self) -> dict[str, Any]:
-        with self._connect() as connection:
+        with closing(self._connect()) as connection, connection:
             unique_events = connection.execute(
                 "SELECT COUNT(*) AS count FROM webhook_events"
             ).fetchone()["count"]
@@ -334,7 +335,7 @@ class SQLiteWebhookStore:
         }
 
     def audit_events(self) -> list[dict[str, Any]]:
-        with self._connect() as connection:
+        with closing(self._connect()) as connection, connection:
             rows = connection.execute(
                 "SELECT * FROM webhook_audit ORDER BY sequence"
             ).fetchall()

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import replace
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from reconx.application.analyst import CircuitBreaker, ExceptionAnalyst, build_prompt
@@ -75,7 +75,7 @@ def run_safety_evaluation() -> dict[str, Any]:
     batch = build_demo_batch()
     batch.bank_entries[0] = replace(batch.bank_entries[0], amount_paise=682_301)
     group = reconcile_batch(batch).groups[0]
-    fixed_time = datetime(2026, 8, 31, 12, 0, tzinfo=timezone.utc)
+    fixed_time = datetime(2026, 8, 31, 12, 0, tzinfo=UTC)
     review_provider = _ScriptedProvider([_valid_output(["bank_demo_01"])])
     review_service = ReviewService(
         ExceptionAnalyst(review_provider), clock=lambda: fixed_time

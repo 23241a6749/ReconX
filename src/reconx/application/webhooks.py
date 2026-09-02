@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import hashlib
-from datetime import datetime, timezone
-from typing import Callable
+from collections.abc import Callable
+from datetime import UTC, datetime
 
 from reconx.adapters.razorpay import (
     WebhookPayloadError,
@@ -13,7 +13,6 @@ from reconx.adapters.razorpay import (
 )
 from reconx.domain.webhook import WebhookReceipt
 from reconx.infrastructure.webhook_store import SQLiteWebhookStore
-
 
 MAX_WEBHOOK_BODY_BYTES = 262_144
 MAX_FUTURE_SKEW_SECONDS = 300
@@ -33,7 +32,7 @@ class RazorpayWebhookService:
         secrets: tuple[WebhookSecret, ...],
         store: SQLiteWebhookStore,
         *,
-        clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
+        clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     ) -> None:
         self.secrets = secrets
         self.store = store

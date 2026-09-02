@@ -3,9 +3,9 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
-from datetime import datetime, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime
 from threading import Lock
-from typing import Callable
 
 from reconx.application.analyst import ExceptionAnalyst
 from reconx.application.reconcile import ReconciliationGroup
@@ -81,7 +81,7 @@ class ReviewService:
         analyst: ExceptionAnalyst,
         repository: InMemoryReviewRepository | None = None,
         *,
-        clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
+        clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     ) -> None:
         self.analyst = analyst
         self.repository = repository or InMemoryReviewRepository()

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from reconx.domain.models import (
+    SCHEMA_VERSION,
     BankEntry,
     FinanceBatch,
     LedgerEntry,
@@ -10,7 +11,6 @@ from reconx.domain.models import (
     PaymentStatus,
     Refund,
     RefundStatus,
-    SCHEMA_VERSION,
     Settlement,
     SettlementLine,
 )

@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 from threading import Thread
@@ -40,11 +40,10 @@ from reconx.evaluation.integration import run_integration_evaluation
 from reconx.infrastructure.webhook_store import SQLiteWebhookStore, WebhookConflictError
 from reconx.preview import PreviewHandler
 
-
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "fixtures" / "razorpay"
 SECRET = b"phase5-unit-test-secret"
-FIXED_TIME = datetime(2026, 9, 1, 12, 0, tzinfo=timezone.utc)
+FIXED_TIME = datetime(2026, 9, 1, 12, 0, tzinfo=UTC)
 
 
 def fixture(name: str) -> bytes:

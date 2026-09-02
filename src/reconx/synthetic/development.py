@@ -5,7 +5,7 @@ import hashlib
 import json
 import random
 from collections import Counter
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from enum import StrEnum
 from typing import Any
 
@@ -70,7 +70,7 @@ def _base_group(
     scenario: Scenario,
     *,
     namespace: str = "dev",
-    time_origin: datetime = datetime(2026, 8, 1, 10, 0, tzinfo=timezone.utc),
+    time_origin: datetime = datetime(2026, 8, 1, 10, 0, tzinfo=UTC),
     amount_offset_paise: int = 0,
 ) -> dict[str, Any]:
     suffix = f"{index:04d}"

@@ -17,7 +17,6 @@ from reconx.domain.models import (
     Settlement,
 )
 
-
 POLICY_VERSION = "reconciliation-policy/2.0"
 AUTO_APPROVE_THRESHOLD = 0.98
 CANDIDATE_AMOUNT_WEIGHT = 0.50
@@ -146,7 +145,7 @@ def _normalise_reference(value: str) -> str:
 
 
 def _date_distance_days(settled_at: str, value_date: str) -> int:
-    settled = datetime.fromisoformat(settled_at.replace("Z", "+00:00")).date()
+    settled = datetime.fromisoformat(settled_at).date()
     bank_date = date.fromisoformat(value_date)
     return abs((bank_date - settled).days)
 
@@ -269,8 +268,8 @@ def _settlement_group(
             if refund.amount_paise != line.amount_paise:
                 reason_codes.append("REFUND_RECON_FIELDS_MISMATCH")
                 forced_unresolved = True
-            if datetime.fromisoformat(refund.created_at.replace("Z", "+00:00")) > datetime.fromisoformat(
-                settlement.settled_at.replace("Z", "+00:00")
+            if datetime.fromisoformat(refund.created_at) > datetime.fromisoformat(
+                settlement.settled_at
             ):
                 reason_codes.append("POST_SETTLEMENT_REFUND")
                 forced_unresolved = True

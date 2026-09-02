@@ -5,14 +5,14 @@ import hashlib
 import hmac
 import json
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import date
-from typing import Any, Callable
+from typing import Any
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 from reconx.domain.webhook import NormalizedRazorpayEvent
-
 
 RAZORPAY_RECON_URL = "https://api.razorpay.com/v1/settlements/recon/combined"
 SUPPORTED_WEBHOOK_EVENTS = {
@@ -350,7 +350,7 @@ class RazorpaySettlementReconClient:
             }
         )
         token = base64.b64encode(
-            f"{self._key_id}:{self._key_secret}".encode("utf-8")
+            f"{self._key_id}:{self._key_secret}".encode()
         ).decode("ascii")
         request = Request(
             f"{RAZORPAY_RECON_URL}?{query}",

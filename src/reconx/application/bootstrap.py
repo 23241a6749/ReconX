@@ -3,22 +3,21 @@ from __future__ import annotations
 import json
 import os
 from dataclasses import replace
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
 
+from reconx.adapters.razorpay import WebhookSecret
 from reconx.application.analyst import DisabledProvider, ExceptionAnalyst
 from reconx.application.reconcile import reconcile_batch
 from reconx.application.review import ReviewService
 from reconx.application.webhooks import RazorpayWebhookService
-from reconx.adapters.razorpay import WebhookSecret
 from reconx.evaluation.heldout import dashboard_payload, run_heldout_evaluation
 from reconx.infrastructure.webhook_store import SQLiteWebhookStore
 from reconx.synthetic.generator import build_demo_batch
 from reconx.synthetic.heldout import build_heldout_dataset
 
-
-DEMO_TIME = datetime(2026, 8, 31, 10, 0, tzinfo=timezone.utc)
+DEMO_TIME = datetime(2026, 8, 31, 10, 0, tzinfo=UTC)
 ROOT = Path(__file__).resolve().parents[3]
 
 

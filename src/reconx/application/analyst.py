@@ -4,9 +4,10 @@ import hashlib
 import json
 import re
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from threading import Lock
-from typing import Any, Callable, Protocol
+from typing import Any, Protocol
 
 from reconx.domain.analysis import (
     AnalysisRequest,
@@ -14,7 +15,6 @@ from reconx.domain.analysis import (
     ExceptionCategory,
     SuggestedAction,
 )
-
 
 ANALYST_POLICY_VERSION = "exception-analyst/1.0"
 MAX_EXCERPT_LENGTH = 500
@@ -75,9 +75,7 @@ class CircuitBreaker:
         with self._lock:
             if self._opened_at is None:
                 return True
-            if self.clock() - self._opened_at >= self.cooldown_seconds:
-                return True
-            return False
+            return self.clock() - self._opened_at >= self.cooldown_seconds
 
     def record_success(self) -> None:
         with self._lock:
@@ -286,7 +284,7 @@ class ExceptionAnalyst:
                         security_flags=flags,
                         output_hash=hashed,
                     )
-                except Exception as exc:
+                except Exception as exc:  # noqa: BLE001 - provider boundary must fail safely
                     errors.append(type(exc).__name__)
             self.circuit_breaker.record_failure()
             fallback_reason = "provider_failed:" + ",".join(errors)

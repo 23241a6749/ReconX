@@ -6,9 +6,9 @@ from pathlib import Path
 
 from reconx.application.reconcile import reconcile_batch
 from reconx.domain.models import FinanceBatch
-from reconx.evaluation.runner import run_evaluation
 from reconx.evaluation.heldout import run_heldout_evaluation
 from reconx.evaluation.integration import run_integration_evaluation
+from reconx.evaluation.runner import run_evaluation
 from reconx.evaluation.safety import run_safety_evaluation
 from reconx.synthetic.development import build_development_dataset
 from reconx.synthetic.generator import build_demo_batch

@@ -4,8 +4,7 @@ import hashlib
 import hmac
 import json
 import tempfile
-from copy import deepcopy
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -26,10 +25,9 @@ from reconx.application.webhooks import (
 from reconx.domain.webhook import WebhookOutcome
 from reconx.infrastructure.webhook_store import SQLiteWebhookStore, WebhookConflictError
 
-
 ROOT = Path(__file__).resolve().parents[3]
 FIXTURE_ROOT = ROOT / "fixtures" / "razorpay"
-FIXED_TIME = datetime(2026, 9, 1, 12, 0, tzinfo=timezone.utc)
+FIXED_TIME = datetime(2026, 9, 1, 12, 0, tzinfo=UTC)
 CURRENT_SECRET = b"phase5-current-fixture-secret"
 PREVIOUS_SECRET = b"phase5-previous-fixture-secret"
 

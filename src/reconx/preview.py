@@ -13,26 +13,25 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from reconx import __version__
-from reconx.application.reconcile import reconcile_batch
+from reconx.adapters.razorpay import WebhookPayloadError, WebhookSignatureError
 from reconx.application.bootstrap import (
     build_demo_review_service,
     build_heldout_dashboard,
     build_integration_dashboard,
     build_razorpay_webhook_service,
 )
-from reconx.adapters.razorpay import WebhookPayloadError, WebhookSignatureError
-from reconx.application.webhooks import WebhookSizeError, WebhookTimestampError
-from reconx.infrastructure.webhook_store import WebhookConflictError
+from reconx.application.reconcile import reconcile_batch
 from reconx.application.review import (
     ReviewConflictError,
     ReviewNotFoundError,
     ReviewValidationError,
 )
+from reconx.application.webhooks import WebhookSizeError, WebhookTimestampError
 from reconx.domain.review import ReviewAction
 from reconx.evaluation.runner import run_evaluation
+from reconx.infrastructure.webhook_store import WebhookConflictError
 from reconx.synthetic.development import build_development_dataset
 from reconx.synthetic.generator import build_demo_batch
-
 
 ROOT = Path(__file__).resolve().parents[2]
 WEB_ROOT = ROOT / "apps" / "web"
@@ -53,7 +52,7 @@ class PreviewHandler(BaseHTTPRequestHandler):
         body = json.dumps(payload, sort_keys=True, default=str).encode()
         self._send(status, body, "application/json")
 
-    def do_GET(self) -> None:  # noqa: N802 - required by BaseHTTPRequestHandler
+    def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path == "/health":
             self._json({"status": "ok", "version": __version__})
@@ -113,7 +112,7 @@ class PreviewHandler(BaseHTTPRequestHandler):
             return
         self._send(200, target.read_bytes(), CONTENT_TYPES.get(target.suffix, "application/octet-stream"))
 
-    def do_POST(self) -> None:  # noqa: N802 - required by BaseHTTPRequestHandler
+    def do_POST(self) -> None:
         path = urlparse(self.path).path
         if path == "/api/webhooks/razorpay":
             service = build_razorpay_webhook_service()
