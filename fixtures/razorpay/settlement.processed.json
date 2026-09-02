@@ -1,0 +1,23 @@
+{
+  "account_id": "acc_phase5_fixture",
+  "contains": [
+    "settlement"
+  ],
+  "created_at": 1788260400,
+  "entity": "event",
+  "event": "settlement.processed",
+  "payload": {
+    "settlement": {
+      "entity": {
+        "amount": 682300,
+        "created_at": 1788260300,
+        "entity": "settlement",
+        "fees": 0,
+        "id": "setl_phase5_001",
+        "status": "processed",
+        "tax": 0,
+        "utr": "1788260300phase5"
+      }
+    }
+  }
+}

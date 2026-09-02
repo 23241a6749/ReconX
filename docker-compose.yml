@@ -1,0 +1,24 @@
+services:
+  reconx:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      RECONX_ENV: demo
+      ENABLE_LLM: "false"
+      ENABLE_RAZORPAY_IMPORT: "false"
+      RECONX_WEBHOOK_DB: /app/data/runtime/webhooks.sqlite3
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}
+      RAZORPAY_WEBHOOK_PREVIOUS_SECRET: ${RAZORPAY_WEBHOOK_PREVIOUS_SECRET:-}
+    volumes:
+      - reconx-runtime:/app/data/runtime
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  reconx-runtime:

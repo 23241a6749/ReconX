@@ -1,0 +1,71 @@
+{
+  "checks": {
+    "current_secret_signature_accepted": true,
+    "delivery_audit_chain_valid": true,
+    "duplicate_delivery_is_idempotent": true,
+    "duplicate_json_keys_rejected": true,
+    "event_id_payload_conflict_rejected": true,
+    "future_timestamp_rejected": true,
+    "newer_event_applied": true,
+    "official_shape_recon_fixture_parsed": true,
+    "out_of_order_event_cannot_roll_back": true,
+    "oversized_body_rejected": true,
+    "previous_secret_retry_accepted": true,
+    "recon_client_endpoint_and_limits_locked": true,
+    "secrets_absent_from_evidence": true,
+    "settlement_signature_fixture_accepted": true,
+    "signature_checked_before_json_parse": true,
+    "state_survives_store_restart": true,
+    "tampered_raw_body_rejected": true,
+    "unsupported_recon_type_is_visible": true,
+    "unsupported_signed_event_acknowledged": true
+  },
+  "contract_basis": "official-shape fixtures and injected HTTP transport",
+  "deterministic_evidence_sha256": "fd7f94519d1b040096088a8704dcc5c7d52353a047d8600164b2cad13b039472",
+  "evaluation": "phase5_integration",
+  "live_razorpay_call_made": false,
+  "passed": 19,
+  "phase_gate_passed": true,
+  "recon_fixture_summary": {
+    "fixture_items": 4,
+    "item_types": [
+      "adjustment",
+      "payment",
+      "refund",
+      "transfer"
+    ],
+    "supported_items": 3,
+    "unsupported_items": 1
+  },
+  "security_controls": [
+    "raw_body_signature_before_json",
+    "constant_time_signature_compare",
+    "current_and_previous_secret_rotation",
+    "durable_event_id_idempotency",
+    "out_of_order_monotonic_projection",
+    "body_depth_size_and_duplicate_key_limits",
+    "future_timestamp_limit",
+    "append_only_hash_chained_delivery_audit",
+    "disabled_without_webhook_secret",
+    "fixed_razorpay_recon_endpoint_and_timeout"
+  ],
+  "signature_scheme": "HMAC-SHA256 over exact raw request bytes",
+  "supported_webhook_events": [
+    "payment.captured",
+    "refund.processed",
+    "settlement.processed"
+  ],
+  "synthetic": true,
+  "total": 19,
+  "webhook_summary": {
+    "audit_events": 7,
+    "deliveries": 7,
+    "entity_snapshots": 3,
+    "outcomes": {
+      "applied": 4,
+      "stale_ignored": 1,
+      "unsupported": 1
+    },
+    "unique_events": 6
+  }
+}

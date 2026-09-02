@@ -1,0 +1,30 @@
+name: verification
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Static checks
+        run: |
+          python -m ruff check src tests
+          node --check apps/web/app.js
+          python -m compileall -q src tests
+      - name: Reproduce tests and evaluation gates
+        run: make release
+      - name: Build container
+        run: docker build --tag reconx:ci .

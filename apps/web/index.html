@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ReconX evidence-first settlement reconciliation demo" />
+    <title>ReconX — Evidence-first reconciliation</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <main>
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="ReconX home">
+          <span class="brand-mark">R</span>
+          <span>ReconX</span>
+        </a>
+        <div class="header-actions">
+          <span class="pill synthetic">Synthetic data</span>
+          <span class="pill safe"><span class="status-dot"></span>Deterministic core</span>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">AI FINANCE CONTROLLER · HELD-OUT EVIDENCE</p>
+          <h1>Every rupee, traced<br />to its evidence.</h1>
+          <p class="lede">
+            ReconX closes grouped Razorpay settlements without letting AI guess at money.
+            Safe matches close automatically; uncertainty stays visible.
+          </p>
+        </div>
+        <button id="run-button" class="run-button" type="button">
+          <span>Run reconciliation</span><span aria-hidden="true">→</span>
+        </button>
+      </section>
+
+      <section id="loading" class="loading-card" aria-live="polite">
+        <span class="spinner"></span>
+        <span>Building the evidence graph…</span>
+      </section>
+
+      <div id="dashboard" class="dashboard hidden">
+        <section class="metrics" aria-label="Reconciliation metrics">
+          <article class="metric-card featured">
+            <p>Decision</p>
+            <strong id="decision">—</strong>
+            <span id="confidence">—</span>
+          </article>
+          <article class="metric-card">
+            <p>Expected credit</p>
+            <strong id="expected">—</strong>
+            <span>financial constraint</span>
+          </article>
+          <article class="metric-card">
+            <p>Difference</p>
+            <strong id="difference">—</strong>
+            <span>must be exactly zero</span>
+          </article>
+          <article class="metric-card">
+            <p>Unresolved</p>
+            <strong id="unresolved">—</strong>
+            <span>never silently hidden</span>
+          </article>
+        </section>
+
+        <section class="panel heldout-panel" aria-labelledby="heldout-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">PHASE 4 · UNSEEN SYNTHETIC BATCH</p>
+              <h2 id="heldout-title">Measured proof, not a cherry-picked match</h2>
+            </div>
+            <span id="heldout-gate" class="pill">Loading evidence</span>
+          </div>
+          <div class="proof-grid">
+            <div><span>Raw records</span><strong id="heldout-records">—</strong><small id="heldout-groups">—</small></div>
+            <div><span>Safe precision</span><strong id="heldout-precision">—</strong><small>zero false matches required</small></div>
+            <div><span>Eligible coverage</span><strong id="heldout-coverage">—</strong><small id="heldout-delta">—</small></div>
+            <div><span>Median throughput</span><strong id="heldout-throughput">—</strong><small>records/sec, local</small></div>
+          </div>
+          <div class="proof-detail-grid">
+            <div class="comparison-card">
+              <p class="eyebrow">BASELINE COMPARISON</p>
+              <div class="bar-row"><span>ReconX candidate</span><div class="bar-track"><i id="candidate-bar"></i></div><strong id="candidate-value">—</strong></div>
+              <div class="bar-row"><span>Exact ID only</span><div class="bar-track"><i id="baseline-bar"></i></div><strong id="baseline-value">—</strong></div>
+            </div>
+            <div class="exception-proof">
+              <p class="eyebrow">HONEST EXCEPTION ACCOUNTING</p>
+              <div class="exception-totals">
+                <div><strong id="heldout-exceptions">—</strong><span>not auto-resolved</span></div>
+                <div><strong id="heldout-unexpected">—</strong><span>unexpected</span></div>
+                <div><strong id="heldout-repro">—</strong><span>identical decision runs</span></div>
+              </div>
+            </div>
+          </div>
+          <div id="heldout-exception-list" class="heldout-exception-list"></div>
+          <p id="heldout-proof-hash" class="proof-hash">Evidence hash: —</p>
+        </section>
+
+        <section class="panel integration-panel" aria-labelledby="integration-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">PHASE 5 · RAZORPAY DELIVERY BOUNDARY</p>
+              <h2 id="integration-title">Signed, idempotent and order-safe</h2>
+            </div>
+            <span id="integration-gate" class="pill">Loading controls</span>
+          </div>
+          <div class="integration-grid">
+            <div><span>Contract checks</span><strong id="integration-checks">—</strong><small>adversarial + replay</small></div>
+            <div><span>Fixture events</span><strong id="integration-events">—</strong><small id="integration-deliveries">—</small></div>
+            <div><span>Recon items</span><strong id="integration-recon">—</strong><small id="integration-supported">—</small></div>
+            <div><span>Receiver</span><strong id="integration-runtime">—</strong><small>secret required to enable</small></div>
+          </div>
+          <div id="integration-controls" class="control-list"></div>
+          <p id="integration-note" class="proof-hash">—</p>
+        </section>
+
+        <section class="content-grid">
+          <article class="panel equation-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">MONEY CONSERVATION</p>
+                <h2>Settlement equation</h2>
+              </div>
+              <span id="settlement-id" class="mono-chip">—</span>
+            </div>
+            <div class="equation">
+              <div><span>Captured payments</span><strong id="gross">—</strong></div>
+              <div class="operator"><span>−</span></div>
+              <div><span>Processed refunds</span><strong id="refunds">—</strong></div>
+              <div class="operator"><span>−</span></div>
+              <div><span>Inclusive fees</span><strong id="fees">—</strong></div>
+              <div class="operator"><span>=</span></div>
+              <div class="total"><span>Bank credit</span><strong id="bank">—</strong></div>
+            </div>
+            <p class="tax-note" id="tax-note"></p>
+          </article>
+
+          <article class="panel evidence-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">WHY THIS CLOSED</p>
+                <h2>Evidence</h2>
+              </div>
+            </div>
+            <div id="reason-codes" class="reason-list"></div>
+            <div class="evidence-count">
+              <strong id="evidence-count">—</strong>
+              <span>source records linked</span>
+            </div>
+          </article>
+
+          <article class="panel audit-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">REPLAYABLE PROOF</p>
+                <h2>Audit event</h2>
+              </div>
+            </div>
+            <dl id="audit-details"></dl>
+          </article>
+
+          <article class="panel exceptions-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">HONEST OUTPUT</p>
+                <h2>Open exceptions</h2>
+              </div>
+            </div>
+            <div id="exceptions"></div>
+          </article>
+
+          <article class="panel review-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">REVIEW-FIRST CONTROL</p>
+                <h2>Human decision queue</h2>
+              </div>
+              <span id="review-status" class="pill">Loading</span>
+            </div>
+            <div id="review-case" class="review-case"></div>
+            <div class="review-actions">
+              <button id="reject-review" class="review-button reject" type="button">Reject suggestion</button>
+              <button id="approve-review" class="review-button approve" type="button">Approve review</button>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+    <script src="/assets/app.js" defer></script>
+  </body>
+</html>

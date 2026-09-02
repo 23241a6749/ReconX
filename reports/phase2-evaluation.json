@@ -1,0 +1,1711 @@
+{
+  "audit_sample": [
+    {
+      "action": "auto_approved",
+      "actor": "reconx-policy-engine",
+      "decision_hash": "76fe75775bcace1b3511aa453ccbb63f28a57a7124272dda456ad10979665602",
+      "id": "audit_6b069ee2a4b0d8da",
+      "input_hash": "1a6b5162df603093545ff9040552cfccefb724193cf1d4f8b9b491d3ee50420e",
+      "occurred_at": "2026-08-01T10:00:00Z",
+      "policy_version": "reconciliation-policy/2.0",
+      "reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ]
+    },
+    {
+      "action": "auto_approved",
+      "actor": "reconx-policy-engine",
+      "decision_hash": "76fe75775bcace1b3511aa453ccbb63f28a57a7124272dda456ad10979665602",
+      "id": "audit_cb8d28efe5230405",
+      "input_hash": "1a6b5162df603093545ff9040552cfccefb724193cf1d4f8b9b491d3ee50420e",
+      "occurred_at": "2026-08-01T10:25:00Z",
+      "policy_version": "reconciliation-policy/2.0",
+      "reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ]
+    },
+    {
+      "action": "auto_approved",
+      "actor": "reconx-policy-engine",
+      "decision_hash": "76fe75775bcace1b3511aa453ccbb63f28a57a7124272dda456ad10979665602",
+      "id": "audit_56ba3b9fbf3cf14e",
+      "input_hash": "1a6b5162df603093545ff9040552cfccefb724193cf1d4f8b9b491d3ee50420e",
+      "occurred_at": "2026-08-01T10:50:00Z",
+      "policy_version": "reconciliation-policy/2.0",
+      "reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ]
+    }
+  ],
+  "batch_id": "batch_development_66",
+  "candidate_engine": {
+    "auto_approved": 39,
+    "auto_match_precision": 1.0,
+    "auto_reconciliation_coverage": 1.0,
+    "elapsed_ms": 19.530456000211416,
+    "eligible_for_auto": 39,
+    "false_match_rate": 0.0,
+    "missing_groups_after_quarantine": 3,
+    "review_required": 6,
+    "safe_auto_precision": 1.0,
+    "throughput_records_per_second": 41012.87,
+    "unresolved_groups": 18,
+    "unsafe_auto_approval_count": 0,
+    "unsafe_scenario_detection_recall": 1.0
+  },
+  "exact_id_baseline": {
+    "auto_approved": 30,
+    "auto_match_precision": 1.0,
+    "auto_reconciliation_coverage": 0.769231,
+    "elapsed_ms": 19.649330999527592,
+    "eligible_for_auto": 39,
+    "false_match_rate": 0.0,
+    "missing_groups_after_quarantine": 3,
+    "review_required": 6,
+    "safe_auto_precision": 1.0,
+    "throughput_records_per_second": 40764.75,
+    "unresolved_groups": 27,
+    "unsafe_auto_approval_count": 0,
+    "unsafe_scenario_detection_recall": 1.0
+  },
+  "gate_checks": {
+    "all_22_scenarios_present": true,
+    "at_least_500_raw_records": true,
+    "candidate_coverage_beats_exact_baseline": true,
+    "quarantine_path_exercised": true,
+    "unsafe_detection_recall_is_100_percent": true,
+    "zero_false_matches": true,
+    "zero_unsafe_auto_approvals": true
+  },
+  "ingestion": {
+    "accepted_record_count": 801,
+    "duplicate_record_count": 6,
+    "issue_count": 57,
+    "issues": [
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 3,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0063_3",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 61,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0019_3",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 64,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0019_1",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 103,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0041_1",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 111,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0041_2",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 174,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0063_1",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 183,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0041_3",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 187,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0063_2",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 196,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_dev_0019_2",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 12,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0063_2",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 27,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0063_3",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 41,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0019_3",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "DUPLICATE_RECORD_DEDUPED",
+        "index": 61,
+        "message": "Exact duplicate was ignored idempotently.",
+        "record_id": "pay_dev_0000_1",
+        "severity": "warning",
+        "source": "payments"
+      },
+      {
+        "code": "SCHEMA_VALIDATION_FAILED",
+        "index": 62,
+        "message": "Payment.__init__() missing 4 required positional arguments: 'amount_paise', 'fee_paise', 'tax_paise', and 'created_at'",
+        "record_id": "pay_dev_0064_corrupt",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 63,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0041_2",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 68,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0041_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "DUPLICATE_RECORD_DEDUPED",
+        "index": 87,
+        "message": "Exact duplicate was ignored idempotently.",
+        "record_id": "pay_dev_0022_1",
+        "severity": "warning",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 102,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0063_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 105,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0041_3",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "CONFLICTING_DUPLICATE_QUARANTINED",
+        "index": 116,
+        "message": "Duplicate id has a different payload.",
+        "record_id": "pay_dev_0023_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 123,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0019_2",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "SCHEMA_VALIDATION_FAILED",
+        "index": 147,
+        "message": "Payment.__init__() missing 4 required positional arguments: 'amount_paise', 'fee_paise', 'tax_paise', and 'created_at'",
+        "record_id": "pay_dev_0020_corrupt",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 151,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_dev_0019_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "CONFLICTING_DUPLICATE_QUARANTINED",
+        "index": 162,
+        "message": "Duplicate id has a different payload.",
+        "record_id": "pay_dev_0001_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "DUPLICATE_RECORD_DEDUPED",
+        "index": 174,
+        "message": "Exact duplicate was ignored idempotently.",
+        "record_id": "pay_dev_0044_1",
+        "severity": "warning",
+        "source": "payments"
+      },
+      {
+        "code": "CONFLICTING_DUPLICATE_QUARANTINED",
+        "index": 175,
+        "message": "Duplicate id has a different payload.",
+        "record_id": "pay_dev_0045_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "SCHEMA_VALIDATION_FAILED",
+        "index": 198,
+        "message": "Payment.__init__() missing 4 required positional arguments: 'amount_paise', 'fee_paise', 'tax_paise', and 'created_at'",
+        "record_id": "pay_dev_0042_corrupt",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 6,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "setl_dev_0041",
+        "severity": "error",
+        "source": "settlements"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 8,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "setl_dev_0063",
+        "severity": "error",
+        "source": "settlements"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 47,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "setl_dev_0019",
+        "severity": "error",
+        "source": "settlements"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 50,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "bank_dev_0063",
+        "severity": "error",
+        "source": "bank_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 55,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "bank_dev_0019",
+        "severity": "error",
+        "source": "bank_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 67,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "bank_dev_0041",
+        "severity": "error",
+        "source": "bank_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 29,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "ledger_dev_0019",
+        "severity": "error",
+        "source": "ledger_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 45,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "ledger_dev_0063",
+        "severity": "error",
+        "source": "ledger_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 54,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "ledger_dev_0041",
+        "severity": "error",
+        "source": "ledger_entries"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0019 is missing.",
+        "record_id": "line_dev_0019_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0019_1 is missing.",
+        "record_id": "line_dev_0019_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0019 is missing.",
+        "record_id": "line_dev_0019_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0019_2 is missing.",
+        "record_id": "line_dev_0019_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0063 is missing.",
+        "record_id": "line_dev_0063_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0063_1 is missing.",
+        "record_id": "line_dev_0063_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0041 is missing.",
+        "record_id": "line_dev_0041_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0041_3 is missing.",
+        "record_id": "line_dev_0041_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0041 is missing.",
+        "record_id": "line_dev_0041_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0041_1 is missing.",
+        "record_id": "line_dev_0041_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0019 is missing.",
+        "record_id": "line_dev_0019_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0019_3 is missing.",
+        "record_id": "line_dev_0019_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0063 is missing.",
+        "record_id": "line_dev_0063_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0063_2 is missing.",
+        "record_id": "line_dev_0063_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0023_1 is missing.",
+        "record_id": "line_dev_0023_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0041 is missing.",
+        "record_id": "line_dev_0041_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0041_2 is missing.",
+        "record_id": "line_dev_0041_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0045_1 is missing.",
+        "record_id": "line_dev_0045_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_dev_0063 is missing.",
+        "record_id": "line_dev_0063_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0063_3 is missing.",
+        "record_id": "line_dev_0063_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_dev_0001_1 is missing.",
+        "record_id": "line_dev_0001_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      }
+    ],
+    "quarantined_record_count": 36,
+    "raw_record_count": 840
+  },
+  "manifest": {
+    "batch_id": "batch_development_66",
+    "ground_truth_sha256": "fcaad56902d90cfc122ddf6011d3e703528638227680f2db9e5f3b39651fd5e2",
+    "group_count": 66,
+    "raw_batch_sha256": "0bbc222649b1a773acf22a055675078b3012654667d470b556ec05e30b51e040",
+    "raw_record_count": 840,
+    "scenario_count": 22,
+    "scenario_counts": {
+      "amount_collision": 3,
+      "bank_holiday_shift": 3,
+      "captured_payment_missing_ledger": 3,
+      "conflicting_duplicate": 3,
+      "corrupt_row": 3,
+      "delayed_settlement": 3,
+      "duplicate_bank_credit": 3,
+      "duplicate_event": 3,
+      "equal_score_ambiguity": 3,
+      "fee_mismatch": 3,
+      "malformed_utr": 3,
+      "missing_utr": 3,
+      "multiple_partial_refunds": 3,
+      "one_to_many_settlement": 3,
+      "orphan_ledger": 3,
+      "out_of_order": 3,
+      "partial_refund": 3,
+      "post_settlement_refund": 3,
+      "reversal_adjustment": 3,
+      "split_ledger": 3,
+      "tax_mismatch": 3,
+      "unsupported_currency": 3
+    },
+    "schema_version": "1.0",
+    "seed": 20260830
+  },
+  "phase_gate_passed": true,
+  "scenario_results": [
+    {
+      "actual_bank_entry_id": "bank_dev_0000",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0000",
+      "expected_bank_credit_paise": 732300,
+      "scenario": "duplicate_event",
+      "settlement_id": "setl_dev_0000",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0001",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_SOURCE_MISSING_OR_NOT_CAPTURED",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "LEDGER_AMOUNT_MISMATCH"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0001",
+      "expected_bank_credit_paise": 732605,
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_dev_0001",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0002",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0002",
+      "expected_bank_credit_paise": 732909,
+      "scenario": "out_of_order",
+      "settlement_id": "setl_dev_0002",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0003",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0003",
+      "expected_bank_credit_paise": 733212,
+      "scenario": "missing_utr",
+      "settlement_id": "setl_dev_0003",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0004",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0004",
+      "expected_bank_credit_paise": 733516,
+      "scenario": "malformed_utr",
+      "settlement_id": "setl_dev_0004",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0005",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0005",
+      "expected_bank_credit_paise": 733820,
+      "scenario": "delayed_settlement",
+      "settlement_id": "setl_dev_0005",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0006",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0006",
+      "expected_bank_credit_paise": 734123,
+      "scenario": "bank_holiday_shift",
+      "settlement_id": "setl_dev_0006",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0007",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0007",
+      "expected_bank_credit_paise": 734427,
+      "scenario": "one_to_many_settlement",
+      "settlement_id": "setl_dev_0007",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0008",
+      "actual_confidence": 0.85,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "actual_state": "review_required",
+      "bank_entry_id": "bank_dev_0008",
+      "expected_bank_credit_paise": 734730,
+      "scenario": "split_ledger",
+      "settlement_id": "setl_dev_0008",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0009",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0009",
+      "expected_bank_credit_paise": 710026,
+      "scenario": "partial_refund",
+      "settlement_id": "setl_dev_0009",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0010",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0010",
+      "expected_bank_credit_paise": 680318,
+      "scenario": "multiple_partial_refunds",
+      "settlement_id": "setl_dev_0010",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0011",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "POST_SETTLEMENT_REFUND",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0011",
+      "expected_bank_credit_paise": 710631,
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_dev_0011",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0012",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0012",
+      "expected_bank_credit_paise": 735945,
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_dev_0012",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0013",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0013",
+      "expected_bank_credit_paise": 736250,
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_dev_0013",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0014",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0014",
+      "expected_bank_credit_paise": 736552,
+      "scenario": "amount_collision",
+      "settlement_id": "setl_dev_0014",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0015",
+      "actual_confidence": 0.85,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "actual_state": "review_required",
+      "bank_entry_id": "bank_dev_0015",
+      "expected_bank_credit_paise": 736857,
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_dev_0015",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0016",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0016",
+      "expected_bank_credit_paise": 737160,
+      "scenario": "orphan_ledger",
+      "settlement_id": "setl_dev_0016",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": 0.0,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "DUPLICATE_BANK_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0017",
+      "expected_bank_credit_paise": 737464,
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_dev_0017",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0018",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0018",
+      "expected_bank_credit_paise": 736534,
+      "scenario": "reversal_adjustment",
+      "settlement_id": "setl_dev_0018",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": null,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "GROUP_QUARANTINED"
+      ],
+      "actual_state": "quarantined",
+      "bank_entry_id": "bank_dev_0019",
+      "expected_bank_credit_paise": 738071,
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_dev_0019",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0020",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0020",
+      "expected_bank_credit_paise": 738375,
+      "scenario": "corrupt_row",
+      "settlement_id": "setl_dev_0020",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": 0.25,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "AMBIGUOUS_BANK_CANDIDATES",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0021",
+      "expected_bank_credit_paise": 738677,
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_dev_0021",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0022",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0022",
+      "expected_bank_credit_paise": 738982,
+      "scenario": "duplicate_event",
+      "settlement_id": "setl_dev_0022",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0023",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_SOURCE_MISSING_OR_NOT_CAPTURED",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "LEDGER_AMOUNT_MISMATCH"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0023",
+      "expected_bank_credit_paise": 739286,
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_dev_0023",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0024",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0024",
+      "expected_bank_credit_paise": 739589,
+      "scenario": "out_of_order",
+      "settlement_id": "setl_dev_0024",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0025",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0025",
+      "expected_bank_credit_paise": 739893,
+      "scenario": "missing_utr",
+      "settlement_id": "setl_dev_0025",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0026",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0026",
+      "expected_bank_credit_paise": 740197,
+      "scenario": "malformed_utr",
+      "settlement_id": "setl_dev_0026",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0027",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0027",
+      "expected_bank_credit_paise": 740500,
+      "scenario": "delayed_settlement",
+      "settlement_id": "setl_dev_0027",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0028",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0028",
+      "expected_bank_credit_paise": 740804,
+      "scenario": "bank_holiday_shift",
+      "settlement_id": "setl_dev_0028",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0029",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0029",
+      "expected_bank_credit_paise": 741107,
+      "scenario": "one_to_many_settlement",
+      "settlement_id": "setl_dev_0029",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0030",
+      "actual_confidence": 0.85,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "actual_state": "review_required",
+      "bank_entry_id": "bank_dev_0030",
+      "expected_bank_credit_paise": 741412,
+      "scenario": "split_ledger",
+      "settlement_id": "setl_dev_0030",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0031",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0031",
+      "expected_bank_credit_paise": 716684,
+      "scenario": "partial_refund",
+      "settlement_id": "setl_dev_0031",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0032",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0032",
+      "expected_bank_credit_paise": 686955,
+      "scenario": "multiple_partial_refunds",
+      "settlement_id": "setl_dev_0032",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0033",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "POST_SETTLEMENT_REFUND",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0033",
+      "expected_bank_credit_paise": 717289,
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_dev_0033",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0034",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0034",
+      "expected_bank_credit_paise": 742626,
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_dev_0034",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0035",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0035",
+      "expected_bank_credit_paise": 742929,
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_dev_0035",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0036",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0036",
+      "expected_bank_credit_paise": 743234,
+      "scenario": "amount_collision",
+      "settlement_id": "setl_dev_0036",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0037",
+      "actual_confidence": 0.85,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "actual_state": "review_required",
+      "bank_entry_id": "bank_dev_0037",
+      "expected_bank_credit_paise": 743537,
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_dev_0037",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0038",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0038",
+      "expected_bank_credit_paise": 743841,
+      "scenario": "orphan_ledger",
+      "settlement_id": "setl_dev_0038",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": 0.0,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "DUPLICATE_BANK_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0039",
+      "expected_bank_credit_paise": 744145,
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_dev_0039",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0040",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0040",
+      "expected_bank_credit_paise": 743213,
+      "scenario": "reversal_adjustment",
+      "settlement_id": "setl_dev_0040",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": null,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "GROUP_QUARANTINED"
+      ],
+      "actual_state": "quarantined",
+      "bank_entry_id": "bank_dev_0041",
+      "expected_bank_credit_paise": 744752,
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_dev_0041",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0042",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0042",
+      "expected_bank_credit_paise": 745054,
+      "scenario": "corrupt_row",
+      "settlement_id": "setl_dev_0042",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": 0.25,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "AMBIGUOUS_BANK_CANDIDATES",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0043",
+      "expected_bank_credit_paise": 745359,
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_dev_0043",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0044",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0044",
+      "expected_bank_credit_paise": 745663,
+      "scenario": "duplicate_event",
+      "settlement_id": "setl_dev_0044",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0045",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_SOURCE_MISSING_OR_NOT_CAPTURED",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "LEDGER_AMOUNT_MISMATCH"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0045",
+      "expected_bank_credit_paise": 745966,
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_dev_0045",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0046",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0046",
+      "expected_bank_credit_paise": 746270,
+      "scenario": "out_of_order",
+      "settlement_id": "setl_dev_0046",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0047",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0047",
+      "expected_bank_credit_paise": 746573,
+      "scenario": "missing_utr",
+      "settlement_id": "setl_dev_0047",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0048",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0048",
+      "expected_bank_credit_paise": 746877,
+      "scenario": "malformed_utr",
+      "settlement_id": "setl_dev_0048",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0049",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0049",
+      "expected_bank_credit_paise": 747181,
+      "scenario": "delayed_settlement",
+      "settlement_id": "setl_dev_0049",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0050",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0050",
+      "expected_bank_credit_paise": 747484,
+      "scenario": "bank_holiday_shift",
+      "settlement_id": "setl_dev_0050",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0051",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0051",
+      "expected_bank_credit_paise": 747789,
+      "scenario": "one_to_many_settlement",
+      "settlement_id": "setl_dev_0051",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0052",
+      "actual_confidence": 0.85,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "actual_state": "review_required",
+      "bank_entry_id": "bank_dev_0052",
+      "expected_bank_credit_paise": 748092,
+      "scenario": "split_ledger",
+      "settlement_id": "setl_dev_0052",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0053",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0053",
+      "expected_bank_credit_paise": 723343,
+      "scenario": "partial_refund",
+      "settlement_id": "setl_dev_0053",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0054",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0054",
+      "expected_bank_credit_paise": 693591,
+      "scenario": "multiple_partial_refunds",
+      "settlement_id": "setl_dev_0054",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0055",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "POST_SETTLEMENT_REFUND",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0055",
+      "expected_bank_credit_paise": 723948,
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_dev_0055",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0056",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0056",
+      "expected_bank_credit_paise": 749306,
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_dev_0056",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0057",
+      "actual_confidence": 0.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0057",
+      "expected_bank_credit_paise": 749611,
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_dev_0057",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0058",
+      "actual_confidence": 1.0,
+      "actual_match_method": "evidence_candidate",
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "CANDIDATE_AMOUNT_EXACT",
+        "CANDIDATE_DATE_WINDOW",
+        "CANDIDATE_REFERENCE_EXACT",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0058",
+      "expected_bank_credit_paise": 749914,
+      "scenario": "amount_collision",
+      "settlement_id": "setl_dev_0058",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0059",
+      "actual_confidence": 0.85,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "actual_state": "review_required",
+      "bank_entry_id": "bank_dev_0059",
+      "expected_bank_credit_paise": 750218,
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_dev_0059",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0060",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0060",
+      "expected_bank_credit_paise": 750521,
+      "scenario": "orphan_ledger",
+      "settlement_id": "setl_dev_0060",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": 0.0,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "DUPLICATE_BANK_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0061",
+      "expected_bank_credit_paise": 750824,
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_dev_0061",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0062",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0062",
+      "expected_bank_credit_paise": 749895,
+      "scenario": "reversal_adjustment",
+      "settlement_id": "setl_dev_0062",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": null,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "GROUP_QUARANTINED"
+      ],
+      "actual_state": "quarantined",
+      "bank_entry_id": "bank_dev_0063",
+      "expected_bank_credit_paise": 751431,
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_dev_0063",
+      "should_auto_approve": false
+    },
+    {
+      "actual_bank_entry_id": "bank_dev_0064",
+      "actual_confidence": 1.0,
+      "actual_match_method": "exact_utr",
+      "actual_reason_codes": [
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "MONEY_CONSERVED",
+        "UNIQUE_EVIDENCE_GRAPH"
+      ],
+      "actual_state": "auto_approved",
+      "bank_entry_id": "bank_dev_0064",
+      "expected_bank_credit_paise": 751736,
+      "scenario": "corrupt_row",
+      "settlement_id": "setl_dev_0064",
+      "should_auto_approve": true
+    },
+    {
+      "actual_bank_entry_id": null,
+      "actual_confidence": 0.25,
+      "actual_match_method": null,
+      "actual_reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "AMBIGUOUS_BANK_CANDIDATES",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "actual_state": "unresolved",
+      "bank_entry_id": "bank_dev_0065",
+      "expected_bank_credit_paise": 752039,
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_dev_0065",
+      "should_auto_approve": false
+    }
+  ],
+  "synthetic": true
+}

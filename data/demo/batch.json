@@ -1,0 +1,142 @@
+{
+  "bank_entries": [
+    {
+      "amount_paise": 682300,
+      "currency": "INR",
+      "id": "bank_demo_01",
+      "narration": "RAZORPAY SETTLEMENT UTR-DEMO-682300",
+      "utr": "UTR-DEMO-682300",
+      "value_date": "2026-08-30"
+    }
+  ],
+  "batch_id": "batch_demo_v1",
+  "ledger_entries": [
+    {
+      "amount_paise": 682300,
+      "booked_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "id": "ledger_demo_01",
+      "reference": "setl_demo_01"
+    },
+    {
+      "amount_paise": 12345,
+      "booked_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "id": "ledger_orphan_01",
+      "reference": "UNKNOWN-REF"
+    }
+  ],
+  "orders": [
+    {
+      "amount_paise": 100000,
+      "created_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "id": "order_demo_01",
+      "merchant_reference": "SHOP-1001"
+    },
+    {
+      "amount_paise": 250000,
+      "created_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "id": "order_demo_02",
+      "merchant_reference": "SHOP-1002"
+    },
+    {
+      "amount_paise": 400000,
+      "created_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "id": "order_demo_03",
+      "merchant_reference": "SHOP-1003"
+    }
+  ],
+  "payments": [
+    {
+      "amount_paise": 100000,
+      "created_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "fee_paise": 2360,
+      "id": "pay_demo_01",
+      "order_id": "order_demo_01",
+      "status": "captured",
+      "tax_paise": 360
+    },
+    {
+      "amount_paise": 250000,
+      "created_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "fee_paise": 5900,
+      "id": "pay_demo_02",
+      "order_id": "order_demo_02",
+      "status": "captured",
+      "tax_paise": 900
+    },
+    {
+      "amount_paise": 400000,
+      "created_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "fee_paise": 9440,
+      "id": "pay_demo_03",
+      "order_id": "order_demo_03",
+      "status": "captured",
+      "tax_paise": 1440
+    }
+  ],
+  "refunds": [
+    {
+      "amount_paise": 50000,
+      "created_at": "2026-08-30T10:00:00Z",
+      "currency": "INR",
+      "id": "rfnd_demo_01",
+      "payment_id": "pay_demo_03",
+      "status": "processed"
+    }
+  ],
+  "schema_version": "1.0",
+  "settlement_lines": [
+    {
+      "amount_paise": 100000,
+      "entity_id": "pay_demo_01",
+      "fee_paise": 2360,
+      "id": "line_pay_01",
+      "kind": "payment",
+      "settlement_id": "setl_demo_01",
+      "tax_paise": 360
+    },
+    {
+      "amount_paise": 250000,
+      "entity_id": "pay_demo_02",
+      "fee_paise": 5900,
+      "id": "line_pay_02",
+      "kind": "payment",
+      "settlement_id": "setl_demo_01",
+      "tax_paise": 900
+    },
+    {
+      "amount_paise": 400000,
+      "entity_id": "pay_demo_03",
+      "fee_paise": 9440,
+      "id": "line_pay_03",
+      "kind": "payment",
+      "settlement_id": "setl_demo_01",
+      "tax_paise": 1440
+    },
+    {
+      "amount_paise": 50000,
+      "entity_id": "rfnd_demo_01",
+      "fee_paise": 0,
+      "id": "line_rfnd_01",
+      "kind": "refund",
+      "settlement_id": "setl_demo_01",
+      "tax_paise": 0
+    }
+  ],
+  "settlements": [
+    {
+      "currency": "INR",
+      "id": "setl_demo_01",
+      "settled_at": "2026-08-30T10:00:00Z",
+      "utr": "UTR-DEMO-682300"
+    }
+  ],
+  "synthetic": true
+}

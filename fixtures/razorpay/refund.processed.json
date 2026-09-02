@@ -1,0 +1,23 @@
+{
+  "account_id": "acc_phase5_fixture",
+  "contains": [
+    "refund",
+    "payment"
+  ],
+  "created_at": 1788260400,
+  "entity": "event",
+  "event": "refund.processed",
+  "payload": {
+    "refund": {
+      "entity": {
+        "amount": 12000,
+        "created_at": 1788260300,
+        "currency": "INR",
+        "entity": "refund",
+        "id": "rfnd_phase5_001",
+        "payment_id": "pay_phase5_001",
+        "status": "processed"
+      }
+    }
+  }
+}

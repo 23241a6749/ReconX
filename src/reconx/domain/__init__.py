@@ -1,0 +1,2 @@
+"""Dependency-free finance domain."""
+

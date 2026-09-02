@@ -1,0 +1,741 @@
+{
+  "business_summary": {
+    "all_group_auto_match_rate": 0.590909,
+    "correct_automatic_matches": 65,
+    "eligible_group_coverage": 1.0,
+    "exceptions_not_auto_resolved": 45,
+    "false_matches": 0,
+    "raw_records": 1400,
+    "safe_auto_precision": 1.0,
+    "settlement_groups": 110,
+    "unexpected_exceptions": 0
+  },
+  "candidate_engine": {
+    "auto_approved": 65,
+    "auto_match_precision": 1.0,
+    "auto_reconciliation_coverage": 1.0,
+    "elapsed_ms": 51.034193000305095,
+    "eligible_for_auto": 65,
+    "false_match_rate": 0.0,
+    "missing_groups_after_quarantine": 5,
+    "review_required": 10,
+    "safe_auto_precision": 1.0,
+    "throughput_records_per_second": 26158.93,
+    "unresolved_groups": 30,
+    "unsafe_auto_approval_count": 0,
+    "unsafe_scenario_detection_recall": 1.0
+  },
+  "coverage_delta_vs_baseline": 0.230769,
+  "decision_reproducibility": {
+    "all_equal": true,
+    "decision_sha256": "3ce805d74bebed457cfba17e0bb5d571c09d65adb1bfcef3ce3ad70bf27a1729",
+    "runs": 3
+  },
+  "deterministic_evidence_sha256": "612ba85b28d14b3a68df43c6faced6c86080b58ad3933e72c56dee22bba2c44c",
+  "evaluation": "phase4_heldout",
+  "evaluation_scope": "Public synthetic held-out split with frozen policy; not externally sequestered and not production data.",
+  "exact_id_baseline": {
+    "auto_approved": 50,
+    "auto_match_precision": 1.0,
+    "auto_reconciliation_coverage": 0.769231,
+    "elapsed_ms": 50.09052400055225,
+    "eligible_for_auto": 65,
+    "false_match_rate": 0.0,
+    "missing_groups_after_quarantine": 5,
+    "review_required": 10,
+    "safe_auto_precision": 1.0,
+    "throughput_records_per_second": 26651.75,
+    "unresolved_groups": 45,
+    "unsafe_auto_approval_count": 0,
+    "unsafe_scenario_detection_recall": 1.0
+  },
+  "exception_summary": {
+    "by_scenario": {
+      "captured_payment_missing_ledger": 5,
+      "conflicting_duplicate": 5,
+      "duplicate_bank_credit": 5,
+      "equal_score_ambiguity": 5,
+      "fee_mismatch": 5,
+      "post_settlement_refund": 5,
+      "split_ledger": 5,
+      "tax_mismatch": 5,
+      "unsupported_currency": 5
+    },
+    "by_state": {
+      "quarantined": 5,
+      "review_required": 10,
+      "unresolved": 30
+    },
+    "total": 45,
+    "unexpected": 0
+  },
+  "exceptions": [
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2014",
+      "reason_codes": [
+        "DUPLICATE_BANK_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2014",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2035",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2035",
+      "reason_codes": [
+        "POST_SETTLEMENT_REFUND",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2035",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2042",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2042",
+      "reason_codes": [
+        "PAYMENT_SOURCE_MISSING_OR_NOT_CAPTURED",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "LEDGER_AMOUNT_MISMATCH"
+      ],
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2042",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2049",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2049",
+      "reason_codes": [
+        "POST_SETTLEMENT_REFUND",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2049",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2056",
+      "reason_codes": [
+        "GROUP_QUARANTINED"
+      ],
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2056",
+      "state": "quarantined"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2070",
+      "reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "AMBIGUOUS_BANK_CANDIDATES",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2070",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2098",
+      "reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "AMBIGUOUS_BANK_CANDIDATES",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2098",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2105",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2105",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2105",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2112",
+      "reason_codes": [
+        "DUPLICATE_BANK_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2112",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2119",
+      "reason_codes": [
+        "GROUP_QUARANTINED"
+      ],
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2119",
+      "state": "quarantined"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2133",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2133",
+      "reason_codes": [
+        "PAYMENT_SOURCE_MISSING_OR_NOT_CAPTURED",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "LEDGER_AMOUNT_MISMATCH"
+      ],
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2133",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2140",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2140",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2140",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2154",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2154",
+      "reason_codes": [
+        "PAYMENT_SOURCE_MISSING_OR_NOT_CAPTURED",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "LEDGER_AMOUNT_MISMATCH"
+      ],
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2154",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2168",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2168",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2168",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2175",
+      "reason_codes": [
+        "GROUP_QUARANTINED"
+      ],
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2175",
+      "state": "quarantined"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2182",
+      "reason_codes": [
+        "GROUP_QUARANTINED"
+      ],
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2182",
+      "state": "quarantined"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2217",
+      "reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "AMBIGUOUS_BANK_CANDIDATES",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2217",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2224",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2224",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2224",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2231",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2231",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2231",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2252",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2252",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2252",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2287",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2287",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2287",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2301",
+      "reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "AMBIGUOUS_BANK_CANDIDATES",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2301",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2329",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2329",
+      "reason_codes": [
+        "PAYMENT_SOURCE_MISSING_OR_NOT_CAPTURED",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "LEDGER_AMOUNT_MISMATCH"
+      ],
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2329",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2336",
+      "reason_codes": [
+        "DUPLICATE_BANK_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2336",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2343",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2343",
+      "reason_codes": [
+        "PAYMENT_SOURCE_MISSING_OR_NOT_CAPTURED",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE",
+        "LEDGER_AMOUNT_MISMATCH"
+      ],
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2343",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2357",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2357",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2357",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2385",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2385",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2385",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2392",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2392",
+      "reason_codes": [
+        "POST_SETTLEMENT_REFUND",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2392",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2399",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2399",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2399",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2420",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2420",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2420",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2441",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2441",
+      "reason_codes": [
+        "POST_SETTLEMENT_REFUND",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2441",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2448",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2448",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2448",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2476",
+      "reason_codes": [
+        "DUPLICATE_BANK_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2476",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2511",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2511",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2511",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2518",
+      "reason_codes": [
+        "GROUP_QUARANTINED"
+      ],
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2518",
+      "state": "quarantined"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2532",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2532",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2532",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2574",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2574",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2574",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2595",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2595",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2595",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2616",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2616",
+      "reason_codes": [
+        "POST_SETTLEMENT_REFUND",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2616",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2623",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2623",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2623",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2637",
+      "reason_codes": [
+        "BANK_UTR_NOT_FOUND",
+        "AMBIGUOUS_BANK_CANDIDATES",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2637",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2651",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2651",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2651",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2658",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2658",
+      "reason_codes": [
+        "PAYMENT_RECON_FIELDS_MISMATCH",
+        "EXACT_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2658",
+      "state": "unresolved"
+    },
+    {
+      "actual_bank_entry_id": "bank_hold_2700",
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2700",
+      "reason_codes": [
+        "EXACT_UTR",
+        "MONEY_CONSERVED",
+        "LEDGER_CONFIRMATION_MISSING"
+      ],
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2700",
+      "state": "review_required"
+    },
+    {
+      "actual_bank_entry_id": null,
+      "expected_auto_approval": false,
+      "expected_bank_entry_id": "bank_hold_2707",
+      "reason_codes": [
+        "DUPLICATE_BANK_UTR",
+        "EXACT_LEDGER_REFERENCE"
+      ],
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2707",
+      "state": "unresolved"
+    }
+  ],
+  "gate_checks": {
+    "all_declared_scenarios_present": true,
+    "batch_ids_agree": true,
+    "candidate_beats_exact_id_baseline": true,
+    "decisions_reproduce_across_runs": true,
+    "eligible_coverage_at_least_90_percent": true,
+    "exception_list_is_complete": true,
+    "ground_truth_hash_matches_manifest": true,
+    "manifest_group_count_matches_truth": true,
+    "manifest_record_count_matches_raw": true,
+    "manifest_scenario_counts_match_truth": true,
+    "no_unexpected_heldout_exceptions": true,
+    "official_record_floor_exceeded": true,
+    "policy_hash_matches_frozen_contract": true,
+    "raw_batch_hash_matches_manifest": true,
+    "safe_auto_precision_at_least_99_percent": true,
+    "schema_versions_agree": true,
+    "source_collections_are_lists": true,
+    "split_is_held_out": true,
+    "truth_scenarios_are_valid": true,
+    "truth_settlement_ids_are_unique": true,
+    "zero_false_matches": true,
+    "zero_unsafe_auto_approvals": true
+  },
+  "input_integrity": {
+    "batch_ids_agree": true,
+    "ground_truth_hash_matches_manifest": true,
+    "manifest_group_count_matches_truth": true,
+    "manifest_record_count_matches_raw": true,
+    "manifest_scenario_counts_match_truth": true,
+    "policy_hash_matches_frozen_contract": true,
+    "raw_batch_hash_matches_manifest": true,
+    "schema_versions_agree": true,
+    "source_collections_are_lists": true,
+    "split_is_held_out": true,
+    "truth_scenarios_are_valid": true,
+    "truth_settlement_ids_are_unique": true
+  },
+  "manifest": {
+    "batch_id": "batch_heldout_110_v1",
+    "generator_version": "heldout-generator/1.0",
+    "ground_truth_sha256": "e3d4179d8c04a4d48ef418c9a6dbf7e32f68a7908ffd5f5d2ccc8440c05cb22a",
+    "group_count": 110,
+    "namespace": "hold",
+    "policy_contract_sha256": "4052e86aeb547ae52fcb57c029e8de9137646793da1725d6382586e65f31b8f3",
+    "raw_batch_sha256": "c63d7ec41005883777b5662d73e6855c9c004684ea35f3bc67d8cb2240ca5d45",
+    "raw_record_count": 1400,
+    "scenario_count": 22,
+    "scenario_counts": {
+      "amount_collision": 5,
+      "bank_holiday_shift": 5,
+      "captured_payment_missing_ledger": 5,
+      "conflicting_duplicate": 5,
+      "corrupt_row": 5,
+      "delayed_settlement": 5,
+      "duplicate_bank_credit": 5,
+      "duplicate_event": 5,
+      "equal_score_ambiguity": 5,
+      "fee_mismatch": 5,
+      "malformed_utr": 5,
+      "missing_utr": 5,
+      "multiple_partial_refunds": 5,
+      "one_to_many_settlement": 5,
+      "orphan_ledger": 5,
+      "out_of_order": 5,
+      "partial_refund": 5,
+      "post_settlement_refund": 5,
+      "reversal_adjustment": 5,
+      "split_ledger": 5,
+      "tax_mismatch": 5,
+      "unsupported_currency": 5
+    },
+    "schema_version": "1.0",
+    "seed": 20260901,
+    "source_index_start": 2000,
+    "split": "held_out",
+    "synthetic": true
+  },
+  "phase_gate_passed": true,
+  "policy_contract_sha256": "4052e86aeb547ae52fcb57c029e8de9137646793da1725d6382586e65f31b8f3",
+  "synthetic": true,
+  "throughput": {
+    "environment_note": "Local single-process result; hardware-dependent, not a service SLO.",
+    "fastest_records_per_second": 25084.1,
+    "measured_runs": 7,
+    "median_records_per_second": 24363.55,
+    "p95_records_per_second": 25084.1,
+    "records_per_run": 1400,
+    "scope": "validation_normalisation_and_candidate_reconciliation",
+    "slowest_records_per_second": 18669.97,
+    "warmup_runs": 2
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "approval": {
+    "ambiguous_candidates_auto_approve": false,
+    "requires_exact_ledger_reference": true,
+    "requires_money_conservation": true,
+    "requires_unique_bank_entry": true
+  },
+  "candidate_matching": {
+    "amount_must_match": true,
+    "amount_weight": 0.5,
+    "auto_approve_threshold": 0.98,
+    "extended_date_weight": 0.1,
+    "maximum_date_window_days": 7,
+    "minimum_runner_up_margin": 0.15,
+    "reference_weight": 0.3,
+    "strong_date_weight": 0.2,
+    "strong_date_window_days": 2
+  },
+  "money": {
+    "expected_bank_credit": "captured_payments-refunds-inclusive_fees+adjustments",
+    "fee_includes_tax": true,
+    "required_difference_paise": 0,
+    "unit": "paise"
+  },
+  "policy_version": "reconciliation-policy/2.0"
+}

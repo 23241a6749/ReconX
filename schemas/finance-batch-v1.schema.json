@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reconx.local/schemas/finance-batch-v1.schema.json",
+  "title": "ReconX Canonical Finance Batch v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "batch_id",
+    "schema_version",
+    "synthetic",
+    "orders",
+    "payments",
+    "refunds",
+    "settlements",
+    "settlement_lines",
+    "bank_entries",
+    "ledger_entries"
+  ],
+  "properties": {
+    "batch_id": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "1.0"},
+    "synthetic": {"type": "boolean"},
+    "orders": {"type": "array", "items": {"$ref": "#/$defs/order"}},
+    "payments": {"type": "array", "items": {"$ref": "#/$defs/payment"}},
+    "refunds": {"type": "array", "items": {"$ref": "#/$defs/refund"}},
+    "settlements": {"type": "array", "items": {"$ref": "#/$defs/settlement"}},
+    "settlement_lines": {"type": "array", "items": {"$ref": "#/$defs/settlementLine"}},
+    "bank_entries": {"type": "array", "items": {"$ref": "#/$defs/bankEntry"}},
+    "ledger_entries": {"type": "array", "items": {"$ref": "#/$defs/ledgerEntry"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "nonNegativeMoney": {"type": "integer", "minimum": 0},
+    "order": {
+      "type": "object",
+      "required": ["id", "merchant_reference", "amount_paise", "currency", "created_at"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "merchant_reference": {"type": "string"},
+        "amount_paise": {"$ref": "#/$defs/nonNegativeMoney"},
+        "currency": {"$ref": "#/$defs/currency"},
+        "created_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "payment": {
+      "type": "object",
+      "required": ["id", "order_id", "amount_paise", "fee_paise", "tax_paise", "currency", "status", "created_at"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "order_id": {"$ref": "#/$defs/id"},
+        "amount_paise": {"$ref": "#/$defs/nonNegativeMoney"},
+        "fee_paise": {"$ref": "#/$defs/nonNegativeMoney"},
+        "tax_paise": {"$ref": "#/$defs/nonNegativeMoney"},
+        "currency": {"$ref": "#/$defs/currency"},
+        "status": {"enum": ["captured", "failed"]},
+        "created_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "refund": {
+      "type": "object",
+      "required": ["id", "payment_id", "amount_paise", "currency", "status", "created_at"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "payment_id": {"$ref": "#/$defs/id"},
+        "amount_paise": {"$ref": "#/$defs/nonNegativeMoney"},
+        "currency": {"$ref": "#/$defs/currency"},
+        "status": {"enum": ["processed", "pending"]},
+        "created_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "settlement": {
+      "type": "object",
+      "required": ["id", "utr", "currency", "settled_at"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "utr": {"type": "string"},
+        "currency": {"$ref": "#/$defs/currency"},
+        "settled_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "settlementLine": {
+      "type": "object",
+      "required": ["id", "settlement_id", "kind", "entity_id", "amount_paise", "fee_paise", "tax_paise"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "settlement_id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["payment", "refund", "adjustment"]},
+        "entity_id": {"$ref": "#/$defs/id"},
+        "amount_paise": {"type": "integer"},
+        "fee_paise": {"$ref": "#/$defs/nonNegativeMoney"},
+        "tax_paise": {"$ref": "#/$defs/nonNegativeMoney"}
+      }
+    },
+    "bankEntry": {
+      "type": "object",
+      "required": ["id", "utr", "amount_paise", "currency", "value_date", "narration"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "utr": {"type": "string"},
+        "amount_paise": {"type": "integer"},
+        "currency": {"$ref": "#/$defs/currency"},
+        "value_date": {"type": "string", "format": "date"},
+        "narration": {"type": "string"}
+      }
+    },
+    "ledgerEntry": {
+      "type": "object",
+      "required": ["id", "reference", "amount_paise", "currency", "booked_at"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "reference": {"type": "string"},
+        "amount_paise": {"type": "integer"},
+        "currency": {"$ref": "#/$defs/currency"},
+        "booked_at": {"$ref": "#/$defs/timestamp"}
+      }
+    }
+  }
+}
+

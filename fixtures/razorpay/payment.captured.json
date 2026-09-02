@@ -1,0 +1,22 @@
+{
+  "account_id": "acc_phase5_fixture",
+  "contains": [
+    "payment"
+  ],
+  "created_at": 1788256800,
+  "entity": "event",
+  "event": "payment.captured",
+  "payload": {
+    "payment": {
+      "entity": {
+        "amount": 50000,
+        "created_at": 1788256700,
+        "currency": "INR",
+        "entity": "payment",
+        "id": "pay_phase5_001",
+        "order_id": "order_phase5_001",
+        "status": "captured"
+      }
+    }
+  }
+}
