@@ -67,11 +67,17 @@ Official guide: <https://razorpay.com/docs/payments/dashboard/account-settings/a
 
 ## 4. Optional advisory AI
 
-The deterministic engine, review workflow and close pack do not require AI. To enable
-on-demand exception explanations, create an OpenAI API key in your own account, store it
-only as `OPENAI_API_KEY` in `.env` or your deployment secret manager, and set
-`ENABLE_LLM=true`. Never paste the key into chat or commit it. The model can classify and
-explain; it cannot approve, post, or mutate finance state.
+The deterministic engine, review workflow and close pack do not require AI. The
+recommended free buildathon provider is Groq with `openai/gpt-oss-20b`.
+
+1. Create a key at <https://console.groq.com/keys>.
+2. Store it only as `GROQ_API_KEY` in the ignored local `.env` or Render secret manager.
+3. Set `LLM_PROVIDER=groq` and `ENABLE_LLM=true`.
+4. Never paste the key into chat or commit it.
+
+OpenAI remains available by setting `LLM_PROVIDER=openai` and `OPENAI_API_KEY`. Either
+model can only classify and explain; it cannot approve, post or mutate finance state.
+Use synthetic or Razorpay Test Mode evidence only. See [free Groq + Render deployment](render-deployment.md).
 
 ## 5. Configure the Test Mode webhook after deployment
 

@@ -43,6 +43,7 @@ records the evidence and leaves unmatched records visible.
 - fixed-endpoint settlement-reconciliation API client and money checks;
 - 19-check Phase 5 integration evidence with a safe-off runtime default.
 - official OpenAI Responses API adapter with strict structured output and safe-off defaults;
+- free-tier Groq adapter using strict structured output with deterministic fallback;
 - all 40 actionable held-out exceptions connected to the human review queue;
 - durable SQLite review cases and hash-linked decisions across restarts;
 - official-shape Razorpay recon JSON plus bank/ledger CSV import;
@@ -117,7 +118,8 @@ continuity and the rule that AI cannot change finance state.
 
 No external model was called for this result. Scripted provider responses exercise
 the adapter contract. Runtime analysis uses deterministic fallback unless
-`ENABLE_LLM=true` and `OPENAI_API_KEY` are configured; model calls are always on-demand.
+`ENABLE_LLM=true` and the selected provider key are configured; Groq is the recommended
+free option and OpenAI remains supported. Model calls are always on-demand.
 This is a software-control result, not a claim that prompt injection is solved or
 that any hosted model is production-ready.
 
@@ -177,6 +179,16 @@ make run
 
 Open `http://localhost:8000`. Docker users can run `docker compose up --build`.
 
+## Deploy free on Render
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/23241a6749/ReconX)
+
+The Blueprint uses Groq `openai/gpt-oss-20b` for optional advisory reanalysis and asks
+for the Groq key plus Razorpay Test Mode API credentials directly in Render. Local `.env`
+values are never uploaded automatically. Read the [deployment and privacy notes](docs/render-deployment.md)
+before applying the Blueprint; Render's free filesystem is ephemeral, so SQLite review
+history is demo-only on that plan.
+
 ## Trust boundaries
 
 - Amounts are integer paise.
@@ -188,4 +200,5 @@ Open `http://localhost:8000`. Docker users can run `docker compose up --build`.
 - Unbalanced or ambiguous groups cannot auto-approve.
 
 See [architecture](docs/architecture.md), [evaluation](docs/evaluation.md),
-[security model](docs/security.md), and [delivery plan](PLAN.md).
+[security model](docs/security.md), [Render deployment](docs/render-deployment.md), and
+[delivery plan](PLAN.md).

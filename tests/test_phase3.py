@@ -1,16 +1,20 @@
 from __future__ import annotations
 
 import json
+import os
 import unittest
 from dataclasses import asdict, replace
 from datetime import UTC, datetime
+from unittest.mock import patch
 
+from reconx.adapters.groq import GroqChatCompletionsProvider, GroqProviderError
 from reconx.adapters.openai import OpenAIProviderError, OpenAIResponsesProvider
 from reconx.application.analyst import (
     CircuitBreaker,
     ExceptionAnalyst,
     build_prompt,
 )
+from reconx.application.bootstrap import build_exception_analyst
 from reconx.application.reconcile import reconcile_batch
 from reconx.application.review import (
     ReviewConflictError,
@@ -186,6 +190,75 @@ class AnalystTests(unittest.TestCase):
             provider.analyse("prompt", {"type": "object"}, 4.0)
 
         self.assertNotIn(secret_body, str(raised.exception))
+
+    def test_groq_adapter_uses_strict_schema_and_extracts_output(self) -> None:
+        captured: dict[str, object] = {}
+
+        def transport(req, timeout):
+            captured["payload"] = json.loads(req.data)
+            captured["authorization"] = req.get_header("Authorization")
+            captured["timeout"] = timeout
+            return json.dumps(
+                {"choices": [{"message": {"content": valid_output()}}]}
+            ).encode()
+
+        provider = GroqChatCompletionsProvider("test-key", transport=transport)
+        schema = {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "uniqueItems": True,
+                    "items": {"type": "string", "maxLength": 80},
+                }
+            },
+            "required": ["items"],
+        }
+        result = provider.analyse("prompt", schema, 4.0)
+
+        self.assertEqual(result, valid_output())
+        self.assertEqual(captured["authorization"], "Bearer test-key")
+        payload = captured["payload"]
+        response_format = payload["response_format"]
+        self.assertEqual(response_format["type"], "json_schema")
+        self.assertTrue(response_format["json_schema"]["strict"])
+        sent_schema = response_format["json_schema"]["schema"]
+        self.assertNotIn("uniqueItems", sent_schema["properties"]["items"])
+        self.assertNotIn("maxLength", sent_schema["properties"]["items"]["items"])
+        self.assertEqual(payload["temperature"], 0)
+
+    def test_groq_adapter_never_exposes_response_body_in_errors(self) -> None:
+        secret_body = "sensitive provider body"
+
+        def transport(req, timeout):
+            return secret_body.encode()
+
+        provider = GroqChatCompletionsProvider("test-key", transport=transport)
+        with self.assertRaises(GroqProviderError) as raised:
+            provider.analyse("prompt", {"type": "object"}, 4.0)
+
+        self.assertNotIn(secret_body, str(raised.exception))
+
+    def test_bootstrap_selects_groq_and_fails_safe_without_a_key(self) -> None:
+        with patch.dict(
+            os.environ,
+            {"ENABLE_LLM": "true", "LLM_PROVIDER": "groq", "GROQ_API_KEY": "unit-key"},
+            clear=False,
+        ):
+            build_exception_analyst.cache_clear()
+            analyst = build_exception_analyst()
+            self.assertEqual(analyst.provider.name, "groq_chat_completions")
+
+        with patch.dict(
+            os.environ,
+            {"ENABLE_LLM": "true", "LLM_PROVIDER": "groq", "GROQ_API_KEY": ""},
+            clear=False,
+        ):
+            build_exception_analyst.cache_clear()
+            analyst = build_exception_analyst()
+            self.assertEqual(analyst.provider.name, "disabled")
+        build_exception_analyst.cache_clear()
 
 
 class ReviewWorkflowTests(unittest.TestCase):

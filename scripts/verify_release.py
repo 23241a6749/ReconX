@@ -8,7 +8,6 @@ import re
 import subprocess
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "reports"
 REQUIRED_FILES = {
@@ -22,6 +21,7 @@ REQUIRED_FILES = {
     "docs/demo-script.md",
     "docs/evaluation.md",
     "docs/integration.md",
+    "docs/render-deployment.md",
     "docs/security.md",
     "docs/submission.md",
     "docs/user-setup.md",
@@ -29,12 +29,14 @@ REQUIRED_FILES = {
     "reports/phase3-safety-report.json",
     "reports/phase4-heldout-evaluation.json",
     "reports/phase5-integration-report.json",
+    "render.yaml",
 }
 SECRET_ENV_KEYS = {
     "RAZORPAY_KEY_ID",
     "RAZORPAY_KEY_SECRET",
     "RAZORPAY_WEBHOOK_SECRET",
     "RAZORPAY_WEBHOOK_PREVIOUS_SECRET",
+    "GROQ_API_KEY",
     "OPENAI_API_KEY",
 }
 TEXT_SUFFIXES = {
@@ -52,7 +54,7 @@ TEXT_SUFFIXES = {
 }
 ENV_ASSIGNMENT = re.compile(
     r"^\s*(RAZORPAY_KEY_ID|RAZORPAY_KEY_SECRET|RAZORPAY_WEBHOOK_SECRET|"
-    r"RAZORPAY_WEBHOOK_PREVIOUS_SECRET|OPENAI_API_KEY)\s*=\s*(.*?)\s*$"
+    r"RAZORPAY_WEBHOOK_PREVIOUS_SECRET|GROQ_API_KEY|OPENAI_API_KEY)\s*=\s*(.*?)\s*$"
 )
 
 
@@ -102,7 +104,7 @@ def _contains_non_placeholder_assignment(content: str) -> bool:
         if not value:
             continue
         lowered = value.lower()
-        if value.startswith("<") or value.startswith("${"):
+        if value.startswith(("<", "${")):
             continue
         if "your_" in lowered or "example" in lowered or "placeholder" in lowered:
             continue

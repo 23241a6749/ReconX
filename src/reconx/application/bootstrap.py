@@ -6,6 +6,7 @@ from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
 
+from reconx.adapters.groq import GroqChatCompletionsProvider
 from reconx.adapters.openai import OpenAIResponsesProvider
 from reconx.adapters.razorpay import WebhookSecret
 from reconx.application.analyst import DisabledProvider, ExceptionAnalyst
@@ -30,18 +31,34 @@ def _enabled(name: str) -> bool:
 def build_exception_analyst() -> ExceptionAnalyst:
     if not _enabled("ENABLE_LLM"):
         return ExceptionAnalyst(DisabledProvider())
-    key = os.environ.get("OPENAI_API_KEY", "")
-    if not key:
-        return ExceptionAnalyst(DisabledProvider())
-    return ExceptionAnalyst(
-        OpenAIResponsesProvider(
-            key,
-            model=os.environ.get("OPENAI_MODEL", "gpt-5.4-mini"),
-            endpoint=os.environ.get(
-                "OPENAI_RESPONSES_URL", "https://api.openai.com/v1/responses"
-            ),
+    provider = os.environ.get("LLM_PROVIDER", "groq").strip().lower()
+    if provider == "groq":
+        key = os.environ.get("GROQ_API_KEY", "")
+        if not key:
+            return ExceptionAnalyst(DisabledProvider())
+        return ExceptionAnalyst(
+            GroqChatCompletionsProvider(
+                key,
+                model=os.environ.get("GROQ_MODEL", "openai/gpt-oss-20b"),
+                endpoint=os.environ.get(
+                    "GROQ_CHAT_URL", "https://api.groq.com/openai/v1/chat/completions"
+                ),
+            )
         )
-    )
+    if provider == "openai":
+        key = os.environ.get("OPENAI_API_KEY", "")
+        if not key:
+            return ExceptionAnalyst(DisabledProvider())
+        return ExceptionAnalyst(
+            OpenAIResponsesProvider(
+                key,
+                model=os.environ.get("OPENAI_MODEL", "gpt-5.4-mini"),
+                endpoint=os.environ.get(
+                    "OPENAI_RESPONSES_URL", "https://api.openai.com/v1/responses"
+                ),
+            )
+        )
+    return ExceptionAnalyst(DisabledProvider())
 
 
 def analyst_runtime() -> dict[str, str | bool]:

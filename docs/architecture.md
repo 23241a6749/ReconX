@@ -41,9 +41,10 @@ decision but deliberately does not post an accounting entry.
 
 ## Replaceable boundaries
 
-`AnalysisProvider` is a narrow outbound port. The OpenAI Responses adapter uses strict
-JSON Schema output and can be replaced without changing reconciliation or review policy.
-It is disabled by default and invoked only when a reviewer requests a refreshed diagnosis.
+`AnalysisProvider` is a narrow outbound port. The Groq Chat Completions and OpenAI
+Responses adapters use strict JSON Schema output and can be replaced without changing
+reconciliation or review policy. Groq is the recommended free buildathon provider. AI is
+disabled by default and invoked only when a reviewer requests a refreshed diagnosis.
 Review cases and hash-linked events use a transactional SQLite repository with optimistic
 version checks. These boundaries let provider, storage and UI choices change without
 rewriting the finance engine.
