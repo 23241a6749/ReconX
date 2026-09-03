@@ -15,6 +15,7 @@ records the evidence and leaves unmatched records visible.
 - one-to-many payment settlement with a partial refund;
 - Razorpay-correct fee/tax handling;
 - confidence policy and financial invariant gate;
+- refund ownership, aggregate over-refund and settlement-entity non-reuse gates;
 - append-only, content-hashed audit event;
 - honest unmatched-ledger exception;
 - FastAPI endpoint and zero-build evidence UI;
@@ -51,7 +52,8 @@ records the evidence and leaves unmatched records visible.
 - official-shape Razorpay recon JSON plus bank/ledger CSV import;
 - downloadable close pack with evidence hash, value exposure and time-saved basis;
 - live Razorpay recon fetch endpoint guarded by an explicit feature flag;
-- repository-aware secret scanning for tracked and unignored files.
+- complete `count`/`skip` pagination up to a fail-closed 10,000-item ceiling;
+- repository-aware secret scanning for tracked and unignored files;
 - evidence-completion advice that names the next required evidence and risk level.
 
 ## Run the domain slice without installing dependencies
@@ -127,7 +129,7 @@ that any hosted model is production-ready.
 
 ## Phase 4 held-out result
 
-The v2.1 policy was frozen before the release held-out run. The test split changes the
+The v2.2 policy was frozen before the release held-out run. The test split changes the
 seed, record namespace, time origin, source-index range, amount distribution and
 scenario ordering. It contains 1,400 raw records across 110 settlement groups and all
 22 scenario families.

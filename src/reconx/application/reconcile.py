@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 import time
+from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
 from typing import Any
@@ -17,7 +18,7 @@ from reconx.domain.models import (
     Settlement,
 )
 
-POLICY_VERSION = "reconciliation-policy/2.1"
+POLICY_VERSION = "reconciliation-policy/2.2"
 AUTO_APPROVE_THRESHOLD = 0.98
 CANDIDATE_AMOUNT_WEIGHT = 0.50
 CANDIDATE_REFERENCE_WEIGHT = 0.30
@@ -54,9 +55,13 @@ def policy_contract() -> dict[str, Any]:
         },
         "approval": {
             "requires_unique_bank_entry": True,
+            "requires_unique_settlement": True,
+            "requires_unique_settlement_entity": True,
             "requires_exact_ledger_reference": True,
             "requires_money_conservation": True,
             "requires_positive_expected_bank_credit": True,
+            "requires_refund_payment_in_same_settlement": True,
+            "rejects_aggregate_over_refunds": True,
             "ambiguous_candidates_auto_approve": False,
         },
     }
@@ -220,18 +225,35 @@ def _settlement_group(
     settlement: Settlement,
     reserved_bank_ids: set[str],
     allow_candidates: bool,
+    duplicate_settlement_ids: set[str],
+    duplicate_line_ids: set[str],
+    duplicate_entity_refs: set[tuple[LineKind, str]],
 ) -> ReconciliationGroup:
     lines = [line for line in batch.settlement_lines if line.settlement_id == settlement.id]
     payment_by_id = {payment.id: payment for payment in batch.payments}
     refund_by_id = {refund.id: refund for refund in batch.refunds}
+    settlement_payment_ids = {
+        line.entity_id for line in lines if line.kind is LineKind.PAYMENT
+    }
 
     reason_codes: list[str] = []
     evidence_ids = [settlement.id]
     gross = refunds = fees = taxes = adjustments = 0
     forced_unresolved = False
+    refund_totals_by_payment: dict[str, int] = defaultdict(int)
+
+    if settlement.id in duplicate_settlement_ids:
+        reason_codes.append("DUPLICATE_SETTLEMENT_ID")
+        forced_unresolved = True
 
     for line in lines:
         evidence_ids.append(line.id)
+        if line.id in duplicate_line_ids:
+            reason_codes.append("DUPLICATE_SETTLEMENT_LINE_ID")
+            forced_unresolved = True
+        if (line.kind, line.entity_id) in duplicate_entity_refs:
+            reason_codes.append("DUPLICATE_SETTLEMENT_ENTITY_REFERENCE")
+            forced_unresolved = True
         if line.tax_paise > line.fee_paise:
             reason_codes.append("TAX_EXCEEDS_INCLUSIVE_FEE")
             forced_unresolved = True
@@ -269,6 +291,15 @@ def _settlement_group(
             if refund.amount_paise != line.amount_paise:
                 reason_codes.append("REFUND_RECON_FIELDS_MISMATCH")
                 forced_unresolved = True
+            linked_payment = payment_by_id.get(refund.payment_id)
+            if refund.payment_id not in settlement_payment_ids:
+                reason_codes.append("REFUND_PAYMENT_OUTSIDE_SETTLEMENT")
+                forced_unresolved = True
+            if linked_payment is None or linked_payment.status is not PaymentStatus.CAPTURED:
+                reason_codes.append("REFUND_PAYMENT_MISSING_OR_NOT_CAPTURED")
+                forced_unresolved = True
+            else:
+                refund_totals_by_payment[refund.payment_id] += refund.amount_paise
             if datetime.fromisoformat(refund.created_at) > datetime.fromisoformat(
                 settlement.settled_at
             ):
@@ -277,6 +308,11 @@ def _settlement_group(
             refunds += line.amount_paise
         else:
             adjustments += line.amount_paise
+
+    for payment_id, refunded_paise in refund_totals_by_payment.items():
+        if refunded_paise > payment_by_id[payment_id].amount_paise:
+            reason_codes.append("REFUND_TOTAL_EXCEEDS_CAPTURED_PAYMENT")
+            forced_unresolved = True
 
     expected = gross - refunds - fees + adjustments
     if expected <= 0:
@@ -334,6 +370,7 @@ def _settlement_group(
         state = DecisionState.UNRESOLVED
         confidence = 0.25
 
+    reason_codes = list(dict.fromkeys(reason_codes))
     return ReconciliationGroup(
         settlement_id=settlement.id,
         state=state,
@@ -358,8 +395,30 @@ def reconcile_batch(batch: FinanceBatch, *, allow_candidates: bool = True) -> Ba
     started = time.perf_counter()
     groups: list[ReconciliationGroup] = []
     reserved_bank_ids: set[str] = set()
+    settlement_counts = Counter(item.id for item in batch.settlements)
+    line_counts = Counter(item.id for item in batch.settlement_lines)
+    entity_counts = Counter(
+        (item.kind, item.entity_id) for item in batch.settlement_lines
+    )
+    duplicate_settlement_ids = {
+        settlement_id for settlement_id, count in settlement_counts.items() if count > 1
+    }
+    duplicate_line_ids = {
+        line_id for line_id, count in line_counts.items() if count > 1
+    }
+    duplicate_entity_refs = {
+        entity_ref for entity_ref, count in entity_counts.items() if count > 1
+    }
     for settlement in sorted(batch.settlements, key=lambda item: (item.settled_at, item.id)):
-        group = _settlement_group(batch, settlement, reserved_bank_ids, allow_candidates)
+        group = _settlement_group(
+            batch,
+            settlement,
+            reserved_bank_ids,
+            allow_candidates,
+            duplicate_settlement_ids,
+            duplicate_line_ids,
+            duplicate_entity_refs,
+        )
         groups.append(group)
         if group.bank_entry_id:
             reserved_bank_ids.add(group.bank_entry_id)

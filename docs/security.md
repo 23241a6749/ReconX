@@ -30,6 +30,7 @@ Its suggested action is displayed as advice and cannot execute itself.
 | Accidental or stale human action | Confirmation UI, expected-version comparison and HTTP 409 conflict | `test_stale_version_and_double_decision_are_rejected` |
 | Decision history tampering | Append-only event history with previous-event hash linkage | `test_review_case_requires_explicit_versioned_human_decision` |
 | Silent forced match | Ambiguous/unbalanced cases remain visible and cannot auto-approve | Phase 2 policy tests |
+| Refund or entity reuse corrupts settlement math | Same-settlement refund ownership, aggregate over-refund and unique-entity gates | Reconciliation regression tests |
 | Forged Razorpay webhook | HMAC-SHA256 over exact raw bytes with constant-time comparison | Phase 5 signature tests |
 | Retry duplicates | Atomic durable claim on `X-Razorpay-Event-Id` and payload hash | Concurrent-delivery test |
 | Event-id collision with changed content | Conflict rejection and transaction rollback | Phase 5 conflict test |
@@ -37,6 +38,7 @@ Its suggested action is displayed as advice and cannot execute itself.
 | Secret rotation breaks retries | Current and previous webhook secret verification | Phase 5 rotation test |
 | Parser/resource abuse | 256 KiB stream limit, depth, array, field and duplicate-key limits | Phase 5 adversarial tests |
 | Credential leakage | Secrets stay in environment/private fields and errors retain only types/codes | Secret-absence gate |
+| Common browser embedding/content attacks | CSP, clickjacking, MIME-sniffing, referrer and permissions headers | FastAPI contract test |
 
 ## Data minimisation and logging
 
@@ -49,24 +51,25 @@ provider, source, attempts, security flags and fallback reason.
 ## Residual risks before production
 
 - Prompt-injection pattern detection is supplemental and cannot detect every attack.
-- The provider port has no live hosted-model implementation or provider-specific
-  retention configuration yet.
-- Review state is in memory; concurrent production deployment requires transactional
-  persistence, authentication, authorization and durable append-only storage.
+- Groq and OpenAI adapters are implemented, but provider-specific retention and
+  organisational compliance configuration remain deployment responsibilities.
+- Review state uses transactional SQLite in this prototype; production still requires
+  authenticated identities, authorization and shared durable storage.
 - Event hashes provide tamper evidence only when an external trusted anchor or signed
   log protects the chain head.
 - The demo actor is hard-coded. Production decisions require verified identities,
   role-based permissions and separation of duties.
-- Rate limits, CSRF protection, secure headers, encrypted persistence, secret rotation,
-  dependency scanning and incident monitoring remain production work. Webhook secret
-  rotation is implemented, but automated key-vault lifecycle management is not.
+- Rate limits, CSRF tokens for future cookie-authenticated flows, encrypted persistence,
+  dependency scanning and incident monitoring remain production work. Baseline secure
+  headers and webhook-secret rotation are implemented, but automated key-vault lifecycle
+  management is not.
 - Synthetic safety results cannot establish behavior on real merchant data.
 - SQLite is durable for this single-node prototype, but multi-region deployment would
   require a transactional shared store and a globally consistent idempotency key.
 - A reverse proxy should enforce request-rate and body-size limits before application
-  code, even though the application also limits streamed bodies.
-- Test-mode dashboard configuration and an actual Razorpay delivery remain pending
-  until the user supplies account-owned test credentials and a public HTTPS endpoint.
+  code, even though the application limits streamed webhook bodies.
+- Test-mode dashboard webhook subscription and an actual Razorpay-originated delivery
+  remain pending; the public HTTPS receiver and Test API import path are deployed.
 
 ## Design references
 

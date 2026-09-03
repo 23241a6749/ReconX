@@ -15,6 +15,8 @@ from urllib.request import Request, urlopen
 from reconx.domain.webhook import NormalizedRazorpayEvent
 
 RAZORPAY_RECON_URL = "https://api.razorpay.com/v1/settlements/recon/combined"
+RECON_PAGE_SIZE = 1_000
+MAX_RECON_ITEMS = 10_000
 SUPPORTED_WEBHOOK_EVENTS = {
     "payment.captured": ("payment", "captured"),
     "refund.processed": ("refund", "processed"),
@@ -272,6 +274,8 @@ def parse_settlement_recon_response(payload: dict[str, Any]) -> list[SettlementR
             raise RazorpayAdapterError("settlement recon currency is invalid")
         validation_codes: list[str] = []
         item_type = item["type"]
+        payment_id = _optional_string(item, "payment_id")
+        order_id = _optional_string(item, "order_id")
         if integers["debit"] > 0 and integers["credit"] > 0:
             validation_codes.append("BOTH_DEBIT_AND_CREDIT_PRESENT")
         if item_type == "payment" and (
@@ -283,6 +287,8 @@ def parse_settlement_recon_response(payload: dict[str, Any]) -> list[SettlementR
             integers["credit"] != 0 or integers["debit"] != integers["amount"]
         ):
             validation_codes.append("REFUND_DEBIT_MISMATCH")
+        if item_type == "refund" and not payment_id:
+            validation_codes.append("REFUND_PAYMENT_ID_MISSING")
         elif item_type == "adjustment" and abs(
             integers["credit"] - integers["debit"]
         ) != integers["amount"]:
@@ -303,8 +309,8 @@ def parse_settlement_recon_response(payload: dict[str, Any]) -> list[SettlementR
                 settled_at=integers["settled_at"],
                 settlement_id=item["settlement_id"],
                 settlement_utr=_optional_string(item, "settlement_utr"),
-                payment_id=_optional_string(item, "payment_id"),
-                order_id=_optional_string(item, "order_id"),
+                payment_id=payment_id,
+                order_id=order_id,
                 supported_for_reconciliation=not validation_codes,
                 validation_codes=tuple(validation_codes),
             )
@@ -342,34 +348,58 @@ class RazorpaySettlementReconClient:
         self._max_response_bytes = max_response_bytes
 
     def fetch(self, settlement_date: date) -> list[SettlementReconItem]:
-        query = urlencode(
-            {
-                "year": settlement_date.year,
-                "month": f"{settlement_date.month:02d}",
-                "day": f"{settlement_date.day:02d}",
-            }
-        )
         token = base64.b64encode(
             f"{self._key_id}:{self._key_secret}".encode()
         ).decode("ascii")
-        request = Request(
-            f"{RAZORPAY_RECON_URL}?{query}",
-            headers={"Authorization": f"Basic {token}", "Accept": "application/json"},
-            method="GET",
+        collected: list[SettlementReconItem] = []
+        seen_entities: set[tuple[str, str]] = set()
+        for skip in range(0, MAX_RECON_ITEMS, RECON_PAGE_SIZE):
+            query = urlencode(
+                {
+                    "year": settlement_date.year,
+                    "month": f"{settlement_date.month:02d}",
+                    "day": f"{settlement_date.day:02d}",
+                    "count": RECON_PAGE_SIZE,
+                    "skip": skip,
+                }
+            )
+            request = Request(
+                f"{RAZORPAY_RECON_URL}?{query}",
+                headers={"Authorization": f"Basic {token}", "Accept": "application/json"},
+                method="GET",
+            )
+            try:
+                raw = self._transport(
+                    request, self._timeout_seconds, self._max_response_bytes
+                )
+                payload = json.loads(
+                    raw.decode("utf-8"), object_pairs_hook=_reject_duplicate_keys
+                )
+            except (UnicodeDecodeError, json.JSONDecodeError, WebhookPayloadError) as exc:
+                raise RazorpayApiError("Razorpay returned an invalid JSON response") from exc
+            except RazorpayApiError:
+                raise
+            except Exception as exc:
+                raise RazorpayApiError(
+                    f"Razorpay request failed: {type(exc).__name__}"
+                ) from exc
+            if not isinstance(payload, dict):
+                raise RazorpayApiError("Razorpay response must be a JSON object")
+            if "error" in payload:
+                error = payload.get("error")
+                code = error.get("code") if isinstance(error, dict) else "unknown"
+                raise RazorpayApiError(f"Razorpay API returned error code {code}")
+            page = parse_settlement_recon_response(payload)
+            for item in page:
+                identity = (item.item_type, item.entity_id)
+                if identity in seen_entities:
+                    raise RazorpayApiError(
+                        "Razorpay recon pagination repeated a transaction entity"
+                    )
+                seen_entities.add(identity)
+                collected.append(item)
+            if len(page) < RECON_PAGE_SIZE:
+                return collected
+        raise RazorpayApiError(
+            f"Razorpay recon result exceeds the {MAX_RECON_ITEMS}-item safety limit"
         )
-        try:
-            raw = self._transport(request, self._timeout_seconds, self._max_response_bytes)
-            payload = json.loads(raw.decode("utf-8"), object_pairs_hook=_reject_duplicate_keys)
-        except (UnicodeDecodeError, json.JSONDecodeError, WebhookPayloadError) as exc:
-            raise RazorpayApiError("Razorpay returned an invalid JSON response") from exc
-        except RazorpayApiError:
-            raise
-        except Exception as exc:
-            raise RazorpayApiError(f"Razorpay request failed: {type(exc).__name__}") from exc
-        if not isinstance(payload, dict):
-            raise RazorpayApiError("Razorpay response must be a JSON object")
-        if "error" in payload:
-            error = payload.get("error")
-            code = error.get("code") if isinstance(error, dict) else "unknown"
-            raise RazorpayApiError(f"Razorpay API returned error code {code}")
-        return parse_settlement_recon_response(payload)

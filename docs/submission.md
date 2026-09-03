@@ -3,6 +3,17 @@
 Do not submit the final form until the repository, video and signed-out link checks pass.
 The form states that the official final submission cannot be changed after submission.
 
+## Razorpay Dashboard is not a Track 4 submission dependency
+
+Track 4 asks for a working finance-operations loop across 50+ synthetic records, with
+throughput, measured accuracy and an honest exception list. Unlike Track 1, it does not
+require the project to run on Razorpay Test Mode APIs. ReconX's signed webhook receiver
+and guarded Test API import are additional integration evidence. If merchant-dashboard
+onboarding is unavailable, submit the deterministic 1,400-record product and disclose
+that a Razorpay-originated webhook delivery was not demonstrated.
+
+Official track wording: <https://razorpay.com/buildathon/>
+
 ## Personal and internship fields
 
 | Form field | Answer |

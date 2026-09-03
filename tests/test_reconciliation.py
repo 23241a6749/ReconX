@@ -92,6 +92,43 @@ class ReconciliationTests(unittest.TestCase):
         self.assertEqual(group.state, DecisionState.UNRESOLVED)
         self.assertIn("NON_POSITIVE_EXPECTED_BANK_CREDIT", group.reason_codes)
 
+    def test_refund_must_belong_to_a_payment_in_the_same_settlement(self) -> None:
+        batch = build_demo_batch()
+        batch.refunds[0] = replace(batch.refunds[0], payment_id="pay_not_in_settlement")
+
+        group = reconcile_batch(batch).groups[0]
+
+        self.assertEqual(group.state, DecisionState.UNRESOLVED)
+        self.assertIn("REFUND_PAYMENT_OUTSIDE_SETTLEMENT", group.reason_codes)
+        self.assertIn("REFUND_PAYMENT_MISSING_OR_NOT_CAPTURED", group.reason_codes)
+
+    def test_aggregate_refunds_cannot_exceed_the_captured_payment(self) -> None:
+        batch = build_demo_batch()
+        batch.refunds[0] = replace(batch.refunds[0], amount_paise=450_000)
+        batch.settlement_lines[-1] = replace(
+            batch.settlement_lines[-1], amount_paise=450_000
+        )
+        batch.bank_entries[0] = replace(batch.bank_entries[0], amount_paise=282_300)
+        batch.ledger_entries[0] = replace(batch.ledger_entries[0], amount_paise=282_300)
+
+        group = reconcile_batch(batch).groups[0]
+
+        self.assertEqual(group.state, DecisionState.UNRESOLVED)
+        self.assertIn("REFUND_TOTAL_EXCEEDS_CAPTURED_PAYMENT", group.reason_codes)
+
+    def test_reused_settlement_entity_cannot_form_a_unique_evidence_graph(self) -> None:
+        batch = build_demo_batch()
+        duplicate = replace(batch.settlement_lines[0], id="line_pay_01_duplicate")
+        batch.settlement_lines.append(duplicate)
+        batch.bank_entries[0] = replace(batch.bank_entries[0], amount_paise=779_940)
+        batch.ledger_entries[0] = replace(batch.ledger_entries[0], amount_paise=779_940)
+
+        group = reconcile_batch(batch).groups[0]
+
+        self.assertEqual(group.state, DecisionState.UNRESOLVED)
+        self.assertIn("DUPLICATE_SETTLEMENT_ENTITY_REFERENCE", group.reason_codes)
+        self.assertNotIn("UNIQUE_EVIDENCE_GRAPH", group.reason_codes)
+
     def test_tax_cannot_exceed_fee(self) -> None:
         with self.assertRaisesRegex(ValueError, "tax must be a component of fee"):
             Payment(

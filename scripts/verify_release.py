@@ -17,6 +17,7 @@ REQUIRED_FILES = {
     "LICENSE",
     "README.md",
     "PLAN.md",
+    "policies/reconciliation-policy-v2.2.json",
     "docs/architecture.md",
     "docs/demo-script.md",
     "docs/evaluation.md",

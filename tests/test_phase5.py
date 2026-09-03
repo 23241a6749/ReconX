@@ -14,6 +14,7 @@ from pathlib import Path
 from threading import Thread
 from unittest.mock import patch
 from urllib.error import HTTPError
+from urllib.parse import parse_qs, urlparse
 from urllib.request import Request, urlopen
 
 from reconx.adapters.razorpay import (
@@ -251,6 +252,46 @@ class SettlementReconAdapterTests(unittest.TestCase):
         payload["count"] = 99
         with self.assertRaises(RazorpayAdapterError):
             parse_settlement_recon_response(payload)
+
+    def test_refund_without_payment_id_is_quarantined(self) -> None:
+        payload = json.loads(fixture("settlement-recon.json"))
+        refund = next(item for item in payload["items"] if item["type"] == "refund")
+        refund["payment_id"] = None
+
+        parsed = parse_settlement_recon_response(payload)
+        parsed_refund = next(item for item in parsed if item.item_type == "refund")
+
+        self.assertFalse(parsed_refund.supported_for_reconciliation)
+        self.assertIn("REFUND_PAYMENT_ID_MISSING", parsed_refund.validation_codes)
+
+    def test_client_fetches_every_recon_page(self) -> None:
+        template = json.loads(fixture("settlement-recon.json"))["items"][0]
+        first_page = []
+        for index in range(1_000):
+            item = {**template}
+            item["entity_id"] = f"pay_page_{index:04d}"
+            item["order_id"] = f"order_page_{index:04d}"
+            first_page.append(item)
+        final_item = {**template, "entity_id": "pay_page_1000", "order_id": "order_page_1000"}
+        observed_skips: list[int] = []
+
+        def transport(request, timeout_seconds: float, max_bytes: int) -> bytes:
+            query = parse_qs(urlparse(request.full_url).query)
+            observed_skips.append(int(query["skip"][0]))
+            self.assertEqual(query["count"], ["1000"])
+            items = first_page if observed_skips[-1] == 0 else [final_item]
+            return json.dumps(
+                {"entity": "collection", "count": len(items), "items": items}
+            ).encode()
+
+        client = RazorpaySettlementReconClient(
+            "rzp_test_unit", "unit-secret", transport=transport
+        )
+
+        items = client.fetch(date(2022, 6, 11))
+
+        self.assertEqual(len(items), 1_001)
+        self.assertEqual(observed_skips, [0, 1_000])
 
     def test_api_errors_are_sanitised(self) -> None:
         def failing_transport(request, timeout_seconds: float, max_bytes: int) -> bytes:

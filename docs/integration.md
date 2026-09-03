@@ -85,13 +85,15 @@ entity projection.
 The client calls only:
 
 ```text
-GET https://api.razorpay.com/v1/settlements/recon/combined?year=...&month=...&day=...
+GET https://api.razorpay.com/v1/settlements/recon/combined?year=...&month=...&day=...&count=1000&skip=...
 ```
 
-It uses Basic API authentication, caps timeout at five seconds and limits the response
-to 1 MiB. Payment net-credit, refund debit, adjustment amount and inclusive-fee/tax
-relationships are checked. Invalid or unsupported items are marked unsafe for
-reconciliation; they are never forced into canonical finance truth.
+It uses Basic API authentication, caps each page timeout at five seconds and limits each
+response to 1 MiB. It follows Razorpay's documented `count`/`skip` pagination in
+1,000-item pages, rejects repeated entities across pages and fails closed above 10,000
+items. Payment net-credit, refund debit, refund ownership, adjustment amount and
+inclusive-fee/tax relationships are checked. Invalid or unsupported items are marked
+unsafe for reconciliation; they are never forced into canonical finance truth.
 
 The guarded runtime endpoint is `POST /api/import/razorpay/{YYYY-MM-DD}`. Set
 `ENABLE_RAZORPAY_IMPORT=true` only in an environment that contains Test Mode API

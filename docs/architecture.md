@@ -25,6 +25,11 @@ Therefore:
 
 Tax is validated with `0 <= tax <= fee`; it is not subtracted twice.
 
+Refunds must reference a captured payment inside the same settlement, cumulative
+refunds cannot exceed that payment, and a payment/refund/adjustment entity cannot be
+reused across settlement lines. These conditions are required before the evidence graph
+can be considered unique.
+
 ## Decision authority
 
 The deterministic core owns money truth, invariant checks and automatic-approval

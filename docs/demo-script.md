@@ -76,7 +76,7 @@ types remain visible instead of being coerced.”
 **Show:** Repository tree, CI workflow and reports.
 
 **Say:** “The repository contains seeded generators, frozen policy, held-out ground truth,
-machine-readable reports, 58 regression tests, Docker configuration, CI and a one-command
+machine-readable reports, 60+ regression tests, Docker configuration, CI and a one-command
 release gate. The Phase 3 safety suite passes 11 checks and the Razorpay contract suite
 passes 19.”
 

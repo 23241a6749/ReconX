@@ -41,7 +41,7 @@ class PhaseFourTests(unittest.TestCase):
 
     def test_runtime_policy_matches_frozen_artifact(self) -> None:
         frozen = json.loads(
-            (ROOT / "policies" / "reconciliation-policy-v2.1.json").read_text()
+            (ROOT / "policies" / "reconciliation-policy-v2.2.json").read_text()
         )
 
         self.assertEqual(frozen, policy_contract())
