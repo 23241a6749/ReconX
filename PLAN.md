@@ -42,7 +42,7 @@ Status: Phase 6 code and public repository complete; video and application input
 - [x] Strict hosted-model adapter with default-off, on-demand execution.
 - [x] Full held-out exception queue with durable SQLite review history.
 - [x] Razorpay recon plus bank/ledger CSV import and close-pack export.
-- [ ] Immutable v1.0.0 release tag.
+- [x] Immutable v1.0.0 release tag.
 - [ ] Public-viewable five-minute video and final form submission.
 
 ## Change-control rule
