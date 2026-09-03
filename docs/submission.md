@@ -21,6 +21,7 @@ The form states that the official final submission cannot be changed after submi
 | Selected Track | Track 4: AI Finance Controller |
 | Project Name / Title | ReconX — Evidence-First AI Finance Controller |
 | GitHub Repository URL | `https://github.com/23241a6749/ReconX` |
+| Live Demo URL | `https://reconx-ai-finance-controller.onrender.com` |
 | 5-min Pitch Video Link | `[NEEDED AFTER RECORDING AND PUBLIC-VIEW TEST]` |
 
 ### Project Objectives — paste-ready answer
@@ -54,6 +55,7 @@ unsupported settlement items fail safely into review or unresolved states.
 ## Final submission gate
 
 - Public GitHub repository opens while signed out.
+- Live Render demo and `/health` endpoint open while signed out.
 - README setup succeeds from a fresh checkout.
 - Hosted CI is green on the submitted commit.
 - `make release` passes without credentials.

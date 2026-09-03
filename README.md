@@ -7,6 +7,8 @@ ReconX reconstructs how captured payments, refunds and inclusive fees become a b
 settlement. It auto-approves only a financially balanced, strongly identified group,
 records the evidence and leaves unmatched records visible.
 
+**Live demo:** <https://reconx-ai-finance-controller.onrender.com>
+
 ## Implemented capabilities
 
 - deterministic, seeded synthetic finance batch;
@@ -180,6 +182,8 @@ make run
 Open `http://localhost:8000`. Docker users can run `docker compose up --build`.
 
 ## Deploy free on Render
+
+[Open the deployed ReconX demo](https://reconx-ai-finance-controller.onrender.com)
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/23241a6749/ReconX)
 

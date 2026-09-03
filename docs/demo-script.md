@@ -92,6 +92,7 @@ reviewable finance workflow: automate what is provably safe and expose everythin
 - Duration is at most 5:00.
 - Text and metrics are readable at normal playback speed.
 - Synthetic/held-out status is said aloud.
-- No claim of production deployment, real merchant results or live money movement.
+- The public Render demo is buildathon infrastructure, not a claim of production-grade
+  persistence, real merchant results or live money movement.
 - No secret, email inbox, phone number or private dashboard is visible.
 - Link permissions allow anyone with the link to view without sign-in.
