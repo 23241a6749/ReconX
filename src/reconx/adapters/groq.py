@@ -71,13 +71,13 @@ class GroqChatCompletionsProvider:
             "model": self.model,
             "messages": [
                 {
-                    "role": "system",
+                    "role": "user",
                     "content": (
-                        "Classify the finance exception as an advisory system. Never claim "
-                        "authority to post, approve, mutate, or close a financial record."
+                        "Classify this finance exception as an advisory system. Never claim "
+                        "authority to post, approve, mutate, or close a financial record.\n\n"
+                        + prompt
                     ),
-                },
-                {"role": "user", "content": prompt},
+                }
             ],
             "response_format": {
                 "type": "json_schema",
@@ -87,8 +87,10 @@ class GroqChatCompletionsProvider:
                     "schema": _strict_schema_subset(output_schema),
                 },
             },
-            "temperature": 0,
-            "max_completion_tokens": 800,
+            "reasoning_effort": "low",
+            "include_reasoning": False,
+            "temperature": 0.5,
+            "max_completion_tokens": 1200,
         }
         request = Request(
             self.endpoint,
@@ -96,6 +98,7 @@ class GroqChatCompletionsProvider:
             headers={
                 "Authorization": f"Bearer {self._api_key}",
                 "Content-Type": "application/json",
+                "User-Agent": "ReconX/1.0",
             },
             method="POST",
         )

@@ -197,6 +197,7 @@ class AnalystTests(unittest.TestCase):
         def transport(req, timeout):
             captured["payload"] = json.loads(req.data)
             captured["authorization"] = req.get_header("Authorization")
+            captured["user_agent"] = req.get_header("User-agent")
             captured["timeout"] = timeout
             return json.dumps(
                 {"choices": [{"message": {"content": valid_output()}}]}
@@ -219,6 +220,7 @@ class AnalystTests(unittest.TestCase):
 
         self.assertEqual(result, valid_output())
         self.assertEqual(captured["authorization"], "Bearer test-key")
+        self.assertEqual(captured["user_agent"], "ReconX/1.0")
         payload = captured["payload"]
         response_format = payload["response_format"]
         self.assertEqual(response_format["type"], "json_schema")
@@ -226,7 +228,12 @@ class AnalystTests(unittest.TestCase):
         sent_schema = response_format["json_schema"]["schema"]
         self.assertNotIn("uniqueItems", sent_schema["properties"]["items"])
         self.assertNotIn("maxLength", sent_schema["properties"]["items"]["items"])
-        self.assertEqual(payload["temperature"], 0)
+        self.assertEqual(len(payload["messages"]), 1)
+        self.assertEqual(payload["messages"][0]["role"], "user")
+        self.assertIn("advisory system", payload["messages"][0]["content"])
+        self.assertEqual(payload["reasoning_effort"], "low")
+        self.assertFalse(payload["include_reasoning"])
+        self.assertEqual(payload["temperature"], 0.5)
 
     def test_groq_adapter_never_exposes_response_body_in_errors(self) -> None:
         secret_body = "sensitive provider body"

@@ -9,7 +9,9 @@ advisory reanalysis.
 ReconX defaults to Groq's `openai/gpt-oss-20b` model because Groq currently provides a
 free-plan quota and this model supports strict JSON Schema structured output. The adapter
 uses that constrained output, a five-second application deadline, a response-size limit,
-one retry, a circuit breaker and the existing deterministic fallback.
+one retry, a circuit breaker and the existing deterministic fallback. GPT-OSS requests
+use Groq's documented low reasoning effort, hidden reasoning and single-user-message
+prompt shape for reliable schema generation.
 
 Gemini's free tier was not selected because Google's pricing page says free-tier content
 may be used to improve its products. OpenRouter's free models are useful for experiments,
