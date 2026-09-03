@@ -5,9 +5,13 @@ services:
       - "8000:8000"
     environment:
       RECONX_ENV: demo
-      ENABLE_LLM: "false"
-      ENABLE_RAZORPAY_IMPORT: "false"
+      ENABLE_LLM: ${ENABLE_LLM:-false}
+      ENABLE_RAZORPAY_IMPORT: ${ENABLE_RAZORPAY_IMPORT:-false}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.4-mini}
+      OPENAI_RESPONSES_URL: ${OPENAI_RESPONSES_URL:-https://api.openai.com/v1/responses}
       RECONX_WEBHOOK_DB: /app/data/runtime/webhooks.sqlite3
+      RECONX_REVIEW_DB: /app/data/runtime/reviews.sqlite3
       RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
       RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
       RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}

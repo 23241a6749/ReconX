@@ -50,20 +50,22 @@ refunds and the inclusive Razorpay fee. GST is reported inside the fee and is no
 subtracted twice. The result includes reason codes, source record IDs, confidence and a
 content-hashed audit event.”
 
-### 2:35–3:15 — exception and human control
+### 2:35–3:20 — exception and human control
 
-**Show:** Review case, advisory analysis and approve/reject controls.
+**Show:** Select two of the 40 review cases, refresh one advisory diagnosis, then show
+approve/reject controls and the model-safe runtime label.
 
 **Say:** “When evidence is ambiguous, the system stops. The analyst cites only evidence
 already in the case. Invalid model JSON, fabricated citations, prompt-like record text or
 provider timeout falls back deterministically. A human decision requires explicit
 confirmation and an expected version, and is appended to a hash-chained history.”
 
-### 3:15–4:05 — Razorpay integration and failure story
+### 3:20–4:05 — input-to-close and Razorpay boundary
 
-**Show:** Phase 5 integration panel and controls.
+**Show:** Three-file import panel, close-pack download, then Phase 5 controls.
 
-**Say:** “The Razorpay boundary verifies HMAC-SHA256 over exact raw webhook bytes before
+**Say:** “ReconX accepts Razorpay recon exports plus bank and ledger evidence and emits a
+hash-verifiable close pack. The Razorpay boundary verifies HMAC-SHA256 over exact raw webhook bytes before
 JSON parsing. Event IDs are atomically deduplicated, and older events cannot roll state
 back. In the concurrency test, 12 deliveries created one application and 11 safe
 duplicates. A changed body reusing the same event ID is rejected. Unsupported settlement
@@ -74,7 +76,7 @@ types remain visible instead of being coerced.”
 **Show:** Repository tree, CI workflow and reports.
 
 **Say:** “The repository contains seeded generators, frozen policy, held-out ground truth,
-machine-readable reports, 50 regression tests, Docker configuration, CI and a one-command
+machine-readable reports, 58 regression tests, Docker configuration, CI and a one-command
 release gate. The Phase 3 safety suite passes 11 checks and the Razorpay contract suite
 passes 19.”
 

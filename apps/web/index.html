@@ -32,7 +32,7 @@
           </p>
         </div>
         <button id="run-button" class="run-button" type="button">
-          <span>Run reconciliation</span><span aria-hidden="true">→</span>
+          <span>Run 1,400-record batch</span><span aria-hidden="true">→</span>
         </button>
       </section>
 
@@ -95,7 +95,12 @@
             </div>
           </div>
           <div id="heldout-exception-list" class="heldout-exception-list"></div>
+          <details class="exception-details">
+            <summary>Inspect all 45 exception outcomes</summary>
+            <div id="heldout-exception-table" class="exception-table"></div>
+          </details>
           <p id="heldout-proof-hash" class="proof-hash">Evidence hash: —</p>
+          <a class="review-button download-link" href="/api/close-pack/heldout" download>Download audit-ready close pack</a>
         </section>
 
         <section class="panel integration-panel" aria-labelledby="integration-title">
@@ -114,6 +119,26 @@
           </div>
           <div id="integration-controls" class="control-list"></div>
           <p id="integration-note" class="proof-hash">—</p>
+        </section>
+
+        <section class="panel import-panel" aria-labelledby="import-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">INPUT → RECONCILE → CLOSE PACK</p>
+              <h2 id="import-title">Bring your own settlement evidence</h2>
+            </div>
+            <span id="import-status" class="pill">Local processing</span>
+          </div>
+          <p class="tax-note import-note">Upload an official-shape Razorpay settlement recon JSON plus bank and ledger CSVs. Files are processed by this ReconX instance and are never sent to the advisory model.</p>
+          <div class="upload-grid">
+            <label><span>Razorpay recon JSON</span><input id="recon-file" type="file" accept=".json,application/json" /></label>
+            <label><span>Bank CSV</span><input id="bank-file" type="file" accept=".csv,text/csv" /></label>
+            <label><span>Ledger CSV</span><input id="ledger-file" type="file" accept=".csv,text/csv" /></label>
+          </div>
+          <div class="import-actions">
+            <small>Bank: id, utr, amount_paise, currency, value_date, narration · Ledger: id, reference, amount_paise, currency, booked_at</small>
+            <button id="import-button" class="review-button approve" type="button">Reconcile files</button>
+          </div>
         </section>
 
         <section class="content-grid">
@@ -179,8 +204,14 @@
               </div>
               <span id="review-status" class="pill">Loading</span>
             </div>
+            <div class="review-toolbar">
+              <label for="review-selector">Exception case</label>
+              <select id="review-selector"></select>
+              <span id="analyst-runtime" class="mono-chip">AI runtime: loading</span>
+            </div>
             <div id="review-case" class="review-case"></div>
             <div class="review-actions">
+              <button id="analyse-review" class="review-button" type="button">Refresh advisory diagnosis</button>
               <button id="reject-review" class="review-button reject" type="button">Reject suggestion</button>
               <button id="approve-review" class="review-button approve" type="button">Approve review</button>
             </div>

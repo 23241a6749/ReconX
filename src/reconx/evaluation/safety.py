@@ -5,8 +5,13 @@ from dataclasses import replace
 from datetime import UTC, datetime
 from typing import Any
 
-from reconx.application.analyst import CircuitBreaker, ExceptionAnalyst, build_prompt
-from reconx.application.reconcile import reconcile_batch
+from reconx.application.analyst import (
+    ANALYST_POLICY_VERSION,
+    CircuitBreaker,
+    ExceptionAnalyst,
+    build_prompt,
+)
+from reconx.application.reconcile import POLICY_VERSION, reconcile_batch
 from reconx.application.review import ReviewConflictError, ReviewService
 from reconx.domain.analysis import AnalysisRequest
 from reconx.domain.review import ReviewAction
@@ -46,6 +51,8 @@ def _valid_output(citations: list[str] | None = None) -> str:
             "cited_evidence_ids": citations or ["bank_01"],
             "explanation": "The bank credit differs from deterministic finance truth.",
             "suggested_action": "manual_reconcile",
+            "missing_evidence_types": ["bank_credit"],
+            "risk_level": "medium",
         }
     )
 
@@ -124,8 +131,8 @@ def run_safety_evaluation() -> dict[str, Any]:
         "evaluation": "phase3_safety",
         "synthetic": True,
         "policy_versions": {
-            "reconciliation": "reconciliation-policy/2.0",
-            "analyst": "exception-analyst/1.0",
+            "reconciliation": POLICY_VERSION,
+            "analyst": ANALYST_POLICY_VERSION,
         },
         "checks": checks,
         "passed": sum(checks.values()),
@@ -134,4 +141,3 @@ def run_safety_evaluation() -> dict[str, Any]:
         "model_authority": "advisory_only",
         "review_event_hashes": [event.event_hash for event in events],
     }
-

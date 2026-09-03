@@ -1,11 +1,13 @@
 const $ = (id) => document.getElementById(id);
 
-const money = (paise) =>
-  new Intl.NumberFormat("en-IN", {
+const money = (paise) => {
+  if (paise === null || paise === undefined) return "Not found";
+  return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
     minimumFractionDigits: 2,
-  }).format((paise ?? 0) / 100);
+  }).format(paise / 100);
+};
 
 const label = (value) => value.replaceAll("_", " ").toUpperCase();
 const percent = (value) => `${(Number(value ?? 0) * 100).toFixed(1)}%`;
@@ -62,6 +64,8 @@ function render(result) {
 }
 
 let activeReview = null;
+let reviewCases = [];
+let latestClosePack = null;
 
 async function loadHeldout() {
   const response = await fetch("/api/heldout");
@@ -77,7 +81,7 @@ async function loadHeldout() {
   $("heldout-groups").textContent = `${integer(summary.settlement_groups)} settlement groups`;
   $("heldout-precision").textContent = percent(summary.safe_auto_precision);
   $("heldout-coverage").textContent = percent(summary.eligible_group_coverage);
-  $("heldout-delta").textContent = `+${percent(report.coverage_delta_vs_baseline)} vs exact-ID baseline`;
+  $("heldout-delta").textContent = `+${(report.coverage_delta_vs_baseline * 100).toFixed(1)} percentage points vs exact-ID baseline`;
   $("heldout-throughput").textContent = integer(report.throughput.median_records_per_second);
   $("heldout-exceptions").textContent = integer(summary.exceptions_not_auto_resolved);
   $("heldout-unexpected").textContent = integer(summary.unexpected_exceptions);
@@ -89,6 +93,11 @@ async function loadHeldout() {
   const stateCounts = report.exception_summary.by_state;
   $("heldout-exception-list").innerHTML = Object.entries(stateCounts)
     .map(([state, count]) => `<span class="exception-chip">${escapeHtml(label(state))}: ${escapeHtml(count)}</span>`)
+    .join("");
+  $("heldout-exception-table").innerHTML = report.exceptions
+    .map(
+      (item) => `<div class="exception-row"><strong>${escapeHtml(item.settlement_id)}</strong><span>${escapeHtml(label(item.scenario))} · ${escapeHtml(label(item.state))}</span><span>${escapeHtml(item.reason_codes.join(", "))}</span></div>`,
+    )
     .join("");
   $("heldout-proof-hash").textContent = `Evidence hash: ${report.deterministic_evidence_sha256} · Policy: ${report.policy_contract_sha256}`;
 }
@@ -118,7 +127,16 @@ async function loadReview() {
   const response = await fetch("/api/reviews");
   if (!response.ok) throw new Error(`Review API returned ${response.status}`);
   const payload = await response.json();
-  activeReview = payload.cases[0] ?? null;
+  const previousId = activeReview?.id;
+  reviewCases = payload.cases;
+  activeReview = reviewCases.find((item) => item.id === previousId) ?? reviewCases[0] ?? null;
+  const selector = $("review-selector");
+  selector.innerHTML = reviewCases
+    .map((item, index) => `<option value="${escapeHtml(item.id)}">${index + 1}. ${escapeHtml(item.settlement_id)} · ${escapeHtml(label(item.status))}</option>`)
+    .join("");
+  if (activeReview) selector.value = activeReview.id;
+  const runtime = payload.runtime ?? { enabled: false, provider: "disabled", mode: "deterministic_fallback" };
+  $("analyst-runtime").textContent = `AI runtime: ${runtime.enabled ? runtime.provider : "safe deterministic fallback"}`;
   if (!activeReview) {
     $("review-status").textContent = "Empty";
     $("review-case").innerHTML = '<p class="tax-note">No cases require review.</p>';
@@ -127,12 +145,70 @@ async function loadReview() {
   $("review-status").textContent = label(activeReview.status);
   $("review-case").innerHTML = `
     <div class="review-block"><span>Deterministic finding</span><strong>${escapeHtml(label(activeReview.deterministic_state))}</strong><p>${escapeHtml(activeReview.reason_codes.join(", "))}</p></div>
-    <div class="review-block"><span>Advisory analysis</span><strong>${escapeHtml(label(activeReview.analysis.category))}</strong><p>${escapeHtml(activeReview.analysis.explanation)}</p></div>
+    <div class="review-block"><span>Advisory analysis · ${escapeHtml(label(activeReview.analysis.risk_level))} risk</span><strong>${escapeHtml(label(activeReview.analysis.category))}</strong><p>${escapeHtml(activeReview.analysis.explanation)}<br>Next evidence: ${escapeHtml(activeReview.analysis.missing_evidence_types.map(label).join(", "))}</p></div>
     <div class="review-block"><span>Expected / actual</span><strong>${money(activeReview.expected_bank_credit_paise)} / ${money(activeReview.actual_bank_credit_paise)}</strong><p>Difference: ${money(activeReview.difference_paise)}</p></div>
     <div class="review-block"><span>Safety boundary</span><strong>${escapeHtml(activeReview.analysis.source)}</strong><p>AI cannot post or mutate this ledger. Version ${activeReview.version}.</p></div>`;
   const pending = activeReview.status === "pending";
   $("approve-review").disabled = !pending;
   $("reject-review").disabled = !pending;
+  $("analyse-review").disabled = false;
+}
+
+function selectReview(caseId) {
+  activeReview = reviewCases.find((item) => item.id === caseId) ?? null;
+  if (!activeReview) return;
+  $("review-status").textContent = label(activeReview.status);
+  $("review-case").innerHTML = `
+    <div class="review-block"><span>Deterministic finding</span><strong>${escapeHtml(label(activeReview.deterministic_state))}</strong><p>${escapeHtml(activeReview.reason_codes.join(", "))}</p></div>
+    <div class="review-block"><span>Advisory analysis · ${escapeHtml(label(activeReview.analysis.risk_level))} risk</span><strong>${escapeHtml(label(activeReview.analysis.category))}</strong><p>${escapeHtml(activeReview.analysis.explanation)}<br>Next evidence: ${escapeHtml(activeReview.analysis.missing_evidence_types.map(label).join(", "))}</p></div>
+    <div class="review-block"><span>Expected / actual</span><strong>${money(activeReview.expected_bank_credit_paise)} / ${money(activeReview.actual_bank_credit_paise)}</strong><p>Difference: ${money(activeReview.difference_paise)}</p></div>
+    <div class="review-block"><span>Safety boundary</span><strong>${escapeHtml(activeReview.analysis.source)}</strong><p>AI cannot post or mutate this ledger. Version ${activeReview.version}.</p></div>`;
+  const pending = activeReview.status === "pending";
+  $("approve-review").disabled = !pending;
+  $("reject-review").disabled = !pending;
+}
+
+async function analyseReview() {
+  if (!activeReview) return;
+  $("analyse-review").disabled = true;
+  const response = await fetch(`/api/reviews/${encodeURIComponent(activeReview.id)}/analyse`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ actor: "demo-reviewer", expected_version: activeReview.version }),
+  });
+  if (!response.ok) throw new Error(`Analysis API returned ${response.status}`);
+  await loadReview();
+}
+
+async function importFiles() {
+  const [reconFile, bankFile, ledgerFile] = [$("recon-file").files[0], $("bank-file").files[0], $("ledger-file").files[0]];
+  if (!reconFile || !bankFile || !ledgerFile) throw new Error("Choose all three input files first.");
+  $("import-button").disabled = true;
+  $("import-status").textContent = "Reconciling";
+  const response = await fetch("/api/import/reconcile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      batch_id: `upload_${new Date().toISOString()}`,
+      synthetic: false,
+      razorpay_recon: JSON.parse(await reconFile.text()),
+      bank_csv: await bankFile.text(),
+      ledger_csv: await ledgerFile.text(),
+    }),
+  });
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.detail ?? `Import API returned ${response.status}`);
+  latestClosePack = payload.close_pack;
+  render(payload.result);
+  $("import-status").textContent = `${payload.result.metrics.auto_approved} auto-closed · ${payload.import_issues.length} quarantined`;
+  $("import-status").classList.add("gate-pass");
+  const blob = new Blob([JSON.stringify(latestClosePack, null, 2)], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `${payload.result.batch_id}-close-pack.json`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+  $("import-button").disabled = false;
 }
 
 async function decideReview(action) {
@@ -157,7 +233,7 @@ async function run() {
   $("dashboard").classList.add("hidden");
   $("loading").classList.remove("hidden");
   try {
-    const response = await fetch("/api/demo");
+    const response = await fetch("/api/reconcile/heldout");
     if (!response.ok) throw new Error(`API returned ${response.status}`);
     render(await response.json());
   } catch (error) {
@@ -168,6 +244,16 @@ async function run() {
 $("run-button").addEventListener("click", run);
 $("approve-review").addEventListener("click", () => decideReview("approve").catch(console.error));
 $("reject-review").addEventListener("click", () => decideReview("reject").catch(console.error));
+$("analyse-review").addEventListener("click", () => analyseReview().catch((error) => {
+  $("analyst-runtime").textContent = error.message;
+  $("analyse-review").disabled = false;
+}));
+$("review-selector").addEventListener("change", (event) => selectReview(event.target.value));
+$("import-button").addEventListener("click", () => importFiles().catch((error) => {
+  $("import-status").textContent = error.message;
+  $("import-status").classList.add("gate-fail");
+  $("import-button").disabled = false;
+}));
 run();
 loadReview().catch((error) => {
   $("review-status").textContent = "Unavailable";

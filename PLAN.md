@@ -1,6 +1,6 @@
 # ReconX delivery plan
 
-Status: Phase 6 submission preparation in progress; publication inputs pending.
+Status: Phase 6 code and public repository complete; video and application inputs pending.
 
 ## Phase gates
 
@@ -26,7 +26,7 @@ Status: Phase 6 submission preparation in progress; publication inputs pending.
 - [x] Deterministic fallback, retry budget and circuit breaker.
 - [x] Explicit versioned human review with hash-chained history.
 - [x] Adversarial safety gate and machine-readable report.
-- [x] Frozen policy contract and runtime drift test.
+- [x] Frozen v2.1 policy contract and runtime drift test.
 - [x] Distinct held-out generator with raw/truth/policy integrity hashes.
 - [x] Repeated decision fingerprint and hardware-separated throughput benchmark.
 - [x] Exact-ID baseline, complete exception ledger and judge-facing metrics UI.
@@ -38,7 +38,11 @@ Status: Phase 6 submission preparation in progress; publication inputs pending.
 - [x] Exact Buildathon form-answer sheet and user-owned input checklist.
 - [x] Timed five-minute pitch and recording shot list.
 - [x] Dependency-free release verifier and CI release gate.
-- [ ] Public GitHub repository, green hosted CI and immutable release tag.
+- [x] Public GitHub repository and green hosted CI.
+- [x] Strict hosted-model adapter with default-off, on-demand execution.
+- [x] Full held-out exception queue with durable SQLite review history.
+- [x] Razorpay recon plus bank/ledger CSV import and close-pack export.
+- [ ] Immutable v1.0.0 release tag.
 - [ ] Public-viewable five-minute video and final form submission.
 
 ## Change-control rule
@@ -92,7 +96,7 @@ must implement ports and pass contract tests; risky functionality remains defaul
 - Signed HTTP receiver returns applied, duplicate and invalid-signature outcomes correctly.
 - Four official-shape settlement recon items parsed; one unsupported transfer stays visible.
 - Live Razorpay calls and real credentials remain deliberately absent from the evidence.
-- 50 total regression tests pass.
+- 58 total regression tests pass.
 
 ## Phase 6 release rule
 

@@ -114,6 +114,9 @@ dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; fon
 .review-button:disabled { cursor: not-allowed; opacity: .45; }
 .review-button.approve { color: #99e8ce; border-color: rgba(81,213,169,.3); background: rgba(81,213,169,.08); }
 .review-button.reject { color: #ffc48a; border-color: rgba(255,191,105,.25); }
+.review-toolbar { display: flex; align-items: center; gap: 10px; margin: -8px 0 18px; flex-wrap: wrap; }
+.review-toolbar label { color: var(--muted); font-size: 11px; }
+.review-toolbar select { min-width: 280px; max-width: 100%; padding: 9px 34px 9px 11px; border: 1px solid var(--border); border-radius: 10px; background: #111728; color: var(--text); }
 
 .heldout-panel { margin-bottom: 12px; background: linear-gradient(145deg, rgba(22,29,51,.94), rgba(14,19,33,.86)); }
 .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -133,9 +136,22 @@ dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; fon
 .heldout-exception-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 15px; }
 .exception-chip { padding: 7px 9px; border: 1px solid rgba(255,191,105,.18); border-radius: 8px; color: #ffd09b; background: rgba(255,191,105,.055); font-size: 10px; }
 .proof-hash { margin: 15px 0 0; color: var(--muted); font: 10px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+.download-link { display: inline-block; margin-top: 15px; text-decoration: none; }
+.exception-details { margin-top: 15px; border-top: 1px solid var(--border); padding-top: 14px; }
+.exception-details summary { color: var(--blue-light); cursor: pointer; font-size: 12px; }
+.exception-table { display: grid; gap: 7px; max-height: 360px; overflow: auto; margin-top: 12px; }
+.exception-row { display: grid; grid-template-columns: minmax(150px, .8fr) minmax(120px, .7fr) 2fr; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 9px; font-size: 10px; }
+.exception-row span { color: var(--muted); overflow-wrap: anywhere; }
 .pill.gate-pass { color: #99e8ce; border-color: rgba(81,213,169,.3); background: rgba(81,213,169,.07); }
 .pill.gate-fail { color: #ffc48a; border-color: rgba(255,191,105,.3); background: rgba(255,191,105,.07); }
 .integration-panel { margin-bottom: 12px; }
+.import-panel { margin-bottom: 12px; }
+.import-note { margin-top: -10px; }
+.upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
+.upload-grid label { display: grid; gap: 9px; padding: 14px; border: 1px solid var(--border); border-radius: 12px; color: var(--muted); font-size: 11px; background: rgba(255,255,255,.02); }
+.upload-grid input { width: 100%; color: var(--text); font-size: 11px; }
+.import-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 16px; }
+.import-actions small { color: var(--muted); line-height: 1.5; }
 .integration-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .integration-grid > div { display: flex; min-height: 100px; flex-direction: column; padding: 16px; border: 1px solid var(--border); border-radius: 13px; background: rgba(255,255,255,.025); }
 .integration-grid span, .integration-grid small { color: var(--muted); font-size: 11px; }
@@ -149,6 +165,7 @@ dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; fon
   .content-grid { grid-template-columns: 1fr; }
   .proof-grid { grid-template-columns: repeat(2, 1fr); }
   .integration-grid { grid-template-columns: repeat(2, 1fr); }
+  .upload-grid { grid-template-columns: 1fr; }
   .proof-detail-grid { grid-template-columns: 1fr; }
   .equation { grid-template-columns: 1fr; }
   .equation .operator { min-height: 20px; }
@@ -165,6 +182,8 @@ dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; fon
   .integration-grid { grid-template-columns: 1fr; }
   .exception-totals { grid-template-columns: 1fr 1fr; }
   .bar-row { grid-template-columns: 92px 1fr 48px; }
+  .exception-row { grid-template-columns: 1fr; }
+  .import-actions, .review-actions { align-items: stretch; flex-direction: column; }
   h1 { font-size: 48px; }
   .run-button { width: 100%; justify-content: space-between; }
 }

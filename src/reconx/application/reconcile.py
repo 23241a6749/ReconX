@@ -17,7 +17,7 @@ from reconx.domain.models import (
     Settlement,
 )
 
-POLICY_VERSION = "reconciliation-policy/2.0"
+POLICY_VERSION = "reconciliation-policy/2.1"
 AUTO_APPROVE_THRESHOLD = 0.98
 CANDIDATE_AMOUNT_WEIGHT = 0.50
 CANDIDATE_REFERENCE_WEIGHT = 0.30
@@ -56,6 +56,7 @@ def policy_contract() -> dict[str, Any]:
             "requires_unique_bank_entry": True,
             "requires_exact_ledger_reference": True,
             "requires_money_conservation": True,
+            "requires_positive_expected_bank_credit": True,
             "ambiguous_candidates_auto_approve": False,
         },
     }
@@ -278,6 +279,9 @@ def _settlement_group(
             adjustments += line.amount_paise
 
     expected = gross - refunds - fees + adjustments
+    if expected <= 0:
+        reason_codes.append("NON_POSITIVE_EXPECTED_BANK_CREDIT")
+        forced_unresolved = True
     bank, bank_confidence, bank_match_method, bank_reasons, bank_forced = _choose_bank_entry(
         batch, settlement, expected, reserved_bank_ids, allow_candidates
     )

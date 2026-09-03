@@ -42,6 +42,14 @@ records the evidence and leaves unmatched records visible.
 - signed payment, refund and settlement event contracts;
 - fixed-endpoint settlement-reconciliation API client and money checks;
 - 19-check Phase 5 integration evidence with a safe-off runtime default.
+- official OpenAI Responses API adapter with strict structured output and safe-off defaults;
+- all 40 actionable held-out exceptions connected to the human review queue;
+- durable SQLite review cases and hash-linked decisions across restarts;
+- official-shape Razorpay recon JSON plus bank/ledger CSV import;
+- downloadable close pack with evidence hash, value exposure and time-saved basis;
+- live Razorpay recon fetch endpoint guarded by an explicit feature flag;
+- repository-aware secret scanning for tracked and unignored files.
+- evidence-completion advice that names the next required evidence and risk level.
 
 ## Run the domain slice without installing dependencies
 
@@ -82,6 +90,12 @@ file set, metric gates, synthetic-data disclosure, environment safety and common
 patterns. See the [submission answer sheet](docs/submission.md), [five-minute demo
 script](docs/demo-script.md) and [owner setup checklist](docs/user-setup.md).
 
+The main dashboard action executes the full 1,400-record held-out batch. It also exposes
+every non-auto outcome, the 40 actionable review cases, and an audit-ready close-pack
+download. `POST /api/import/reconcile` accepts an official-shape `razorpay_recon` object
+plus `bank_csv` and `ledger_csv` strings. The browser UI supplies the same contract with
+three local file pickers.
+
 ## Phase 2 measured results
 
 | Metric | Candidate engine | Exact-ID baseline |
@@ -102,13 +116,14 @@ strict evidence citations, human confirmation, stale-decision rejection, audit-c
 continuity and the rule that AI cannot change finance state.
 
 No external model was called for this result. Scripted provider responses exercise
-the adapter contract, and the demo deliberately uses the deterministic fallback.
+the adapter contract. Runtime analysis uses deterministic fallback unless
+`ENABLE_LLM=true` and `OPENAI_API_KEY` are configured; model calls are always on-demand.
 This is a software-control result, not a claim that prompt injection is solved or
 that any hosted model is production-ready.
 
 ## Phase 4 held-out result
 
-The v2 policy was frozen before the first held-out run. The test split changes the
+The v2.1 policy was frozen before the release held-out run. The test split changes the
 seed, record namespace, time origin, source-index range, amount distribution and
 scenario ordering. It contains 1,400 raw records across 110 settlement groups and all
 22 scenario families.
@@ -146,6 +161,10 @@ The webhook endpoint is `POST /api/webhooks/razorpay`. It stays disabled until
 `RAZORPAY_WEBHOOK_SECRET` is configured. Docker Compose persists the delivery and audit
 ledger in the `reconx-runtime` named volume. No live Razorpay API call, real credential
 or real-money movement is claimed in Phase 5. See [integration operations](docs/integration.md).
+
+Live settlement recon is exposed at `POST /api/import/razorpay/{YYYY-MM-DD}` and remains
+disabled unless `ENABLE_RAZORPAY_IMPORT=true`. Fetching does not auto-close anything:
+bank and ledger evidence must still be imported and the deterministic policy must pass.
 
 ## Run the web application
 

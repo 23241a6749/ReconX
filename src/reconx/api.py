@@ -1,19 +1,34 @@
 from __future__ import annotations
 
+import os
+from datetime import date
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from reconx import __version__
-from reconx.adapters.razorpay import WebhookPayloadError, WebhookSignatureError
+from reconx.adapters.razorpay import (
+    RazorpayApiError,
+    RazorpaySettlementReconClient,
+    WebhookPayloadError,
+    WebhookSignatureError,
+)
 from reconx.application.bootstrap import (
+    analyst_runtime,
     build_demo_review_service,
     build_heldout_dashboard,
     build_integration_dashboard,
     build_razorpay_webhook_service,
 )
+from reconx.application.close_pack import build_close_pack
+from reconx.application.imports import (
+    ImportValidationError,
+    canonical_from_recon_items,
+    import_reconciliation_inputs,
+)
+from reconx.application.ingest import ingest_raw_batch
 from reconx.application.reconcile import reconcile_batch
 from reconx.application.review import (
     ReviewConflictError,
@@ -31,6 +46,7 @@ from reconx.evaluation.runner import run_evaluation
 from reconx.infrastructure.webhook_store import WebhookConflictError
 from reconx.synthetic.development import build_development_dataset
 from reconx.synthetic.generator import build_demo_batch
+from reconx.synthetic.heldout import build_heldout_dataset
 
 ROOT = Path(__file__).resolve().parents[2]
 WEB_ROOT = ROOT / "apps" / "web"
@@ -76,6 +92,59 @@ def heldout_evaluation() -> dict:
     return build_heldout_dashboard()
 
 
+@app.get("/api/reconcile/heldout")
+def reconcile_heldout() -> dict:
+    raw, _, _ = build_heldout_dataset()
+    return reconcile_batch(ingest_raw_batch(raw).batch).to_dict()
+
+
+@app.get("/api/close-pack/heldout")
+def heldout_close_pack() -> JSONResponse:
+    raw, _, _ = build_heldout_dataset()
+    pack = build_close_pack(reconcile_batch(ingest_raw_batch(raw).batch))
+    return JSONResponse(
+        pack,
+        headers={"Content-Disposition": 'attachment; filename="reconx-heldout-close-pack.json"'},
+    )
+
+
+@app.post("/api/import/reconcile")
+def import_and_reconcile(payload: dict) -> dict:
+    try:
+        batch, import_issues = import_reconciliation_inputs(payload)
+        result = reconcile_batch(batch)
+        return {
+            "result": result.to_dict(),
+            "import_issues": import_issues,
+            "close_pack": build_close_pack(result),
+        }
+    except (ImportValidationError, KeyError, TypeError, ValueError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.post("/api/import/razorpay/{settlement_date}")
+def import_from_razorpay(settlement_date: date) -> dict:
+    if os.environ.get("ENABLE_RAZORPAY_IMPORT", "false").lower() not in {"1", "true", "yes", "on"}:
+        raise HTTPException(status_code=503, detail="live Razorpay import is disabled")
+    try:
+        client = RazorpaySettlementReconClient(
+            os.environ.get("RAZORPAY_KEY_ID", ""), os.environ.get("RAZORPAY_KEY_SECRET", "")
+        )
+        items = client.fetch(settlement_date)
+        batch, import_issues = canonical_from_recon_items(
+            items, batch_id=f"razorpay_{settlement_date.isoformat()}"
+        )
+        result = reconcile_batch(batch)
+        return {
+            "result": result.to_dict(),
+            "import_issues": import_issues,
+            "close_pack": build_close_pack(result),
+            "note": "Bank and ledger evidence must be supplied before any group can auto-close.",
+        }
+    except (RazorpayApiError, ValueError) as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+
 @app.get("/api/integration")
 def integration_evidence() -> dict:
     return build_integration_dashboard()
@@ -118,7 +187,29 @@ def reviews() -> dict:
             case.id: [event.to_dict() for event in review_service.get_events(case.id)]
             for case in cases
         },
+        "runtime": analyst_runtime(),
     }
+
+
+@app.post("/api/reviews/{case_id}/analyse")
+def analyse_review(case_id: str, payload: dict) -> dict:
+    try:
+        case = review_service.reanalyse(
+            case_id,
+            actor=payload.get("actor", "demo-reviewer"),
+            expected_version=int(payload["expected_version"]),
+        )
+        return {
+            "case": case.to_dict(),
+            "events": [event.to_dict() for event in review_service.get_events(case_id)],
+            "runtime": analyst_runtime(),
+        }
+    except ReviewNotFoundError as exc:
+        raise HTTPException(status_code=404, detail="review case not found") from exc
+    except ReviewConflictError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except (KeyError, TypeError, ValueError, ReviewValidationError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 @app.post("/api/reviews/{case_id}/decision")

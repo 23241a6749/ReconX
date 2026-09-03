@@ -15,11 +15,15 @@ from urllib.parse import urlparse
 from reconx import __version__
 from reconx.adapters.razorpay import WebhookPayloadError, WebhookSignatureError
 from reconx.application.bootstrap import (
+    analyst_runtime,
     build_demo_review_service,
     build_heldout_dashboard,
     build_integration_dashboard,
     build_razorpay_webhook_service,
 )
+from reconx.application.close_pack import build_close_pack
+from reconx.application.imports import ImportValidationError, import_reconciliation_inputs
+from reconx.application.ingest import ingest_raw_batch
 from reconx.application.reconcile import reconcile_batch
 from reconx.application.review import (
     ReviewConflictError,
@@ -32,6 +36,7 @@ from reconx.evaluation.runner import run_evaluation
 from reconx.infrastructure.webhook_store import WebhookConflictError
 from reconx.synthetic.development import build_development_dataset
 from reconx.synthetic.generator import build_demo_batch
+from reconx.synthetic.heldout import build_heldout_dataset
 
 ROOT = Path(__file__).resolve().parents[2]
 WEB_ROOT = ROOT / "apps" / "web"
@@ -82,6 +87,14 @@ class PreviewHandler(BaseHTTPRequestHandler):
         if path == "/api/heldout":
             self._json(build_heldout_dashboard())
             return
+        if path == "/api/reconcile/heldout":
+            raw, _, _ = build_heldout_dataset()
+            self._json(reconcile_batch(ingest_raw_batch(raw).batch).to_dict())
+            return
+        if path == "/api/close-pack/heldout":
+            raw, _, _ = build_heldout_dataset()
+            self._json(build_close_pack(reconcile_batch(ingest_raw_batch(raw).batch)))
+            return
         if path == "/api/integration":
             self._json(build_integration_dashboard())
             return
@@ -96,6 +109,7 @@ class PreviewHandler(BaseHTTPRequestHandler):
                         ]
                         for case in cases
                     },
+                    "runtime": analyst_runtime(),
                 }
             )
             return
@@ -114,6 +128,21 @@ class PreviewHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
+        if path == "/api/import/reconcile":
+            try:
+                payload = self._read_json_body()
+                batch, import_issues = import_reconciliation_inputs(payload)
+                result = reconcile_batch(batch)
+                self._json(
+                    {
+                        "result": result.to_dict(),
+                        "import_issues": import_issues,
+                        "close_pack": build_close_pack(result),
+                    }
+                )
+            except (ImportValidationError, KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+                self._json({"detail": str(exc)}, 422)
+            return
         if path == "/api/webhooks/razorpay":
             service = build_razorpay_webhook_service()
             if service is None:
@@ -137,15 +166,38 @@ class PreviewHandler(BaseHTTPRequestHandler):
             except (WebhookPayloadError, WebhookSizeError, WebhookTimestampError) as exc:
                 self._json({"detail": str(exc)}, 422)
             return
+        analysis_match = re.fullmatch(r"/api/reviews/([A-Za-z0-9_-]+)/analyse", path)
+        if analysis_match:
+            try:
+                payload = self._read_json_body()
+                case_id = analysis_match.group(1)
+                case = REVIEW_SERVICE.reanalyse(
+                    case_id,
+                    actor=payload.get("actor", "demo-reviewer"),
+                    expected_version=int(payload["expected_version"]),
+                )
+                self._json(
+                    {
+                        "case": case.to_dict(),
+                        "events": [
+                            event.to_dict() for event in REVIEW_SERVICE.get_events(case_id)
+                        ],
+                        "runtime": analyst_runtime(),
+                    }
+                )
+            except ReviewNotFoundError:
+                self._json({"detail": "review case not found"}, 404)
+            except ReviewConflictError as exc:
+                self._json({"detail": str(exc)}, 409)
+            except (KeyError, TypeError, ValueError, json.JSONDecodeError, ReviewValidationError) as exc:
+                self._json({"detail": str(exc)}, 422)
+            return
         match = re.fullmatch(r"/api/reviews/([A-Za-z0-9_-]+)/decision", path)
         if not match:
             self._json({"detail": "not found"}, 404)
             return
         try:
-            content_length = int(self.headers.get("Content-Length", "0"))
-            if content_length <= 0 or content_length > 65_536:
-                raise ReviewValidationError("invalid request size")
-            payload = json.loads(self.rfile.read(content_length))
+            payload = self._read_json_body()
             case_id = match.group(1)
             case = REVIEW_SERVICE.decide(
                 case_id,
@@ -168,6 +220,15 @@ class PreviewHandler(BaseHTTPRequestHandler):
             self._json({"detail": str(exc)}, 409)
         except (KeyError, TypeError, ValueError, json.JSONDecodeError, ReviewValidationError) as exc:
             self._json({"detail": str(exc)}, 422)
+
+    def _read_json_body(self) -> dict:
+        content_length = int(self.headers.get("Content-Length", "0"))
+        if content_length <= 0 or content_length > 4_500_000:
+            raise ReviewValidationError("invalid request size")
+        payload = json.loads(self.rfile.read(content_length))
+        if not isinstance(payload, dict):
+            raise ReviewValidationError("request body must be a JSON object")
+        return payload
 
     def log_message(self, format: str, *args: object) -> None:
         print(f"preview: {format % args}")

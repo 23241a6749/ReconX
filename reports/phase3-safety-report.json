@@ -17,8 +17,8 @@
   "passed": 11,
   "phase_gate_passed": true,
   "policy_versions": {
-    "analyst": "exception-analyst/1.0",
-    "reconciliation": "reconciliation-policy/2.0"
+    "analyst": "exception-analyst/1.1",
+    "reconciliation": "reconciliation-policy/2.1"
   },
   "review_event_hashes": [
     "2e1e6a44d895547ce4a73decf732ab76f5c375a4333ccbbcb81e64202d6a1eec",

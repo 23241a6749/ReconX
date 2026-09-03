@@ -37,7 +37,7 @@ def build_heldout_dataset(
     group_count: int = HELDOUT_GROUP_COUNT,
     seed: int = HELDOUT_SEED,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
-    """Build a distinct synthetic test split after the v2 policy is frozen.
+    """Build a distinct synthetic test split after the release policy is frozen.
 
     The held-out split uses a separate namespace, time origin, index range, amount
     distribution and shuffled scenario order. It remains public synthetic data, not a

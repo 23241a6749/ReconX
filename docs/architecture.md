@@ -31,7 +31,8 @@ The deterministic core owns money truth, invariant checks and automatic-approval
 state. The AI adapter may classify and explain an exception, but cannot mutate source
 records, calculate final amounts, use tools or bypass policy thresholds. A model
 response is accepted only when it matches the exact schema and cites only case-owned
-evidence IDs. Provider failure produces a deterministic classification.
+evidence IDs. It must also provide an enumerated risk level and next-needed evidence
+types. Provider failure produces the same fields through deterministic classification.
 
 Human decisions are separate, explicit state transitions. Each request supplies the
 case version to prevent stale browser decisions. Approval, rejection and reopening
@@ -40,11 +41,20 @@ decision but deliberately does not post an accounting entry.
 
 ## Replaceable boundaries
 
-`AnalysisProvider` is a narrow outbound port. A hosted-model adapter can be added
-without changing reconciliation or review policy. The in-memory review repository is
-also a port-bound prototype and can be replaced by a transactional database in a
-later phase. These boundaries let provider, storage and UI choices change without
+`AnalysisProvider` is a narrow outbound port. The OpenAI Responses adapter uses strict
+JSON Schema output and can be replaced without changing reconciliation or review policy.
+It is disabled by default and invoked only when a reviewer requests a refreshed diagnosis.
+Review cases and hash-linked events use a transactional SQLite repository with optimistic
+version checks. These boundaries let provider, storage and UI choices change without
 rewriting the finance engine.
+
+## End-to-end close loop
+
+Official-shape Razorpay settlement recon rows are contract-validated and normalized into
+the canonical batch. Bank and ledger CSV evidence are parsed with size, row and required-
+column limits. Unsupported or inconsistent Razorpay items remain quarantined. The close
+pack includes all group decisions, exceptions and audit events under a deterministic
+evidence hash; it explicitly records that no accounting post was performed.
 
 ## Evaluation plane
 

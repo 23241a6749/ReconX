@@ -5,6 +5,7 @@ import unittest
 from dataclasses import asdict, replace
 from datetime import UTC, datetime
 
+from reconx.adapters.openai import OpenAIProviderError, OpenAIResponsesProvider
 from reconx.application.analyst import (
     CircuitBreaker,
     ExceptionAnalyst,
@@ -54,6 +55,8 @@ def valid_output(**overrides: object) -> str:
         "cited_evidence_ids": ["bank_01"],
         "explanation": "The bank credit differs from the deterministic settlement total.",
         "suggested_action": "manual_reconcile",
+        "missing_evidence_types": ["bank_credit"],
+        "risk_level": "medium",
     }
     payload.update(overrides)
     return json.dumps(payload)
@@ -140,6 +143,50 @@ class AnalystTests(unittest.TestCase):
 
         self.assertEqual(asdict(group), before)
 
+    def test_bank_imbalance_is_not_misclassified_by_positive_ledger_marker(self) -> None:
+        result = ExceptionAnalyst().analyse(
+            AnalysisRequest(
+                case_id="precedence",
+                reason_codes=["EXACT_LEDGER_REFERENCE", "BANK_AMOUNT_IMBALANCE"],
+                evidence_ids=["bank_01", "ledger_01"],
+                deterministic_facts={"difference_paise": 1},
+            )
+        )
+
+        self.assertEqual(result.category.value, "settlement_mismatch")
+        self.assertEqual(result.suggested_action.value, "investigate_bank")
+
+    def test_openai_adapter_uses_strict_schema_and_extracts_output(self) -> None:
+        captured: dict[str, object] = {}
+
+        def transport(req, timeout):
+            captured["payload"] = json.loads(req.data)
+            captured["authorization"] = req.get_header("Authorization")
+            captured["timeout"] = timeout
+            return json.dumps({"output_text": valid_output()}).encode()
+
+        provider = OpenAIResponsesProvider("test-key", transport=transport)
+        result = provider.analyse("prompt", {"type": "object"}, 4.0)
+
+        self.assertEqual(result, valid_output())
+        self.assertEqual(captured["authorization"], "Bearer test-key")
+        payload = captured["payload"]
+        self.assertEqual(payload["text"]["format"]["type"], "json_schema")
+        self.assertTrue(payload["text"]["format"]["strict"])
+        self.assertFalse(payload["store"])
+
+    def test_openai_adapter_never_exposes_response_body_in_errors(self) -> None:
+        secret_body = "sensitive provider body"
+
+        def transport(req, timeout):
+            return secret_body.encode()
+
+        provider = OpenAIResponsesProvider("test-key", transport=transport)
+        with self.assertRaises(OpenAIProviderError) as raised:
+            provider.analyse("prompt", {"type": "object"}, 4.0)
+
+        self.assertNotIn(secret_body, str(raised.exception))
+
 
 class ReviewWorkflowTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -224,6 +271,19 @@ class ReviewWorkflowTests(unittest.TestCase):
 
         with self.assertRaises(ReviewValidationError):
             self.service.create_case(auto_group)
+
+    def test_reanalysis_updates_advice_but_not_finance_state(self) -> None:
+        case = self.service.create_case(self.group)
+        original_state = case.deterministic_state
+
+        refreshed = self.service.reanalyse(
+            case.id, actor="finance-reviewer", expected_version=case.version
+        )
+
+        self.assertEqual(refreshed.deterministic_state, original_state)
+        self.assertEqual(refreshed.status, ReviewStatus.PENDING)
+        self.assertEqual(refreshed.version, 2)
+        self.assertEqual(self.service.get_events(case.id)[-1].action, "analyse")
 
 
 class SafetyEvaluationTests(unittest.TestCase):

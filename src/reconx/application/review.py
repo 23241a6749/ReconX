@@ -6,6 +6,7 @@ import json
 from collections.abc import Callable
 from datetime import UTC, datetime
 from threading import Lock
+from typing import Protocol
 
 from reconx.application.analyst import ExceptionAnalyst
 from reconx.application.reconcile import ReconciliationGroup
@@ -23,6 +24,20 @@ class ReviewConflictError(RuntimeError):
 
 class ReviewValidationError(ValueError):
     pass
+
+
+class ReviewRepository(Protocol):
+    def create(self, case: ReviewCase, event: ReviewEvent) -> ReviewCase: ...
+
+    def list_cases(self) -> list[ReviewCase]: ...
+
+    def get(self, case_id: str) -> ReviewCase: ...
+
+    def update(
+        self, case: ReviewCase, event: ReviewEvent, expected_version: int
+    ) -> ReviewCase: ...
+
+    def events(self, case_id: str) -> list[ReviewEvent]: ...
 
 
 def _hash(payload: object) -> str:
@@ -79,7 +94,7 @@ class ReviewService:
     def __init__(
         self,
         analyst: ExceptionAnalyst,
-        repository: InMemoryReviewRepository | None = None,
+        repository: ReviewRepository | None = None,
         *,
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     ) -> None:
@@ -188,6 +203,55 @@ class ReviewService:
 
     def get_events(self, case_id: str) -> list[ReviewEvent]:
         return self.repository.events(case_id)
+
+    def reanalyse(
+        self,
+        case_id: str,
+        *,
+        actor: str,
+        expected_version: int,
+    ) -> ReviewCase:
+        """Refresh advisory analysis without changing the financial decision state."""
+
+        actor = actor.strip()
+        if len(actor) < 2 or len(actor) > 80:
+            raise ReviewValidationError("actor must contain 2-80 characters")
+        current = self.repository.get(case_id)
+        if current.version != expected_version:
+            raise ReviewConflictError(
+                f"stale review version: expected {expected_version}, current {current.version}"
+            )
+        previous_events = self.repository.events(case_id)
+        analysis = self.analyst.analyse(
+            AnalysisRequest(
+                case_id=current.id,
+                reason_codes=current.reason_codes,
+                evidence_ids=current.evidence_ids,
+                deterministic_facts={
+                    "settlement_id": current.settlement_id,
+                    "state": current.deterministic_state,
+                    "expected_bank_credit_paise": current.expected_bank_credit_paise,
+                    "actual_bank_credit_paise": current.actual_bank_credit_paise,
+                    "difference_paise": current.difference_paise,
+                },
+            )
+        )
+        timestamp = self._timestamp()
+        current.version += 1
+        current.analysis = analysis
+        current.updated_at = timestamp
+        event = self._event(
+            case_id=case_id,
+            version=current.version,
+            actor=actor,
+            action="analyse",
+            reason=f"advisory analysis refreshed via {analysis.provider}",
+            previous_status=current.status.value,
+            new_status=current.status.value,
+            previous_event_hash=previous_events[-1].event_hash,
+            occurred_at=timestamp,
+        )
+        return self.repository.update(current, event, expected_version)
 
     def decide(
         self,

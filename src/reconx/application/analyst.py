@@ -16,7 +16,7 @@ from reconx.domain.analysis import (
     SuggestedAction,
 )
 
-ANALYST_POLICY_VERSION = "exception-analyst/1.0"
+ANALYST_POLICY_VERSION = "exception-analyst/1.1"
 MAX_EXCERPT_LENGTH = 500
 MAX_EXPLANATION_LENGTH = 600
 MAX_ACTION_TEXT_LENGTH = 80
@@ -26,7 +26,19 @@ OUTPUT_KEYS = {
     "cited_evidence_ids",
     "explanation",
     "suggested_action",
+    "missing_evidence_types",
+    "risk_level",
 }
+EVIDENCE_TYPES = {
+    "bank_credit",
+    "fee_breakdown",
+    "human_confirmation",
+    "ledger_entry",
+    "source_payment_or_refund",
+    "supported_currency_record",
+    "unique_reference",
+}
+RISK_LEVELS = {"low", "medium", "high"}
 INJECTION_PATTERNS = (
     re.compile(r"ignore\s+(all\s+)?previous\s+instructions", re.IGNORECASE),
     re.compile(r"reveal\s+(the\s+)?system\s+prompt", re.IGNORECASE),
@@ -124,6 +136,12 @@ def output_schema() -> dict[str, Any]:
                 "type": "string",
                 "enum": [item.value for item in SuggestedAction],
             },
+            "missing_evidence_types": {
+                "type": "array",
+                "items": {"type": "string", "enum": sorted(EVIDENCE_TYPES)},
+                "uniqueItems": True,
+            },
+            "risk_level": {"type": "string", "enum": sorted(RISK_LEVELS)},
         },
     }
 
@@ -207,32 +225,73 @@ def _parse_output(raw_output: str, request: AnalysisRequest) -> dict[str, Any]:
         raise AnalysisValidationError("explanation must be non-empty text")
     if len(explanation) > MAX_EXPLANATION_LENGTH:
         raise AnalysisValidationError("explanation exceeds the configured limit")
+    missing_evidence = payload["missing_evidence_types"]
+    if not isinstance(missing_evidence, list) or any(
+        not isinstance(item, str) for item in missing_evidence
+    ):
+        raise AnalysisValidationError("missing_evidence_types must be an array of strings")
+    if len(missing_evidence) != len(set(missing_evidence)):
+        raise AnalysisValidationError("missing evidence types must be unique")
+    if set(missing_evidence) - EVIDENCE_TYPES:
+        raise AnalysisValidationError("provider returned an unknown missing evidence type")
+    risk_level = payload["risk_level"]
+    if risk_level not in RISK_LEVELS:
+        raise AnalysisValidationError("provider returned an unknown risk level")
     return {
         "category": category,
         "confidence": round(float(confidence), 4),
         "cited_evidence_ids": citations,
         "explanation": explanation.strip(),
         "suggested_action": action,
+        "missing_evidence_types": missing_evidence,
+        "risk_level": risk_level,
     }
 
 
 def _fallback_classification(reason_codes: list[str]) -> tuple[ExceptionCategory, SuggestedAction]:
-    joined = " ".join(reason_codes)
-    if "DUPLICATE" in joined or "CONFLICT" in joined or "ALREADY_MATCHED" in joined:
+    codes = set(reason_codes)
+    joined = " ".join(codes)
+    if any(token in joined for token in ("DUPLICATE", "CONFLICT", "ALREADY_MATCHED")):
         return ExceptionCategory.DUPLICATE_OR_CONFLICT, SuggestedAction.CORRECT_SOURCE_RECORD
-    if "FEE" in joined or "TAX" in joined or "RECON_FIELDS_MISMATCH" in joined:
+    if any(token in joined for token in ("FEE", "TAX", "RECON_FIELDS_MISMATCH")):
         return ExceptionCategory.FEE_OR_TAX_MISMATCH, SuggestedAction.CORRECT_SOURCE_RECORD
-    if "LEDGER" in joined:
+    if "BANK_AMOUNT_IMBALANCE" in codes:
+        return ExceptionCategory.SETTLEMENT_MISMATCH, SuggestedAction.INVESTIGATE_BANK
+    if "LEDGER_CONFIRMATION_MISSING" in codes:
         return ExceptionCategory.MISSING_LEDGER_ENTRY, SuggestedAction.VERIFY_LEDGER
+    if "LEDGER_AMOUNT_MISMATCH" in codes:
+        return ExceptionCategory.SETTLEMENT_MISMATCH, SuggestedAction.VERIFY_LEDGER
     if "AMBIGUOUS" in joined:
         return ExceptionCategory.REFERENCE_AMBIGUITY, SuggestedAction.MANUAL_RECONCILE
     if "POST_SETTLEMENT" in joined or "DATE" in joined:
         return ExceptionCategory.TIMING_DIFFERENCE, SuggestedAction.WAIT_AND_RECHECK
     if "CURRENCY" in joined or "UNSUPPORTED" in joined:
         return ExceptionCategory.UNSUPPORTED_RECORD, SuggestedAction.CORRECT_SOURCE_RECORD
-    if "BANK" in joined or "UTR" in joined:
+    if any(token in joined for token in ("BANK", "UTR")):
         return ExceptionCategory.MISSING_BANK_CREDIT, SuggestedAction.INVESTIGATE_BANK
     return ExceptionCategory.SETTLEMENT_MISMATCH, SuggestedAction.MANUAL_RECONCILE
+
+
+def fallback_evidence_and_risk(reason_codes: list[str]) -> tuple[list[str], str]:
+    joined = " ".join(reason_codes)
+    evidence: set[str] = set()
+    if "BANK" in joined or "UTR" in joined:
+        evidence.add("bank_credit")
+    if "LEDGER" in joined:
+        evidence.add("ledger_entry")
+    if "AMBIGUOUS" in joined or "DUPLICATE" in joined or "CONFLICT" in joined:
+        evidence.add("unique_reference")
+    if "PAYMENT" in joined or "REFUND" in joined:
+        evidence.add("source_payment_or_refund")
+    if "FEE" in joined or "TAX" in joined:
+        evidence.add("fee_breakdown")
+    if "CURRENCY" in joined or "UNSUPPORTED" in joined:
+        evidence.add("supported_currency_record")
+    if not evidence:
+        evidence.add("human_confirmation")
+    high_risk_tokens = ("DUPLICATE", "CONFLICT", "CURRENCY", "NON_POSITIVE")
+    risk = "high" if any(token in joined for token in high_risk_tokens) else "medium"
+    return sorted(evidence), risk
 
 
 def _output_hash(payload: dict[str, Any]) -> str:
@@ -292,6 +351,7 @@ class ExceptionAnalyst:
             fallback_reason = "circuit_open"
 
         category, action = _fallback_classification(request.reason_codes)
+        missing_evidence, risk_level = fallback_evidence_and_risk(request.reason_codes)
         fallback_payload = {
             "category": category.value,
             "confidence": 1.0,
@@ -299,6 +359,8 @@ class ExceptionAnalyst:
             "explanation": "Deterministic classification from policy reason codes: "
             + ", ".join(request.reason_codes[:8]),
             "suggested_action": action.value,
+            "missing_evidence_types": missing_evidence,
+            "risk_level": risk_level,
         }
         return ExceptionAnalysis(
             category=category,
@@ -312,4 +374,6 @@ class ExceptionAnalyst:
             fallback_reason=fallback_reason,
             security_flags=flags,
             output_hash=_output_hash(fallback_payload),
+            missing_evidence_types=missing_evidence,
+            risk_level=risk_level,
         )

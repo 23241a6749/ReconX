@@ -20,7 +20,7 @@ The form states that the official final submission cannot be changed after submi
 |---|---|
 | Selected Track | Track 4: AI Finance Controller |
 | Project Name / Title | ReconX — Evidence-First AI Finance Controller |
-| GitHub Repository URL | `https://github.com/23241a6749/ReconX` after publication |
+| GitHub Repository URL | `https://github.com/23241a6749/ReconX` |
 | 5-min Pitch Video Link | `[NEEDED AFTER RECORDING AND PUBLIC-VIEW TEST]` |
 
 ### Project Objectives — paste-ready answer
@@ -33,6 +33,9 @@ and preserves a complete audit and exception trail. On a separately seeded synth
 held-out batch of 1,400 records across 110 settlement groups, it achieved 100% precision
 on 65 safely automated groups, 100% coverage of eligible groups versus 76.9231% for an
 exact-ID baseline, zero false matches and a complete list of 45 non-automated cases.
+All 40 actionable exceptions enter a durable human-review queue; quarantined input cases
+remain visible. The system also converts exported Razorpay, bank and ledger evidence into
+a hash-verifiable close pack without giving AI authority over financial state.
 
 ### Build Challenges & Technical Obstacles — paste-ready answer
 

@@ -80,6 +80,18 @@ class ReconciliationTests(unittest.TestCase):
         self.assertEqual(result.exceptions[0].code, "UNMATCHED_LEDGER_ENTRY")
         self.assertEqual(result.exceptions[0].source_record_ids, ["ledger_orphan_01"])
 
+    def test_non_positive_expected_credit_never_auto_approves(self) -> None:
+        batch = build_demo_batch()
+        batch.refunds[0] = replace(batch.refunds[0], amount_paise=800_000)
+        batch.settlement_lines[-1] = replace(batch.settlement_lines[-1], amount_paise=800_000)
+        batch.bank_entries[0] = replace(batch.bank_entries[0], amount_paise=-67_700)
+        batch.ledger_entries[0] = replace(batch.ledger_entries[0], amount_paise=-67_700)
+
+        group = reconcile_batch(batch).groups[0]
+
+        self.assertEqual(group.state, DecisionState.UNRESOLVED)
+        self.assertIn("NON_POSITIVE_EXPECTED_BANK_CREDIT", group.reason_codes)
+
     def test_tax_cannot_exceed_fee(self) -> None:
         with self.assertRaisesRegex(ValueError, "tax must be a component of fee"):
             Payment(

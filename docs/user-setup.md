@@ -61,10 +61,19 @@ make real payments.
 7. Never commit it. The key secret is not shown again; regenerate it if lost.
 8. On your own machine, copy `.env.example` to `.env` and set `RAZORPAY_KEY_ID` and
    `RAZORPAY_KEY_SECRET`. The `.env` file is already ignored by Git.
+9. Set `ENABLE_RAZORPAY_IMPORT=true` only when you want an explicit Test Mode fetch.
 
 Official guide: <https://razorpay.com/docs/payments/dashboard/account-settings/api-keys/>
 
-## 4. Configure the Test Mode webhook after deployment
+## 4. Optional advisory AI
+
+The deterministic engine, review workflow and close pack do not require AI. To enable
+on-demand exception explanations, create an OpenAI API key in your own account, store it
+only as `OPENAI_API_KEY` in `.env` or your deployment secret manager, and set
+`ENABLE_LLM=true`. Never paste the key into chat or commit it. The model can classify and
+explain; it cannot approve, post, or mutate finance state.
+
+## 5. Configure the Test Mode webhook after deployment
 
 You need a deployed public HTTPS URL first; localhost is not accepted directly.
 
@@ -87,7 +96,7 @@ Official guides:
 - <https://razorpay.com/docs/webhooks/setup-edit-payments>
 - <https://razorpay.com/docs/webhooks/validate-test/>
 
-## 5. Record and publish the pitch video
+## 6. Record and publish the pitch video
 
 1. Follow `docs/demo-script.md` and record at 1080p landscape.
 2. Keep the finished video at or below five minutes.
@@ -97,7 +106,7 @@ Official guides:
 5. Confirm video and audio play without requesting access.
 6. Send the public-viewable URL, not the video-account password.
 
-## 6. Final form submission
+## 7. Final form submission
 
 1. Open <https://forms.gle/d9r2gvxp8cmoZhon9>.
 2. Use the reviewed answers in `docs/submission.md`.

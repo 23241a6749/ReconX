@@ -2,44 +2,88 @@ from __future__ import annotations
 
 import json
 import os
-from dataclasses import replace
 from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
 
+from reconx.adapters.openai import OpenAIResponsesProvider
 from reconx.adapters.razorpay import WebhookSecret
 from reconx.application.analyst import DisabledProvider, ExceptionAnalyst
+from reconx.application.ingest import ingest_raw_batch
 from reconx.application.reconcile import reconcile_batch
 from reconx.application.review import ReviewService
 from reconx.application.webhooks import RazorpayWebhookService
 from reconx.evaluation.heldout import dashboard_payload, run_heldout_evaluation
+from reconx.infrastructure.review_store import SQLiteReviewRepository
 from reconx.infrastructure.webhook_store import SQLiteWebhookStore
-from reconx.synthetic.generator import build_demo_batch
 from reconx.synthetic.heldout import build_heldout_dataset
 
 DEMO_TIME = datetime(2026, 8, 31, 10, 0, tzinfo=UTC)
 ROOT = Path(__file__).resolve().parents[3]
 
 
-def build_demo_review_service() -> ReviewService:
-    """Create one safe, deterministic review-first workflow for the UI."""
+def _enabled(name: str) -> bool:
+    return os.environ.get(name, "false").strip().lower() in {"1", "true", "yes", "on"}
 
-    batch = build_demo_batch()
-    batch.bank_entries[0] = replace(batch.bank_entries[0], amount_paise=682_301)
+
+@lru_cache(maxsize=1)
+def build_exception_analyst() -> ExceptionAnalyst:
+    if not _enabled("ENABLE_LLM"):
+        return ExceptionAnalyst(DisabledProvider())
+    key = os.environ.get("OPENAI_API_KEY", "")
+    if not key:
+        return ExceptionAnalyst(DisabledProvider())
+    return ExceptionAnalyst(
+        OpenAIResponsesProvider(
+            key,
+            model=os.environ.get("OPENAI_MODEL", "gpt-5.4-mini"),
+            endpoint=os.environ.get(
+                "OPENAI_RESPONSES_URL", "https://api.openai.com/v1/responses"
+            ),
+        )
+    )
+
+
+def analyst_runtime() -> dict[str, str | bool]:
+    analyst = build_exception_analyst()
+    enabled = analyst.provider.name != "disabled"
+    return {
+        "enabled": enabled,
+        "provider": analyst.provider.name,
+        "mode": "advisory_only" if enabled else "deterministic_fallback",
+    }
+
+
+@lru_cache(maxsize=1)
+def build_demo_review_service() -> ReviewService:
+    """Build the held-out exception queue without spending model tokens at startup."""
+
+    raw, _, _ = build_heldout_dataset()
+    batch = ingest_raw_batch(raw).batch
     result = reconcile_batch(batch)
-    group = result.groups[0]
+    database = Path(
+        os.environ.get("RECONX_REVIEW_DB", str(ROOT / "data" / "runtime" / "reviews.sqlite3"))
+    )
     service = ReviewService(
-        ExceptionAnalyst(DisabledProvider()),
+        build_exception_analyst(),
+        repository=SQLiteReviewRepository(database),
         clock=lambda: DEMO_TIME,
     )
-    service.create_case(
-        group,
-        evidence_excerpts={
-            batch.bank_entries[0].id: batch.bank_entries[0].narration,
-            batch.ledger_entries[0].id: "Internal settlement ledger entry",
-        },
-        occurred_at=DEMO_TIME.isoformat().replace("+00:00", "Z"),
-    )
+    runtime_analyst = service.analyst
+    service.analyst = ExceptionAnalyst(DisabledProvider())
+    bank_excerpts = {item.id: item.narration for item in batch.bank_entries}
+    for group in result.groups:
+        if group.state.value != "auto_approved":
+            service.create_case(
+                group,
+                evidence_excerpts={
+                    evidence_id: bank_excerpts[evidence_id]
+                    for evidence_id in group.evidence_ids
+                    if evidence_id in bank_excerpts
+                },
+                occurred_at=DEMO_TIME.isoformat().replace("+00:00", "Z"),
+            )
+    service.analyst = runtime_analyst
     return service
 
 

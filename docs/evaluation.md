@@ -60,8 +60,8 @@ authority plus deterministic validation and human review.
 
 ## Phase 4 held-out contract
 
-The v2 reconciliation policy is stored in
-`policies/reconciliation-policy-v2.json`. A regression test requires the file to match
+The v2.1 reconciliation policy is stored in
+`policies/reconciliation-policy-v2.1.json`. A regression test requires the file to match
 the runtime policy exactly, and its SHA-256 is embedded in the held-out manifest. The
 evaluator refuses to run if the raw batch, ground truth, policy hash, batch identity or
 split label has changed.

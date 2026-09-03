@@ -35,6 +35,11 @@ RAZORPAY_WEBHOOK_PREVIOUS_SECRET=<previous secret during rotation, optional>
 RECONX_WEBHOOK_DB=data/runtime/webhooks.sqlite3
 RAZORPAY_KEY_ID=<test API key id, only for recon fetch>
 RAZORPAY_KEY_SECRET=<test API key secret, only for recon fetch>
+ENABLE_RAZORPAY_IMPORT=false
+ENABLE_LLM=false
+OPENAI_API_KEY=<optional; only for on-demand advisory analysis>
+OPENAI_MODEL=gpt-5.4-mini
+RECONX_REVIEW_DB=data/runtime/reviews.sqlite3
 ```
 
 The webhook secret is independent of the API key secret. ReconX requires a webhook
@@ -84,6 +89,18 @@ It uses Basic API authentication, caps timeout at five seconds and limits the re
 to 1 MiB. Payment net-credit, refund debit, adjustment amount and inclusive-fee/tax
 relationships are checked. Invalid or unsupported items are marked unsafe for
 reconciliation; they are never forced into canonical finance truth.
+
+The guarded runtime endpoint is `POST /api/import/razorpay/{YYYY-MM-DD}`. Set
+`ENABLE_RAZORPAY_IMPORT=true` only in an environment that contains Test Mode API
+credentials. This endpoint deliberately returns unresolved groups until independent
+bank and ledger evidence is supplied.
+
+For a complete offline or exported-data loop, `POST /api/import/reconcile` accepts an
+official-shape recon object and bank/ledger CSV text. The UI provides three file inputs,
+runs the same policy, and downloads the resulting close pack. Input evidence is not sent
+to the advisory model. A fully synthetic demo triplet is included under
+`fixtures/razorpay/`: `settlement-recon-close-demo.json`, `bank-evidence.csv` and
+`ledger-evidence.csv`.
 
 ## Verification
 

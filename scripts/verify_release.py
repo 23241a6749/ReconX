@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 from pathlib import Path
 
 
@@ -34,8 +35,25 @@ SECRET_ENV_KEYS = {
     "RAZORPAY_KEY_SECRET",
     "RAZORPAY_WEBHOOK_SECRET",
     "RAZORPAY_WEBHOOK_PREVIOUS_SECRET",
+    "OPENAI_API_KEY",
 }
-TEXT_SUFFIXES = {"", ".css", ".html", ".js", ".json", ".md", ".py", ".toml", ".yml", ".yaml"}
+TEXT_SUFFIXES = {
+    "",
+    ".css",
+    ".html",
+    ".js",
+    ".json",
+    ".md",
+    ".py",
+    ".toml",
+    ".txt",
+    ".yml",
+    ".yaml",
+}
+ENV_ASSIGNMENT = re.compile(
+    r"^\s*(RAZORPAY_KEY_ID|RAZORPAY_KEY_SECRET|RAZORPAY_WEBHOOK_SECRET|"
+    r"RAZORPAY_WEBHOOK_PREVIOUS_SECRET|OPENAI_API_KEY)\s*=\s*(.*?)\s*$"
+)
 
 
 def load_report(name: str) -> dict:
@@ -52,6 +70,46 @@ def env_example_is_safe() -> bool:
     return all(assignments.get(key) == "" for key in SECRET_ENV_KEYS)
 
 
+def repository_candidate_files() -> list[Path]:
+    """Return tracked and untracked-but-not-ignored files when Git is available."""
+
+    try:
+        completed = subprocess.run(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return [path for path in ROOT.rglob("*") if path.is_file()]
+    return [ROOT / item.decode("utf-8") for item in completed.stdout.split(b"\0") if item]
+
+
+def unignored_secret_config_files() -> list[str]:
+    return sorted(
+        str(path.relative_to(ROOT))
+        for path in repository_candidate_files()
+        if path.name.lower().startswith(".env") and path.name != ".env.example"
+    )
+
+
+def _contains_non_placeholder_assignment(content: str) -> bool:
+    for line in content.splitlines():
+        matched = ENV_ASSIGNMENT.fullmatch(line)
+        if not matched:
+            continue
+        value = matched.group(2).strip().strip('"\'')
+        if not value:
+            continue
+        lowered = value.lower()
+        if value.startswith("<") or value.startswith("${"):
+            continue
+        if "your_" in lowered or "example" in lowered or "placeholder" in lowered:
+            continue
+        return True
+    return False
+
+
 def suspicious_secret_files() -> list[str]:
     # Split tokens keep the scanner from matching its own pattern definitions.
     patterns = (
@@ -62,7 +120,7 @@ def suspicious_secret_files() -> list[str]:
     )
     hits = []
     excluded_parts = {".git", ".venv", "__pycache__", "data", "artifacts"}
-    for path in ROOT.rglob("*"):
+    for path in repository_candidate_files():
         if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
             continue
         if path == Path(__file__).resolve() or excluded_parts.intersection(path.parts):
@@ -71,7 +129,9 @@ def suspicious_secret_files() -> list[str]:
             content = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
-        if any(pattern.search(content) for pattern in patterns):
+        if any(pattern.search(content) for pattern in patterns) or _contains_non_placeholder_assignment(
+            content
+        ):
             hits.append(str(path.relative_to(ROOT)))
     return sorted(hits)
 
@@ -83,11 +143,13 @@ def main() -> int:
     phase5 = load_report("phase5-integration-report.json")
     missing = sorted(path for path in REQUIRED_FILES if not (ROOT / path).is_file())
     secret_hits = suspicious_secret_files()
+    unsafe_secret_configs = unignored_secret_config_files()
 
     checks = {
         "required_submission_files_present": not missing,
         "secret_environment_values_blank": env_example_is_safe(),
         "common_live_secret_patterns_absent": not secret_hits,
+        "unignored_secret_config_files_absent": not unsafe_secret_configs,
         "phase2_gate_passed": phase2.get("phase_gate_passed") is True,
         "phase3_gate_passed": phase3.get("phase_gate_passed") is True,
         "phase3_ai_is_advisory_only": phase3.get("model_authority") == "advisory_only",
@@ -106,6 +168,8 @@ def main() -> int:
         print("Missing files: " + ", ".join(missing))
     if secret_hits:
         print("Potential secret patterns found in: " + ", ".join(secret_hits))
+    if unsafe_secret_configs:
+        print("Unignored secret configuration files: " + ", ".join(unsafe_secret_configs))
     passed = sum(checks.values())
     print(f"Release gate: {passed}/{len(checks)} checks passed")
     return 0 if all(checks.values()) else 1

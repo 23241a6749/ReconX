@@ -48,6 +48,8 @@ class ExceptionAnalysis:
     fallback_reason: str | None = None
     security_flags: list[str] = field(default_factory=list)
     output_hash: str = ""
+    missing_evidence_types: list[str] = field(default_factory=list)
+    risk_level: str = "medium"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -62,5 +64,6 @@ class ExceptionAnalysis:
             "fallback_reason": self.fallback_reason,
             "security_flags": self.security_flags,
             "output_hash": self.output_hash,
+            "missing_evidence_types": self.missing_evidence_types,
+            "risk_level": self.risk_level,
         }
-
