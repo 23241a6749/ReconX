@@ -34,6 +34,13 @@ created by deliberate scenarios such as duplicate delivery, conflicting duplicat
 multiple partial refunds, amount collision, duplicate bank credit, split ledger,
 orphan ledger, corrupt input and equal-score ambiguity.
 
+Raw ingestion accepts 1,335 canonical rows, observes 10 duplicate records, quarantines
+60 raw rows and emits 95 validation findings. These figures are not additive partitions:
+conflicting duplicates are counted as duplicate observations and their two conflicting
+rows are quarantined. The finding count also includes follow-on warnings when a
+quarantined parent leaves a settlement or entity reference unresolved. The full issue
+ledger is retained in the Phase 4 machine-readable report.
+
 ## What “correct” means here
 
 Every ID, timestamp and amount is fictional. The amounts are integer currency subunits,

@@ -237,6 +237,7 @@ def run_heldout_evaluation(
         ),
         "manifest": manifest,
         "input_integrity": integrity,
+        "ingestion": evaluation["ingestion"],
         "policy_contract_sha256": policy_contract_hash(),
         "decision_reproducibility": {
             "runs": reproducibility_runs,
@@ -280,6 +281,7 @@ def dashboard_payload(report: dict[str, Any]) -> dict[str, Any]:
 
     manifest = report["manifest"]
     provenance = manifest["provenance"]
+    ingestion = report["ingestion"]
     return {
         "evaluation": report["evaluation"],
         "synthetic": report["synthetic"],
@@ -299,6 +301,9 @@ def dashboard_payload(report: dict[str, Any]) -> dict[str, Any]:
             "seed": manifest["seed"],
             "scenario_count": manifest["scenario_count"],
             "source_record_counts": manifest["source_record_counts"],
+            "validation_summary": {
+                key: value for key, value in ingestion.items() if key != "issues"
+            },
             "raw_batch_sha256": manifest["raw_batch_sha256"],
             "ground_truth_sha256": manifest["ground_truth_sha256"],
             "input_integrity_verified": all(report["input_integrity"].values()),

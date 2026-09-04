@@ -107,6 +107,9 @@ async function loadHeldout() {
   $("heldout-source-counts").innerHTML = Object.entries(provenance.source_record_counts)
     .map(([source, count]) => `<span class="exception-chip">${escapeHtml(label(source))}: ${integer(count)}</span>`)
     .join("");
+  $("heldout-validation-counts").innerHTML = Object.entries(provenance.validation_summary)
+    .map(([measure, count]) => `<span class="exception-chip">${escapeHtml(label(measure))}: ${integer(count)}</span>`)
+    .join("");
   $("heldout-input-hashes").textContent =
     `Inputs verified: ${provenance.input_integrity_verified ? "yes" : "no"} · ` +
     `Generator: ${provenance.generator_version} · Raw: ${provenance.raw_batch_sha256} · ` +

@@ -141,6 +141,11 @@ class PhaseFourTests(unittest.TestCase):
         self.assertEqual(summary["false_matches"], 0)
         self.assertEqual(summary["exceptions_not_auto_resolved"], 45)
         self.assertEqual(summary["unexpected_exceptions"], 0)
+        self.assertEqual(self.evaluation["ingestion"]["raw_record_count"], 1400)
+        self.assertEqual(self.evaluation["ingestion"]["accepted_record_count"], 1335)
+        self.assertEqual(self.evaluation["ingestion"]["duplicate_record_count"], 10)
+        self.assertEqual(self.evaluation["ingestion"]["quarantined_record_count"], 60)
+        self.assertEqual(self.evaluation["ingestion"]["issue_count"], 95)
 
     def test_candidate_beats_baseline_without_hiding_exceptions(self) -> None:
         candidate = self.evaluation["candidate_engine"]
@@ -183,6 +188,16 @@ class PhaseFourTests(unittest.TestCase):
         self.assertFalse(payload["data_provenance"]["contains_real_merchant_data"])
         self.assertEqual(
             sum(payload["data_provenance"]["source_record_counts"].values()), 1400
+        )
+        self.assertEqual(
+            payload["data_provenance"]["validation_summary"],
+            {
+                "raw_record_count": 1400,
+                "accepted_record_count": 1335,
+                "duplicate_record_count": 10,
+                "quarantined_record_count": 60,
+                "issue_count": 95,
+            },
         )
 
 

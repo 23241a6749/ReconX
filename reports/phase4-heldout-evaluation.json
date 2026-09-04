@@ -14,13 +14,13 @@
     "auto_approved": 65,
     "auto_match_precision": 1.0,
     "auto_reconciliation_coverage": 1.0,
-    "elapsed_ms": 52.049199999601115,
+    "elapsed_ms": 56.674899999052286,
     "eligible_for_auto": 65,
     "false_match_rate": 0.0,
     "missing_groups_after_quarantine": 5,
     "review_required": 10,
     "safe_auto_precision": 1.0,
-    "throughput_records_per_second": 25648.81,
+    "throughput_records_per_second": 23555.4,
     "unresolved_groups": 30,
     "unsafe_auto_approval_count": 0,
     "unsafe_scenario_detection_recall": 1.0
@@ -38,13 +38,13 @@
     "auto_approved": 50,
     "auto_match_precision": 1.0,
     "auto_reconciliation_coverage": 0.769231,
-    "elapsed_ms": 54.27159999817377,
+    "elapsed_ms": 52.760500002477784,
     "eligible_for_auto": 65,
     "false_match_rate": 0.0,
     "missing_groups_after_quarantine": 5,
     "review_required": 10,
     "safe_auto_precision": 1.0,
-    "throughput_records_per_second": 24598.5,
+    "throughput_records_per_second": 25303.02,
     "unresolved_groups": 45,
     "unsafe_auto_approval_count": 0,
     "unsafe_scenario_detection_recall": 1.0
@@ -671,6 +671,775 @@
     "zero_false_matches": true,
     "zero_unsafe_auto_approvals": true
   },
+  "ingestion": {
+    "accepted_record_count": 1335,
+    "duplicate_record_count": 10,
+    "issue_count": 95,
+    "issues": [
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 39,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2182_1",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 86,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2182_3",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 97,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2175_3",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 116,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2518_2",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 118,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2119_2",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 133,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2056_2",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 141,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2056_3",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 145,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2182_2",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 184,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2119_1",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 204,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2175_2",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 211,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2175_1",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 271,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2518_1",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 296,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2056_1",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 305,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2518_3",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 316,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "order_hold_2119_3",
+        "severity": "error",
+        "source": "orders"
+      },
+      {
+        "code": "SCHEMA_VALIDATION_FAILED",
+        "index": 6,
+        "message": "Payment.__init__() missing 4 required positional arguments: 'amount_paise', 'fee_paise', 'tax_paise', and 'created_at'",
+        "record_id": "pay_hold_2021_corrupt",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "SCHEMA_VALIDATION_FAILED",
+        "index": 13,
+        "message": "Payment.__init__() missing 4 required positional arguments: 'amount_paise', 'fee_paise', 'tax_paise', and 'created_at'",
+        "record_id": "pay_hold_2721_corrupt",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 27,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2182_3",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 63,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2119_3",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "SCHEMA_VALIDATION_FAILED",
+        "index": 68,
+        "message": "Payment.__init__() missing 4 required positional arguments: 'amount_paise', 'fee_paise', 'tax_paise', and 'created_at'",
+        "record_id": "pay_hold_2735_corrupt",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "SCHEMA_VALIDATION_FAILED",
+        "index": 69,
+        "message": "Payment.__init__() missing 4 required positional arguments: 'amount_paise', 'fee_paise', 'tax_paise', and 'created_at'",
+        "record_id": "pay_hold_2147_corrupt",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 95,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2056_2",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "SCHEMA_VALIDATION_FAILED",
+        "index": 110,
+        "message": "Payment.__init__() missing 4 required positional arguments: 'amount_paise', 'fee_paise', 'tax_paise', and 'created_at'",
+        "record_id": "pay_hold_2665_corrupt",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "CONFLICTING_DUPLICATE_QUARANTINED",
+        "index": 112,
+        "message": "Duplicate id has a different payload.",
+        "record_id": "pay_hold_2343_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 114,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2056_3",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "CONFLICTING_DUPLICATE_QUARANTINED",
+        "index": 138,
+        "message": "Duplicate id has a different payload.",
+        "record_id": "pay_hold_2154_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 139,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2119_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "DUPLICATE_RECORD_DEDUPED",
+        "index": 144,
+        "message": "Exact duplicate was ignored idempotently.",
+        "record_id": "pay_hold_2245_1",
+        "severity": "warning",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 145,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2175_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 146,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2175_3",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 158,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2182_2",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 162,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2119_2",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 188,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2175_2",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 221,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2518_2",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 222,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2518_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "DUPLICATE_RECORD_DEDUPED",
+        "index": 236,
+        "message": "Exact duplicate was ignored idempotently.",
+        "record_id": "pay_hold_2560_1",
+        "severity": "warning",
+        "source": "payments"
+      },
+      {
+        "code": "DUPLICATE_RECORD_DEDUPED",
+        "index": 242,
+        "message": "Exact duplicate was ignored idempotently.",
+        "record_id": "pay_hold_2679_1",
+        "severity": "warning",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 258,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2182_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 261,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2056_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 283,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "pay_hold_2518_3",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "CONFLICTING_DUPLICATE_QUARANTINED",
+        "index": 316,
+        "message": "Duplicate id has a different payload.",
+        "record_id": "pay_hold_2133_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "DUPLICATE_RECORD_DEDUPED",
+        "index": 318,
+        "message": "Exact duplicate was ignored idempotently.",
+        "record_id": "pay_hold_2280_1",
+        "severity": "warning",
+        "source": "payments"
+      },
+      {
+        "code": "DUPLICATE_RECORD_DEDUPED",
+        "index": 329,
+        "message": "Exact duplicate was ignored idempotently.",
+        "record_id": "pay_hold_2455_1",
+        "severity": "warning",
+        "source": "payments"
+      },
+      {
+        "code": "CONFLICTING_DUPLICATE_QUARANTINED",
+        "index": 342,
+        "message": "Duplicate id has a different payload.",
+        "record_id": "pay_hold_2042_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "CONFLICTING_DUPLICATE_QUARANTINED",
+        "index": 344,
+        "message": "Duplicate id has a different payload.",
+        "record_id": "pay_hold_2329_1",
+        "severity": "error",
+        "source": "payments"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 22,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "setl_hold_2119",
+        "severity": "error",
+        "source": "settlements"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 24,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "setl_hold_2518",
+        "severity": "error",
+        "source": "settlements"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 31,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "setl_hold_2056",
+        "severity": "error",
+        "source": "settlements"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 46,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "setl_hold_2182",
+        "severity": "error",
+        "source": "settlements"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 56,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "setl_hold_2175",
+        "severity": "error",
+        "source": "settlements"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 1,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "bank_hold_2518",
+        "severity": "error",
+        "source": "bank_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 55,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "bank_hold_2175",
+        "severity": "error",
+        "source": "bank_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 77,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "bank_hold_2056",
+        "severity": "error",
+        "source": "bank_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 87,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "bank_hold_2182",
+        "severity": "error",
+        "source": "bank_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 117,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "bank_hold_2119",
+        "severity": "error",
+        "source": "bank_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 18,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "ledger_hold_2182",
+        "severity": "error",
+        "source": "ledger_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 48,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "ledger_hold_2056",
+        "severity": "error",
+        "source": "ledger_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 54,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "ledger_hold_2518",
+        "severity": "error",
+        "source": "ledger_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 67,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "ledger_hold_2175",
+        "severity": "error",
+        "source": "ledger_entries"
+      },
+      {
+        "code": "UNSUPPORTED_CURRENCY",
+        "index": 96,
+        "message": "Currency 'USD' is outside this build's supported scope.",
+        "record_id": "ledger_hold_2119",
+        "severity": "error",
+        "source": "ledger_entries"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2056 is missing.",
+        "record_id": "line_hold_2056_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2056_1 is missing.",
+        "record_id": "line_hold_2056_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2182 is missing.",
+        "record_id": "line_hold_2182_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2182_3 is missing.",
+        "record_id": "line_hold_2182_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2154_1 is missing.",
+        "record_id": "line_hold_2154_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2042_1 is missing.",
+        "record_id": "line_hold_2042_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2343_1 is missing.",
+        "record_id": "line_hold_2343_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2182 is missing.",
+        "record_id": "line_hold_2182_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2182_1 is missing.",
+        "record_id": "line_hold_2182_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2133_1 is missing.",
+        "record_id": "line_hold_2133_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2518 is missing.",
+        "record_id": "line_hold_2518_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2518_3 is missing.",
+        "record_id": "line_hold_2518_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2175 is missing.",
+        "record_id": "line_hold_2175_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2175_3 is missing.",
+        "record_id": "line_hold_2175_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2518 is missing.",
+        "record_id": "line_hold_2518_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2518_1 is missing.",
+        "record_id": "line_hold_2518_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2175 is missing.",
+        "record_id": "line_hold_2175_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2175_1 is missing.",
+        "record_id": "line_hold_2175_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2119 is missing.",
+        "record_id": "line_hold_2119_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2119_1 is missing.",
+        "record_id": "line_hold_2119_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2056 is missing.",
+        "record_id": "line_hold_2056_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2056_3 is missing.",
+        "record_id": "line_hold_2056_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2329_1 is missing.",
+        "record_id": "line_hold_2329_pay_1",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2119 is missing.",
+        "record_id": "line_hold_2119_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2119_3 is missing.",
+        "record_id": "line_hold_2119_pay_3",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2056 is missing.",
+        "record_id": "line_hold_2056_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2056_2 is missing.",
+        "record_id": "line_hold_2056_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2119 is missing.",
+        "record_id": "line_hold_2119_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2119_2 is missing.",
+        "record_id": "line_hold_2119_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2175 is missing.",
+        "record_id": "line_hold_2175_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2175_2 is missing.",
+        "record_id": "line_hold_2175_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2182 is missing.",
+        "record_id": "line_hold_2182_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2182_2 is missing.",
+        "record_id": "line_hold_2182_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "SETTLEMENT_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Settlement setl_hold_2518 is missing.",
+        "record_id": "line_hold_2518_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      },
+      {
+        "code": "ENTITY_REFERENCE_NOT_FOUND",
+        "index": null,
+        "message": "Entity pay_hold_2518_2 is missing.",
+        "record_id": "line_hold_2518_pay_2",
+        "severity": "warning",
+        "source": "settlement_lines"
+      }
+    ],
+    "quarantined_record_count": 60,
+    "raw_record_count": 1400
+  },
   "input_integrity": {
     "batch_ids_agree": true,
     "ground_truth_hash_matches_manifest": true,
@@ -746,13 +1515,13 @@
   "synthetic": true,
   "throughput": {
     "environment_note": "Local single-process result; hardware-dependent, not a service SLO.",
-    "fastest_records_per_second": 23909.8,
+    "fastest_records_per_second": 24367.57,
     "measured_runs": 7,
-    "median_records_per_second": 23593.93,
-    "p95_records_per_second": 23909.8,
+    "median_records_per_second": 22666.85,
+    "p95_records_per_second": 24367.57,
     "records_per_run": 1400,
     "scope": "validation_normalisation_and_candidate_reconciliation",
-    "slowest_records_per_second": 20605.93,
+    "slowest_records_per_second": 21985.96,
     "warmup_runs": 2
   }
 }

@@ -175,6 +175,16 @@ def main() -> int:
         )
         is False
         and phase4_provenance.get("contains_customer_personal_data") is False,
+        "phase4_ingestion_is_fully_accounted": phase4.get("ingestion", {}).get(
+            "raw_record_count"
+        )
+        == 1400
+        and phase4.get("ingestion", {}).get("accepted_record_count") == 1335
+        and phase4.get("ingestion", {}).get("duplicate_record_count") == 10
+        and phase4.get("ingestion", {}).get("quarantined_record_count") == 60
+        and phase4.get("ingestion", {}).get("issue_count")
+        == len(phase4.get("ingestion", {}).get("issues", []))
+        == 95,
         "phase5_gate_passed": phase5.get("phase_gate_passed") is True,
         "phase5_all_controls_passed": phase5.get("passed") == phase5.get("total") == 19,
         "phase5_contains_no_live_call_claim": phase5.get("live_razorpay_call_made") is False,
