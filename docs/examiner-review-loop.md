@@ -79,6 +79,28 @@ Residual limitations that keep the score below 10:
   or role system;
 - the held-out generator is public, not independently sequestered.
 
+### Version 4 — human-cadence narration master: 9.8/10
+
+Changes and acceptance evidence:
+
+- replaced the uniform cloud-neural read with one consistent, locally generated
+  Kokoro-82M narrator selected from three same-passage samples;
+- rewrote narration into conversational spoken English with contractions, varied
+  sentence length, intentional pauses and restrained Indian-English phrasing;
+- kept the generated-voice disclosure explicit and used no real-person clone;
+- corrected difficult finance and local-language pronunciations with phonetic synthesis
+  input while preserving correct spellings in subtitles;
+- finished at 4:51.50 with 1080p H.264, 48 kHz AAC, embedded English subtitles, a
+  clean full decode, −16.5 dB mean level and −1.4 dB peak;
+- measured intelligibility with Faster-Whisper Tiny: 12.19% raw WER and 1.99% after
+  documented number, brand and spelling-format normalization; both results and the
+  complete differences are retained in the artifact package.
+
+The remaining 0.2 deduction is deliberate: voice naturalness is subjective, the
+generated narrator is not equivalent to a skilled human presenter, and the Version 3
+production-readiness limitations still apply. This remains a rehearsal score, not an
+official Razorpay rating or a promise of selection.
+
 ## Claim ledger used by the final video
 
 | Claim | Repository evidence |
@@ -91,4 +113,3 @@ Residual limitations that keep the score below 10:
 | 11/11 analyst/review safety checks | `reports/phase3-safety-report.json` |
 | 72 regression tests and 18/18 release checks | local and CI verification output |
 | ₹10.57 lakh safely auto-closed and 260 estimated minutes saved | held-out close pack; explicit four-minute-per-safe-group assumption |
-
