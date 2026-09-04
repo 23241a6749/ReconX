@@ -119,7 +119,7 @@ dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; fon
 .review-toolbar select { min-width: 280px; max-width: 100%; padding: 9px 34px 9px 11px; border: 1px solid var(--border); border-radius: 10px; background: #111728; color: var(--text); }
 
 .heldout-panel { margin-bottom: 12px; background: linear-gradient(145deg, rgba(22,29,51,.94), rgba(14,19,33,.86)); }
-.proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.proof-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 .proof-grid > div { display: flex; min-height: 112px; flex-direction: column; padding: 16px; border: 1px solid var(--border); border-radius: 13px; background: rgba(255,255,255,.025); }
 .proof-grid span, .proof-grid small { color: var(--muted); font-size: 11px; }
 .proof-grid strong { margin: auto 0 6px; font-size: 27px; letter-spacing: -.045em; }

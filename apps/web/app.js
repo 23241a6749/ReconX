@@ -80,6 +80,8 @@ async function loadHeldout() {
   gate.classList.add(report.phase_gate_passed ? "gate-pass" : "gate-fail");
   $("heldout-records").textContent = integer(summary.raw_records);
   $("heldout-groups").textContent = `${integer(summary.settlement_groups)} settlement groups`;
+  $("heldout-match-rate").textContent = percent(summary.all_group_auto_match_rate);
+  $("heldout-match-count").textContent = `${integer(summary.correct_automatic_matches)} of ${integer(summary.settlement_groups)} groups`;
   $("heldout-precision").textContent = percent(summary.safe_auto_precision);
   $("heldout-coverage").textContent = percent(summary.eligible_group_coverage);
   $("heldout-delta").textContent = `+${(report.coverage_delta_vs_baseline * 100).toFixed(1)} percentage points vs exact-ID baseline`;

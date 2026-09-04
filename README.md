@@ -9,6 +9,36 @@ records the evidence and leaves unmatched records visible.
 
 **Live demo:** <https://reconx-ai-finance-controller.onrender.com>
 
+[![Verification](https://github.com/23241a6749/ReconX/actions/workflows/ci.yml/badge.svg)](https://github.com/23241a6749/ReconX/actions/workflows/ci.yml)
+[![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB.svg)](https://www.python.org/downloads/release/python-3120/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-51d5a9.svg)](LICENSE)
+
+## Judge's 60-second path
+
+1. Open the live demo and inspect the five Phase 4 metrics: **59.1% overall
+   auto-match**, **100% safe precision**, **100% eligible coverage**, the exact-ID
+   baseline and measured throughput.
+2. Expand **Inspect all 45 exception outcomes**. Every group that did not auto-close
+   remains visible with its scenario, state and reason codes.
+3. Inspect one safe settlement equation and one review case, then download the
+   hash-verifiable close pack.
+4. Review the 19/19 Razorpay delivery controls and run `make release` to reproduce the
+   complete evidence gate without credentials.
+
+## What is distinctive
+
+ReconX is not an LLM wrapped around a spreadsheet. It separates three responsibilities:
+
+| Responsibility | Authority | Proof |
+|---|---|---|
+| Money, identity and automatic closure | Deterministic integer-paise policy | Exact invariants, frozen policy hash and replayable decisions |
+| Exception explanation | Replaceable advisory model | Exact output schema, evidence allow-list and deterministic fallback |
+| Final ambiguous-case decision | Versioned human review | Explicit confirmation and append-only hash-linked events |
+
+The held-out result intentionally reports two different numbers: **65 of 110 groups
+(59.1%)** auto-closed across the whole batch, while **65 of 65 eligible groups (100%)**
+auto-closed correctly. The other 45 are the product's safety output, not hidden misses.
+
 ## Implemented capabilities
 
 - deterministic, seeded synthetic finance batch;

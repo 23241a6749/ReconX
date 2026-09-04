@@ -15,5 +15,6 @@ build/
 node_modules/
 artifacts/*.json
 !artifacts/.gitkeep
+artifacts/demo-video*/
 data/development/
 data/runtime/
