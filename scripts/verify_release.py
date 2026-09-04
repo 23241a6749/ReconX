@@ -18,7 +18,11 @@ REQUIRED_FILES = {
     "README.md",
     "PLAN.md",
     "policies/reconciliation-policy-v2.2.json",
+    "data/heldout/ground-truth.json",
+    "data/heldout/manifest.json",
+    "data/heldout/raw-batch.json",
     "docs/architecture.md",
+    "docs/dataset-provenance.md",
     "docs/demo-script.md",
     "docs/evaluation.md",
     "docs/integration.md",
@@ -144,6 +148,8 @@ def main() -> int:
     phase3 = load_report("phase3-safety-report.json")
     phase4 = load_report("phase4-heldout-evaluation.json")
     phase5 = load_report("phase5-integration-report.json")
+    phase4_manifest = phase4.get("manifest", {})
+    phase4_provenance = phase4_manifest.get("provenance", {})
     missing = sorted(path for path in REQUIRED_FILES if not (ROOT / path).is_file())
     secret_hits = suspicious_secret_files()
     unsafe_secret_configs = unignored_secret_config_files()
@@ -160,6 +166,15 @@ def main() -> int:
         "phase4_record_floor_met": phase4.get("business_summary", {}).get("raw_records", 0) >= 50,
         "phase4_safe_auto_precision_is_one": phase4.get("business_summary", {}).get("safe_auto_precision") == 1.0,
         "phase4_exceptions_are_complete": phase4.get("business_summary", {}).get("exceptions_not_auto_resolved") == len(phase4.get("exceptions", [])),
+        "phase4_source_counts_total_1400": sum(
+            phase4_manifest.get("source_record_counts", {}).values()
+        )
+        == 1400,
+        "phase4_real_data_claim_is_false": phase4_provenance.get(
+            "contains_real_merchant_data"
+        )
+        is False
+        and phase4_provenance.get("contains_customer_personal_data") is False,
         "phase5_gate_passed": phase5.get("phase_gate_passed") is True,
         "phase5_all_controls_passed": phase5.get("passed") == phase5.get("total") == 19,
         "phase5_contains_no_live_call_claim": phase5.get("live_razorpay_call_made") is False,

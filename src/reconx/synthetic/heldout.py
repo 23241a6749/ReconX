@@ -11,7 +11,7 @@ from reconx.application.reconcile import policy_contract_hash
 from reconx.domain.models import SCHEMA_VERSION
 from reconx.synthetic.development import SCENARIOS, _base_group
 
-HELDOUT_GENERATOR_VERSION = "heldout-generator/1.0"
+HELDOUT_GENERATOR_VERSION = "heldout-generator/1.1"
 HELDOUT_SEED = 20_260_901
 HELDOUT_GROUP_COUNT = 110
 HELDOUT_INDEX_START = 2_000
@@ -76,7 +76,8 @@ def build_heldout_dataset(
     for source in SOURCES:
         rng.shuffle(raw[source])
 
-    raw_record_count = sum(len(raw[source]) for source in SOURCES)
+    source_record_counts = {source: len(raw[source]) for source in SOURCES}
+    raw_record_count = sum(source_record_counts.values())
     ground_truth = {
         "batch_id": raw["batch_id"],
         "schema_version": SCHEMA_VERSION,
@@ -92,10 +93,19 @@ def build_heldout_dataset(
         "seed": seed,
         "group_count": group_count,
         "raw_record_count": raw_record_count,
+        "source_record_counts": source_record_counts,
         "scenario_count": len(SCENARIOS),
         "scenario_counts": dict(sorted(scenario_counts.items())),
         "namespace": "hold",
         "source_index_start": HELDOUT_INDEX_START,
+        "provenance": {
+            "origin": "deterministic_repository_generator",
+            "contains_real_merchant_data": False,
+            "contains_customer_personal_data": False,
+            "fee_model": (
+                "Fixed synthetic inclusive-fee assumption; not a merchant pricing quote."
+            ),
+        },
         "policy_contract_sha256": policy_contract_hash(),
     }
     manifest["raw_batch_sha256"] = _hash(raw)

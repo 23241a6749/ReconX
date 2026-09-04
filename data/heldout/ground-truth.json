@@ -1,0 +1,777 @@
+{
+  "batch_id": "batch_heldout_110_v1",
+  "groups": [
+    {
+      "bank_entry_id": "bank_hold_2000",
+      "expected_bank_credit_paise": 1506642,
+      "scenario": "bank_holiday_shift",
+      "settlement_id": "setl_hold_2000",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2007",
+      "expected_bank_credit_paise": 1508768,
+      "scenario": "one_to_many_settlement",
+      "settlement_id": "setl_hold_2007",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2014",
+      "expected_bank_credit_paise": 1510893,
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2014",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2021",
+      "expected_bank_credit_paise": 1513019,
+      "scenario": "corrupt_row",
+      "settlement_id": "setl_hold_2021",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2028",
+      "expected_bank_credit_paise": 1515145,
+      "scenario": "amount_collision",
+      "settlement_id": "setl_hold_2028",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2035",
+      "expected_bank_credit_paise": 1490235,
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2035",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2042",
+      "expected_bank_credit_paise": 1519396,
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2042",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2049",
+      "expected_bank_credit_paise": 1494473,
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2049",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2056",
+      "expected_bank_credit_paise": 1523647,
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2056",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2063",
+      "expected_bank_credit_paise": 1525772,
+      "scenario": "malformed_utr",
+      "settlement_id": "setl_hold_2063",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2070",
+      "expected_bank_credit_paise": 1527899,
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2070",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2077",
+      "expected_bank_credit_paise": 1502947,
+      "scenario": "partial_refund",
+      "settlement_id": "setl_hold_2077",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2084",
+      "expected_bank_credit_paise": 1532149,
+      "scenario": "bank_holiday_shift",
+      "settlement_id": "setl_hold_2084",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2091",
+      "expected_bank_credit_paise": 1534276,
+      "scenario": "missing_utr",
+      "settlement_id": "setl_hold_2091",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2098",
+      "expected_bank_credit_paise": 1536401,
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2098",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2105",
+      "expected_bank_credit_paise": 1538526,
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2105",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2112",
+      "expected_bank_credit_paise": 1540653,
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2112",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2119",
+      "expected_bank_credit_paise": 1542778,
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2119",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2126",
+      "expected_bank_credit_paise": 1544903,
+      "scenario": "one_to_many_settlement",
+      "settlement_id": "setl_hold_2126",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2133",
+      "expected_bank_credit_paise": 1547030,
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2133",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2140",
+      "expected_bank_credit_paise": 1549155,
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2140",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2147",
+      "expected_bank_credit_paise": 1551280,
+      "scenario": "corrupt_row",
+      "settlement_id": "setl_hold_2147",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2154",
+      "expected_bank_credit_paise": 1553407,
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2154",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2161",
+      "expected_bank_credit_paise": 1555532,
+      "scenario": "orphan_ledger",
+      "settlement_id": "setl_hold_2161",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2168",
+      "expected_bank_credit_paise": 1557657,
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2168",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2175",
+      "expected_bank_credit_paise": 1559784,
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2175",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2182",
+      "expected_bank_credit_paise": 1561909,
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2182",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2189",
+      "expected_bank_credit_paise": 1504656,
+      "scenario": "multiple_partial_refunds",
+      "settlement_id": "setl_hold_2189",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2196",
+      "expected_bank_credit_paise": 1566160,
+      "scenario": "orphan_ledger",
+      "settlement_id": "setl_hold_2196",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2203",
+      "expected_bank_credit_paise": 1568286,
+      "scenario": "orphan_ledger",
+      "settlement_id": "setl_hold_2203",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2210",
+      "expected_bank_credit_paise": 1543201,
+      "scenario": "partial_refund",
+      "settlement_id": "setl_hold_2210",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2217",
+      "expected_bank_credit_paise": 1572536,
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2217",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2224",
+      "expected_bank_credit_paise": 1574663,
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2224",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2231",
+      "expected_bank_credit_paise": 1576788,
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2231",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2238",
+      "expected_bank_credit_paise": 1578913,
+      "scenario": "out_of_order",
+      "settlement_id": "setl_hold_2238",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2245",
+      "expected_bank_credit_paise": 1581040,
+      "scenario": "duplicate_event",
+      "settlement_id": "setl_hold_2245",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2252",
+      "expected_bank_credit_paise": 1583165,
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2252",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2259",
+      "expected_bank_credit_paise": 1585290,
+      "scenario": "bank_holiday_shift",
+      "settlement_id": "setl_hold_2259",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2266",
+      "expected_bank_credit_paise": 1587417,
+      "scenario": "amount_collision",
+      "settlement_id": "setl_hold_2266",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2273",
+      "expected_bank_credit_paise": 1589542,
+      "scenario": "out_of_order",
+      "settlement_id": "setl_hold_2273",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2280",
+      "expected_bank_credit_paise": 1591667,
+      "scenario": "duplicate_event",
+      "settlement_id": "setl_hold_2280",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2287",
+      "expected_bank_credit_paise": 1593794,
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2287",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2294",
+      "expected_bank_credit_paise": 1594685,
+      "scenario": "reversal_adjustment",
+      "settlement_id": "setl_hold_2294",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2301",
+      "expected_bank_credit_paise": 1598044,
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2301",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2308",
+      "expected_bank_credit_paise": 1572863,
+      "scenario": "partial_refund",
+      "settlement_id": "setl_hold_2308",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2315",
+      "expected_bank_credit_paise": 1602296,
+      "scenario": "delayed_settlement",
+      "settlement_id": "setl_hold_2315",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2322",
+      "expected_bank_credit_paise": 1604421,
+      "scenario": "orphan_ledger",
+      "settlement_id": "setl_hold_2322",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2329",
+      "expected_bank_credit_paise": 1606547,
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2329",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2336",
+      "expected_bank_credit_paise": 1608673,
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2336",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2343",
+      "expected_bank_credit_paise": 1610797,
+      "scenario": "conflicting_duplicate",
+      "settlement_id": "setl_hold_2343",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2350",
+      "expected_bank_credit_paise": 1612923,
+      "scenario": "delayed_settlement",
+      "settlement_id": "setl_hold_2350",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2357",
+      "expected_bank_credit_paise": 1615049,
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2357",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2364",
+      "expected_bank_credit_paise": 1617174,
+      "scenario": "one_to_many_settlement",
+      "settlement_id": "setl_hold_2364",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2371",
+      "expected_bank_credit_paise": 1618066,
+      "scenario": "reversal_adjustment",
+      "settlement_id": "setl_hold_2371",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2378",
+      "expected_bank_credit_paise": 1621426,
+      "scenario": "bank_holiday_shift",
+      "settlement_id": "setl_hold_2378",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2385",
+      "expected_bank_credit_paise": 1623551,
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2385",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2392",
+      "expected_bank_credit_paise": 1598285,
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2392",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2399",
+      "expected_bank_credit_paise": 1627803,
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2399",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2406",
+      "expected_bank_credit_paise": 1629928,
+      "scenario": "one_to_many_settlement",
+      "settlement_id": "setl_hold_2406",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2413",
+      "expected_bank_credit_paise": 1630820,
+      "scenario": "reversal_adjustment",
+      "settlement_id": "setl_hold_2413",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2420",
+      "expected_bank_credit_paise": 1634180,
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2420",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2427",
+      "expected_bank_credit_paise": 1636305,
+      "scenario": "malformed_utr",
+      "settlement_id": "setl_hold_2427",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2434",
+      "expected_bank_credit_paise": 1638431,
+      "scenario": "missing_utr",
+      "settlement_id": "setl_hold_2434",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2441",
+      "expected_bank_credit_paise": 1613115,
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2441",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2448",
+      "expected_bank_credit_paise": 1642682,
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2448",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2455",
+      "expected_bank_credit_paise": 1644807,
+      "scenario": "duplicate_event",
+      "settlement_id": "setl_hold_2455",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2462",
+      "expected_bank_credit_paise": 1646933,
+      "scenario": "one_to_many_settlement",
+      "settlement_id": "setl_hold_2462",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2469",
+      "expected_bank_credit_paise": 1649059,
+      "scenario": "delayed_settlement",
+      "settlement_id": "setl_hold_2469",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2476",
+      "expected_bank_credit_paise": 1651184,
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2476",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2483",
+      "expected_bank_credit_paise": 1593344,
+      "scenario": "multiple_partial_refunds",
+      "settlement_id": "setl_hold_2483",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2490",
+      "expected_bank_credit_paise": 1655436,
+      "scenario": "malformed_utr",
+      "settlement_id": "setl_hold_2490",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2497",
+      "expected_bank_credit_paise": 1657561,
+      "scenario": "missing_utr",
+      "settlement_id": "setl_hold_2497",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2504",
+      "expected_bank_credit_paise": 1632183,
+      "scenario": "partial_refund",
+      "settlement_id": "setl_hold_2504",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2511",
+      "expected_bank_credit_paise": 1661813,
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2511",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2518",
+      "expected_bank_credit_paise": 1663938,
+      "scenario": "unsupported_currency",
+      "settlement_id": "setl_hold_2518",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2525",
+      "expected_bank_credit_paise": 1666064,
+      "scenario": "amount_collision",
+      "settlement_id": "setl_hold_2525",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2532",
+      "expected_bank_credit_paise": 1668190,
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2532",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2539",
+      "expected_bank_credit_paise": 1610237,
+      "scenario": "multiple_partial_refunds",
+      "settlement_id": "setl_hold_2539",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2546",
+      "expected_bank_credit_paise": 1672441,
+      "scenario": "delayed_settlement",
+      "settlement_id": "setl_hold_2546",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2553",
+      "expected_bank_credit_paise": 1647014,
+      "scenario": "partial_refund",
+      "settlement_id": "setl_hold_2553",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2560",
+      "expected_bank_credit_paise": 1676692,
+      "scenario": "duplicate_event",
+      "settlement_id": "setl_hold_2560",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2567",
+      "expected_bank_credit_paise": 1678818,
+      "scenario": "orphan_ledger",
+      "settlement_id": "setl_hold_2567",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2574",
+      "expected_bank_credit_paise": 1680943,
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2574",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2581",
+      "expected_bank_credit_paise": 1683069,
+      "scenario": "delayed_settlement",
+      "settlement_id": "setl_hold_2581",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2588",
+      "expected_bank_credit_paise": 1685195,
+      "scenario": "missing_utr",
+      "settlement_id": "setl_hold_2588",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2595",
+      "expected_bank_credit_paise": 1687320,
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2595",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2602",
+      "expected_bank_credit_paise": 1689446,
+      "scenario": "malformed_utr",
+      "settlement_id": "setl_hold_2602",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2609",
+      "expected_bank_credit_paise": 1691572,
+      "scenario": "out_of_order",
+      "settlement_id": "setl_hold_2609",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2616",
+      "expected_bank_credit_paise": 1666081,
+      "scenario": "post_settlement_refund",
+      "settlement_id": "setl_hold_2616",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2623",
+      "expected_bank_credit_paise": 1695823,
+      "scenario": "split_ledger",
+      "settlement_id": "setl_hold_2623",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2630",
+      "expected_bank_credit_paise": 1637689,
+      "scenario": "multiple_partial_refunds",
+      "settlement_id": "setl_hold_2630",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2637",
+      "expected_bank_credit_paise": 1700074,
+      "scenario": "equal_score_ambiguity",
+      "settlement_id": "setl_hold_2637",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2644",
+      "expected_bank_credit_paise": 1702200,
+      "scenario": "missing_utr",
+      "settlement_id": "setl_hold_2644",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2651",
+      "expected_bank_credit_paise": 1704326,
+      "scenario": "fee_mismatch",
+      "settlement_id": "setl_hold_2651",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2658",
+      "expected_bank_credit_paise": 1706451,
+      "scenario": "tax_mismatch",
+      "settlement_id": "setl_hold_2658",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2665",
+      "expected_bank_credit_paise": 1708577,
+      "scenario": "corrupt_row",
+      "settlement_id": "setl_hold_2665",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2672",
+      "expected_bank_credit_paise": 1710703,
+      "scenario": "bank_holiday_shift",
+      "settlement_id": "setl_hold_2672",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2679",
+      "expected_bank_credit_paise": 1712828,
+      "scenario": "duplicate_event",
+      "settlement_id": "setl_hold_2679",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2686",
+      "expected_bank_credit_paise": 1713720,
+      "scenario": "reversal_adjustment",
+      "settlement_id": "setl_hold_2686",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2693",
+      "expected_bank_credit_paise": 1656693,
+      "scenario": "multiple_partial_refunds",
+      "settlement_id": "setl_hold_2693",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2700",
+      "expected_bank_credit_paise": 1719205,
+      "scenario": "captured_payment_missing_ledger",
+      "settlement_id": "setl_hold_2700",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2707",
+      "expected_bank_credit_paise": 1721330,
+      "scenario": "duplicate_bank_credit",
+      "settlement_id": "setl_hold_2707",
+      "should_auto_approve": false
+    },
+    {
+      "bank_entry_id": "bank_hold_2714",
+      "expected_bank_credit_paise": 1723456,
+      "scenario": "out_of_order",
+      "settlement_id": "setl_hold_2714",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2721",
+      "expected_bank_credit_paise": 1725582,
+      "scenario": "corrupt_row",
+      "settlement_id": "setl_hold_2721",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2728",
+      "expected_bank_credit_paise": 1727707,
+      "scenario": "malformed_utr",
+      "settlement_id": "setl_hold_2728",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2735",
+      "expected_bank_credit_paise": 1729833,
+      "scenario": "corrupt_row",
+      "settlement_id": "setl_hold_2735",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2742",
+      "expected_bank_credit_paise": 1730725,
+      "scenario": "reversal_adjustment",
+      "settlement_id": "setl_hold_2742",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2749",
+      "expected_bank_credit_paise": 1734084,
+      "scenario": "out_of_order",
+      "settlement_id": "setl_hold_2749",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2756",
+      "expected_bank_credit_paise": 1736210,
+      "scenario": "amount_collision",
+      "settlement_id": "setl_hold_2756",
+      "should_auto_approve": true
+    },
+    {
+      "bank_entry_id": "bank_hold_2763",
+      "expected_bank_credit_paise": 1738336,
+      "scenario": "amount_collision",
+      "settlement_id": "setl_hold_2763",
+      "should_auto_approve": true
+    }
+  ],
+  "schema_version": "1.0",
+  "split": "held_out"
+}

@@ -68,7 +68,7 @@
         <section class="panel heldout-panel" aria-labelledby="heldout-title">
           <div class="panel-heading">
             <div>
-              <p class="eyebrow">PHASE 4 · UNSEEN SYNTHETIC BATCH</p>
+              <p class="eyebrow">PHASE 4 · PUBLIC, SEPARATELY SEEDED SYNTHETIC BATCH</p>
               <h2 id="heldout-title">Measured proof, not a cherry-picked match</h2>
             </div>
             <span id="heldout-gate" class="pill">Loading evidence</span>
@@ -79,6 +79,7 @@
             <div><span>Eligible coverage</span><strong id="heldout-coverage">—</strong><small id="heldout-delta">—</small></div>
             <div><span>Median throughput</span><strong id="heldout-throughput">—</strong><small>records/sec, local</small></div>
           </div>
+          <p id="heldout-provenance" class="tax-note">Loading dataset provenance…</p>
           <div class="proof-detail-grid">
             <div class="comparison-card">
               <p class="eyebrow">BASELINE COMPARISON</p>
@@ -98,6 +99,11 @@
           <details class="exception-details">
             <summary>Inspect all 45 exception outcomes</summary>
             <div id="heldout-exception-table" class="exception-table"></div>
+          </details>
+          <details class="exception-details">
+            <summary>Inspect synthetic dataset provenance</summary>
+            <div id="heldout-source-counts" class="heldout-exception-list"></div>
+            <p id="heldout-input-hashes" class="proof-hash">Input hashes: —</p>
           </details>
           <p id="heldout-proof-hash" class="proof-hash">Evidence hash: —</p>
           <a class="review-button download-link" href="/api/close-pack/heldout" download>Download audit-ready close pack</a>

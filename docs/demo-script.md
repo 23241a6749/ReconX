@@ -35,19 +35,21 @@ amount, fee, tax, currency and non-reuse invariants.”
 
 **Show:** Held-out dashboard panel.
 
-**Say:** “This is a separately seeded held-out batch: 1,400 raw records across 110
-settlement groups and 22 scenario families. ReconX safely automated 65 eligible groups
-with 100% precision and zero false matches. Eligible coverage is 100%, compared with
-76.9231% for exact-ID matching. The other 45 cases are not hidden: 10 require review,
-30 remain unresolved and 5 are quarantined.”
+**Say:** “This is a public, separately seeded synthetic batch generated in the
+repository—not merchant or customer data. Its 1,400 raw records cover 110 settlement
+groups and 22 scenario families. ReconX safely automated 65 eligible groups with 100%
+precision and zero false matches. Eligible coverage is 100%, compared with 76.9231%
+for exact-ID matching. The other 45 cases are not hidden: 10 require review, 30 remain
+unresolved and 5 are quarantined.”
 
 ### 1:50–2:35 — one reconciliation proof
 
 **Show:** A group’s expected bank credit, payment gross, refunds, fee, tax and evidence.
 
 **Say:** “Here ReconX reconstructs the bank credit from gross captured payments minus
-refunds and the inclusive Razorpay fee. GST is reported inside the fee and is not
-subtracted twice. The result includes reason codes, source record IDs, confidence and a
+refunds and the inclusive fee. GST is reported inside the fee and is not subtracted
+twice. These fee values are declared synthetic assumptions, not a merchant pricing
+quote. The result includes reason codes, source record IDs, confidence and a
 content-hashed audit event.”
 
 ### 2:35–3:20 — exception and human control

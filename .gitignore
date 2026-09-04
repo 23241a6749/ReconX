@@ -16,5 +16,4 @@ node_modules/
 artifacts/*.json
 !artifacts/.gitkeep
 data/development/
-data/heldout/
 data/runtime/

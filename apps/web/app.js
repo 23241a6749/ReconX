@@ -72,6 +72,7 @@ async function loadHeldout() {
   if (!response.ok) throw new Error(`Held-out API returned ${response.status}`);
   const report = await response.json();
   const summary = report.business_summary;
+  const provenance = report.data_provenance;
   const candidateCoverage = report.candidate_engine.auto_reconciliation_coverage;
   const baselineCoverage = report.exact_id_baseline.auto_reconciliation_coverage;
   const gate = $("heldout-gate");
@@ -83,6 +84,10 @@ async function loadHeldout() {
   $("heldout-coverage").textContent = percent(summary.eligible_group_coverage);
   $("heldout-delta").textContent = `+${(report.coverage_delta_vs_baseline * 100).toFixed(1)} percentage points vs exact-ID baseline`;
   $("heldout-throughput").textContent = integer(report.throughput.median_records_per_second);
+  $("heldout-provenance").textContent =
+    `Repository-generated fictional records; no merchant or customer data. ` +
+    `${integer(provenance.scenario_count)} scenarios × 5, seed ${provenance.seed}. ` +
+    `${provenance.fee_model}`;
   $("heldout-exceptions").textContent = integer(summary.exceptions_not_auto_resolved);
   $("heldout-unexpected").textContent = integer(summary.unexpected_exceptions);
   $("heldout-repro").textContent = `${report.decision_reproducibility.runs}/${report.decision_reproducibility.runs}`;
@@ -99,6 +104,13 @@ async function loadHeldout() {
       (item) => `<div class="exception-row"><strong>${escapeHtml(item.settlement_id)}</strong><span>${escapeHtml(label(item.scenario))} · ${escapeHtml(label(item.state))}</span><span>${escapeHtml(item.reason_codes.join(", "))}</span></div>`,
     )
     .join("");
+  $("heldout-source-counts").innerHTML = Object.entries(provenance.source_record_counts)
+    .map(([source, count]) => `<span class="exception-chip">${escapeHtml(label(source))}: ${integer(count)}</span>`)
+    .join("");
+  $("heldout-input-hashes").textContent =
+    `Inputs verified: ${provenance.input_integrity_verified ? "yes" : "no"} · ` +
+    `Generator: ${provenance.generator_version} · Raw: ${provenance.raw_batch_sha256} · ` +
+    `Ground truth: ${provenance.ground_truth_sha256}`;
   $("heldout-proof-hash").textContent = `Evidence hash: ${report.deterministic_evidence_sha256} · Policy: ${report.policy_contract_sha256}`;
 }
 

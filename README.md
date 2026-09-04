@@ -132,7 +132,10 @@ that any hosted model is production-ready.
 The v2.2 policy was frozen before the release held-out run. The test split changes the
 seed, record namespace, time origin, source-index range, amount distribution and
 scenario ordering. It contains 1,400 raw records across 110 settlement groups and all
-22 scenario families.
+22 scenario families. Every record is fictional and generated in this repository; no
+merchant or customer data is present. The fixed fee values are synthetic test
+assumptions, not a merchant pricing claim. See the complete
+[dataset provenance](docs/dataset-provenance.md).
 
 | Metric | ReconX candidate | Exact-ID baseline |
 |---|---:|---:|

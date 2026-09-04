@@ -35,9 +35,10 @@ def verify_inputs(
         "ledger_entries",
     )
     sources_are_lists = all(isinstance(raw_batch.get(source), list) for source in sources)
-    actual_record_count = (
-        sum(len(raw_batch[source]) for source in sources) if sources_are_lists else -1
+    actual_source_counts = (
+        {source: len(raw_batch[source]) for source in sources} if sources_are_lists else {}
     )
+    actual_record_count = sum(actual_source_counts.values()) if sources_are_lists else -1
     truth_groups = ground_truth.get("groups", [])
     truth_is_valid_list = isinstance(truth_groups, list) and all(
         isinstance(item, dict) for item in truth_groups
@@ -66,6 +67,8 @@ def verify_inputs(
         "source_collections_are_lists": sources_are_lists,
         "manifest_record_count_matches_raw": manifest.get("raw_record_count")
         == actual_record_count,
+        "manifest_source_counts_match_raw": manifest.get("source_record_counts")
+        == actual_source_counts,
         "manifest_group_count_matches_truth": truth_is_valid_list
         and manifest.get("group_count") == len(truth_groups),
         "truth_settlement_ids_are_unique": truth_ids_are_valid
@@ -275,6 +278,8 @@ def run_heldout_evaluation(
 def dashboard_payload(report: dict[str, Any]) -> dict[str, Any]:
     """Return the compact, judge-facing projection used by both HTTP adapters."""
 
+    manifest = report["manifest"]
+    provenance = manifest["provenance"]
     return {
         "evaluation": report["evaluation"],
         "synthetic": report["synthetic"],
@@ -288,6 +293,16 @@ def dashboard_payload(report: dict[str, Any]) -> dict[str, Any]:
         "exception_summary": report["exception_summary"],
         "exceptions": report["exceptions"],
         "decision_reproducibility": report["decision_reproducibility"],
+        "data_provenance": {
+            **provenance,
+            "generator_version": manifest["generator_version"],
+            "seed": manifest["seed"],
+            "scenario_count": manifest["scenario_count"],
+            "source_record_counts": manifest["source_record_counts"],
+            "raw_batch_sha256": manifest["raw_batch_sha256"],
+            "ground_truth_sha256": manifest["ground_truth_sha256"],
+            "input_integrity_verified": all(report["input_integrity"].values()),
+        },
         "policy_contract_sha256": report["policy_contract_sha256"],
         "deterministic_evidence_sha256": report["deterministic_evidence_sha256"],
     }

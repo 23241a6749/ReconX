@@ -41,8 +41,9 @@ ReconX closes the multi-source payment-settlement reconciliation loop across Raz
 payments, refunds, inclusive fees and taxes, bank credits and the internal ledger. It
 uses deterministic integer-paise accounting for financial truth, safely auto-resolves
 only high-confidence balanced groups, sends ambiguous cases to explicit human review,
-and preserves a complete audit and exception trail. On a separately seeded synthetic
-held-out batch of 1,400 records across 110 settlement groups, it achieved 100% precision
+and preserves a complete audit and exception trail. On a public, separately seeded
+repository-generated synthetic batch—not merchant or customer data—of 1,400 records
+across 110 settlement groups, it achieved 100% precision
 on 65 safely automated groups, 100% coverage of eligible groups versus 76.9231% for an
 exact-ID baseline, zero false matches and a complete list of 45 non-automated cases.
 All 40 actionable exceptions enter a durable human-review queue; quarantined input cases

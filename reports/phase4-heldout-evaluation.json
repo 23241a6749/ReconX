@@ -14,13 +14,13 @@
     "auto_approved": 65,
     "auto_match_precision": 1.0,
     "auto_reconciliation_coverage": 1.0,
-    "elapsed_ms": 52.82949999673292,
+    "elapsed_ms": 52.049199999601115,
     "eligible_for_auto": 65,
     "false_match_rate": 0.0,
     "missing_groups_after_quarantine": 5,
     "review_required": 10,
     "safe_auto_precision": 1.0,
-    "throughput_records_per_second": 25269.97,
+    "throughput_records_per_second": 25648.81,
     "unresolved_groups": 30,
     "unsafe_auto_approval_count": 0,
     "unsafe_scenario_detection_recall": 1.0
@@ -31,20 +31,20 @@
     "decision_sha256": "3ce805d74bebed457cfba17e0bb5d571c09d65adb1bfcef3ce3ad70bf27a1729",
     "runs": 3
   },
-  "deterministic_evidence_sha256": "fde9ea7f7a9dc8dff0f46a94359de2b7633f95a7f3863b42f4e0ce31ec3cd9a9",
+  "deterministic_evidence_sha256": "6bf75b9c2ba5a2a4b497454cb72669119d4457420a845437d0532a588b3e2acd",
   "evaluation": "phase4_heldout",
   "evaluation_scope": "Public synthetic held-out split with frozen policy; not externally sequestered and not production data.",
   "exact_id_baseline": {
     "auto_approved": 50,
     "auto_match_precision": 1.0,
     "auto_reconciliation_coverage": 0.769231,
-    "elapsed_ms": 56.81249999906868,
+    "elapsed_ms": 54.27159999817377,
     "eligible_for_auto": 65,
     "false_match_rate": 0.0,
     "missing_groups_after_quarantine": 5,
     "review_required": 10,
     "safe_auto_precision": 1.0,
-    "throughput_records_per_second": 23498.35,
+    "throughput_records_per_second": 24598.5,
     "unresolved_groups": 45,
     "unsafe_auto_approval_count": 0,
     "unsafe_scenario_detection_recall": 1.0
@@ -657,6 +657,7 @@
     "manifest_group_count_matches_truth": true,
     "manifest_record_count_matches_raw": true,
     "manifest_scenario_counts_match_truth": true,
+    "manifest_source_counts_match_raw": true,
     "no_unexpected_heldout_exceptions": true,
     "official_record_floor_exceeded": true,
     "policy_hash_matches_frozen_contract": true,
@@ -676,6 +677,7 @@
     "manifest_group_count_matches_truth": true,
     "manifest_record_count_matches_raw": true,
     "manifest_scenario_counts_match_truth": true,
+    "manifest_source_counts_match_raw": true,
     "policy_hash_matches_frozen_contract": true,
     "raw_batch_hash_matches_manifest": true,
     "schema_versions_agree": true,
@@ -686,11 +688,17 @@
   },
   "manifest": {
     "batch_id": "batch_heldout_110_v1",
-    "generator_version": "heldout-generator/1.0",
+    "generator_version": "heldout-generator/1.1",
     "ground_truth_sha256": "e3d4179d8c04a4d48ef418c9a6dbf7e32f68a7908ffd5f5d2ccc8440c05cb22a",
     "group_count": 110,
     "namespace": "hold",
     "policy_contract_sha256": "08bb82fc16bc78e945ea0d8d0ad1dd09308f066d5cfff23c44241b37097ca4f5",
+    "provenance": {
+      "contains_customer_personal_data": false,
+      "contains_real_merchant_data": false,
+      "fee_model": "Fixed synthetic inclusive-fee assumption; not a merchant pricing quote.",
+      "origin": "deterministic_repository_generator"
+    },
     "raw_batch_sha256": "c63d7ec41005883777b5662d73e6855c9c004684ea35f3bc67d8cb2240ca5d45",
     "raw_record_count": 1400,
     "scenario_count": 22,
@@ -721,6 +729,15 @@
     "schema_version": "1.0",
     "seed": 20260901,
     "source_index_start": 2000,
+    "source_record_counts": {
+      "bank_entries": 125,
+      "ledger_entries": 115,
+      "orders": 330,
+      "payments": 345,
+      "refunds": 20,
+      "settlement_lines": 355,
+      "settlements": 110
+    },
     "split": "held_out",
     "synthetic": true
   },
@@ -729,13 +746,13 @@
   "synthetic": true,
   "throughput": {
     "environment_note": "Local single-process result; hardware-dependent, not a service SLO.",
-    "fastest_records_per_second": 26390.25,
+    "fastest_records_per_second": 23909.8,
     "measured_runs": 7,
-    "median_records_per_second": 24566.19,
-    "p95_records_per_second": 26390.25,
+    "median_records_per_second": 23593.93,
+    "p95_records_per_second": 23909.8,
     "records_per_run": 1400,
     "scope": "validation_normalisation_and_candidate_reconciliation",
-    "slowest_records_per_second": 22236.23,
+    "slowest_records_per_second": 20605.93,
     "warmup_runs": 2
   }
 }

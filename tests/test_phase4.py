@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import unittest
+from collections import defaultdict
 from pathlib import Path
 
 from reconx.application.reconcile import policy_contract, policy_contract_hash
@@ -71,6 +72,45 @@ class PhaseFourTests(unittest.TestCase):
         self.assertEqual(self.manifest["raw_record_count"], 1400)
         self.assertEqual(self.manifest["group_count"], 110)
         self.assertEqual(set(self.manifest["scenario_counts"].values()), {5})
+        self.assertEqual(sum(self.manifest["source_record_counts"].values()), 1400)
+        self.assertEqual(
+            self.manifest["source_record_counts"],
+            {source: len(self.raw[source]) for source in SOURCES},
+        )
+        self.assertFalse(self.manifest["provenance"]["contains_real_merchant_data"])
+        self.assertFalse(self.manifest["provenance"]["contains_customer_personal_data"])
+
+    def test_ground_truth_amounts_are_derived_from_raw_evidence(self) -> None:
+        lines_by_settlement: dict[str, list[dict]] = defaultdict(list)
+        for line in self.raw["settlement_lines"]:
+            lines_by_settlement[line["settlement_id"]].append(line)
+        banks = {item["id"]: item for item in self.raw["bank_entries"]}
+        settlements = {item["id"] for item in self.raw["settlements"]}
+
+        for truth in self.truth["groups"]:
+            lines = lines_by_settlement[truth["settlement_id"]]
+            expected = (
+                sum(item["amount_paise"] for item in lines if item["kind"] == "payment")
+                - sum(item["amount_paise"] for item in lines if item["kind"] == "refund")
+                - sum(item["fee_paise"] for item in lines if item["kind"] == "payment")
+                + sum(
+                    item["amount_paise"] for item in lines if item["kind"] == "adjustment"
+                )
+            )
+            self.assertIn(truth["settlement_id"], settlements)
+            self.assertEqual(truth["expected_bank_credit_paise"], expected)
+            self.assertEqual(banks[truth["bank_entry_id"]]["amount_paise"], expected)
+
+    def test_synthetic_batch_has_no_customer_identity_fields(self) -> None:
+        customer_fields = {"account_id", "contact", "customer_id", "email"}
+        observed_fields = {
+            key
+            for source in SOURCES
+            for record in self.raw[source]
+            if isinstance(record, dict)
+            for key in record
+        }
+        self.assertTrue(customer_fields.isdisjoint(observed_fields))
 
     def test_input_hashes_reject_ground_truth_or_record_tampering(self) -> None:
         self.assertTrue(all(verify_inputs(self.raw, self.truth, self.manifest).values()))
@@ -139,6 +179,11 @@ class PhaseFourTests(unittest.TestCase):
         self.assertEqual(len(payload["exceptions"]), 45)
         self.assertEqual(len(payload["policy_contract_sha256"]), 64)
         self.assertEqual(len(payload["deterministic_evidence_sha256"]), 64)
+        self.assertTrue(payload["data_provenance"]["input_integrity_verified"])
+        self.assertFalse(payload["data_provenance"]["contains_real_merchant_data"])
+        self.assertEqual(
+            sum(payload["data_provenance"]["source_record_counts"].values()), 1400
+        )
 
 
 if __name__ == "__main__":
